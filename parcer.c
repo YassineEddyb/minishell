@@ -6,26 +6,42 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:54 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/08 13:41:42 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/10 10:54:45 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int get_num_of_cmds(char *str)
+void	handle_quotes(t_data *data, int i, char c)
+{
+	int j;
+
+	j = 0;
+	while (data->cmds[i].args[j])
+	{
+		if (data->cmds[i].args[j][0] == c)
+		{
+			ft_replace(data->cmds[i].args[j], -1, SPACE, c);
+			data->cmds[i].args[j] = ft_substr(data->cmds[i].args[j], 1, \
+				ft_strlen(data->cmds[i].args[j]) - 2);
+		}
+		j++;
+	}
+}
+
+void remove_redirections(char **arr)
 {
 	int i;
-	int len;
 
 	i = 0;
-	len = 1;
-	while(str[i])
+	while(arr[i])
 	{
-		if (str[i] == '|')
-			len++;
+		if (ft_strchr(arr[i], LESS_THAN))
+			arr[i] = ft_split(arr[i], LESS_THAN)[0];
+		if (ft_strchr(arr[i], OLD_THAN))
+			arr[i] = ft_split(arr[i], OLD_THAN)[0];
 		i++;
 	}
-	return len;
 }
 
 void get_args(t_data *data, char *str)
@@ -34,10 +50,13 @@ void get_args(t_data *data, char *str)
 	char **arr;
 
 	arr = ft_split(str, '|');
+	remove_redirections(arr);
 	i = 0;
 	while(arr[i])
 	{
-		data->cmds[i].args = ft_split(arr[i], ' ');
+		data->cmds[i].args = ft_split(arr[i], SPACE);
+		handle_quotes(data, i, SINGLE_QUOTES);
+		handle_quotes(data, i, DOUBLE_QUOTES);
 		i++;
 	}
 }
@@ -74,26 +93,12 @@ void    get_path(t_data *data, char **arr)
 	i = 0;
 	while (i < data->num_of_cmds)
 	{
-		//pipe(cmd[i].p);
+		pipe(data->cmds[i].p);
 		command = ft_strjoin("/", data->cmds[i].args[0]);
 		check_for_path(data, arr, command, i);
 		free(command);
 		i++;
 	}
-}
-
-int     look_for_paths_index(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp("PATH=", env[i], 5) == 0)
-			break ;
-		i++;
-	}
-	return (i);
 }
 
 void parce(t_data *data, char *str, char **env)
@@ -105,6 +110,10 @@ void parce(t_data *data, char *str, char **env)
     free(s);
 	data->num_of_cmds = get_num_of_cmds(str);
 	data->cmds = malloc(data->num_of_cmds * sizeof(t_cmd));
+	str = trim_spaces(str);
+	fill_quotes(str, SINGLE_QUOTES);
+	fill_quotes(str, DOUBLE_QUOTES);
+	check_input_output(data, str);
 	get_args(data, str);
 	get_path(data, arr);
 }

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/08 13:41:47 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:18:48 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,36 @@ int main (int ac , char **av, char **env)
     char *str;
 	(void)ac;
 	(void)av;
+	//(void)env;
 
-    str = readline("minishell > ");
-
-    parce(&data, str, env);
-	int i = 0;
-	int j;
-	while (i < data.num_of_cmds)
+	env[1] = "SHELL=minishell";
+	env[15] = "PWD=/Users/yed-dyb/Desktop/cursus";
+	while(1)
 	{
-		printf("%s\n", data.cmds[i].path);
-		j = 0;
-		while(data.cmds[i].args[j])
+      	str = readline("\033[0;32mminishell:$ \x1B[37m");
+		if (str[0])
 		{
-			printf("%s\n", data.cmds[i].args[j]);
-			j++;
+			add_history(str);
+      		parce(&data, str, env);
+			//printf("%s,%s\n", data.input, data.output);
+			execute(&data, env);
+			data.input = NULL;
+			data.output = NULL;
 		}
-		i++;
 	}
+
+	//printf("%s,%s\n", data.input, data.output);
+	// int i = 0;
+	// int j;
+	// while (i < data.num_of_cmds)
+	// {
+	// 	printf("%s\n", data.cmds[i].path);
+	// 	j = 0;
+	// 	while(data.cmds[i].args[j])
+	// 	{
+	// 		printf("%s\n", data.cmds[i].args[j]);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
 }
