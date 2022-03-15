@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/10 16:18:48 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/14 21:10:15 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 
 int main (int ac , char **av, char **env)
 {
-    t_data data;
     char *str;
 	(void)ac;
 	(void)av;
-	//(void)env;
+	(void)env;
 
 	env[1] = "SHELL=minishell";
 	env[15] = "PWD=/Users/yed-dyb/Desktop/cursus";
 	while(1)
 	{
-      	str = readline("\033[0;32mminishell:$ \x1B[37m");
+       	str = readline("\033[0;32mminishell:$ \x1B[37m");
 		if (str[0])
 		{
 			add_history(str);
-      		parce(&data, str, env);
+      		parser(str);
 			//printf("%s,%s\n", data.input, data.output);
 			execute(&data, env);
 			data.input = NULL;

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/08 10:15:50 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/10 11:10:14 by yed-dyb          ###   ########.fr       */
+/*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
+/*   Updated: 2022/03/14 21:09:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    dup_all(t_data *data, int i)
         if (data->num_of_cmds >= 2)
             dup2(data->cmds[i].p[STDOUT], STDOUT);
     }
-    else if (i == data->num_of_cmds - 1)
+    if (i == data->num_of_cmds - 1)
     {
         // if (!compare_strings(data->input, "here_doc"))
         //         fd = open(data->output, O_CREAT | O_RDWR | O_TRUNC, 0664);
@@ -47,10 +47,11 @@ void    dup_all(t_data *data, int i)
                 printf("Error opening output file\n");
             dup2(fd, STDOUT);
         }
-        dup2(data->cmds[i - 1].p[STDIN], STDIN);
+        if (i > 0)
+            dup2(data->cmds[i - 1].p[STDIN], STDIN);
         close(data->cmds[i].p[STDOUT]);
     }
-    else
+    if (i > 0 && i < data->num_of_cmds - 1)
     {
         dup2(data->cmds[i - 1].p[STDIN], STDIN);
         dup2(data->cmds[i].p[STDOUT], STDOUT);

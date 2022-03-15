@@ -1,4 +1,4 @@
-SRC = minishell.c parcer.c executer.c parcer_helpers.c simplify_command.c parce_redirecting.c
+SRC = minishell.c lexer.c lexer_helpers.c parser.c parser_utils.c executer.c
 LIBFT = libft/libft.a
 GFLAGS = -Wall -Wextra -Werror
 NAME = minishell
@@ -7,7 +7,7 @@ all: $(NAME)
 
 $(NAME): $(SRC)
 	cd libft && make && cd ..
-	$(CC) $(GFLAGS) $(SRC) $(LIBFT) -lreadline -o $(NAME) -fsanitize=address
+	$(CC)  $(SRC) $(LIBFT) -lreadline -o $(NAME) -fsanitize=address
 
 clean :
 	cd libft && make clean && cd ..
