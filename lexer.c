@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/14 20:30:01 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/15 15:14:32 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,10 @@ token_t *lexer_get_next_token(lexer_t *lexer)
             return lexer_get_string(lexer, SINGLE_QUOTES);
 
         if(!is_special_character(lexer->c))
-        {
             return lexer_get_word(lexer);
-        }
         
         return lexer_get_special_character_and_next(lexer);
     }
 
-    return init_token(TOKEN_END, "\0");
+    return init_token(TOKEN_END, ft_calloc(1, sizeof(char)));
 }

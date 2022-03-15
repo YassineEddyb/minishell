@@ -6,45 +6,30 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/14 20:27:47 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/15 15:03:28 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-char	*ft_str_join(char *s1, char *s2)
+int get_index(char *s, char c)
 {
-	int		i;
-	int		j;
-	char	*str;
+	int i;
 
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-	{
-		s1 = malloc(1 * sizeof(char));
-		s1[0] = '\0';
-	}
-	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	i = -1;
-	j = 0;
-	while (s1[++i] != '\0')
-		str[i] = s1[i];
-	while (s2[j] != '\0')
-		str[i++] = s2[j++];
-	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	return (str);
+	i = 0;
+	while(s[i] && s[i] != c)
+		i++;
+	
+	return (i);
 }
 
 char *join_with_sep(char *s1, char *s2, char sep)
 {
 	char *str;
 
-    str = ft_str_join(s1, lexer_get_char_as_string(sep));
-    str = ft_str_join(str, s2);
-	
+    str = ft_strjoin(s1, lexer_get_char_as_string(sep));
+    str = ft_strjoin(str, s2);
+
 	return (str);
 }
 
@@ -62,4 +47,17 @@ int get_num_of_cmds(char *str)
 		i++;
 	}
 	return len;
+}
+
+void free_arr(char **arr)
+{
+	int i;
+
+	i = 0;
+	while(arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	arr = NULL;
 }

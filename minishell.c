@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/14 21:10:15 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/15 16:30:54 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,22 @@ int main (int ac , char **av, char **env)
 	(void)av;
 	(void)env;
 
-	env[1] = "SHELL=minishell";
-	env[15] = "PWD=/Users/yed-dyb/Desktop/cursus";
-	while(1)
-	{
-       	str = readline("\033[0;32mminishell:$ \x1B[37m");
-		if (str[0])
-		{
-			add_history(str);
-      		parser(str);
+	// env[1] = "SHELL=minishell";
+	// env[15] = "PWD=/Users/yed-dyb/Desktop/cursus";
+	// while(1)
+	// {
+    //    	str = readline("\033[0;32mminishell:$ \x1B[37m");
+	// 	if (str[0])
+	// 	{
+	// 		add_history(str);
+      		parser("echo $USER | cat -e");
 			//printf("%s,%s\n", data.input, data.output);
-			execute(&data, env);
-			data.input = NULL;
-			data.output = NULL;
-		}
-	}
+		 	execute(&data, env);
+		// 	data.input = NULL;
+		// 	data.output = NULL;
+			//system("leaks minishell");
+		// }
+	//}
 
 	//printf("%s,%s\n", data.input, data.output);
 	// int i = 0;

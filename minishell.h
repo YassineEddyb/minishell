@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/14 20:28:31 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/15 16:22:30 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+// # include "Memd/mem.h"
 
 
 # define OLD_THAN '>'
@@ -88,19 +89,12 @@ token_t *lexer_get_next_token(lexer_t *lexer);
 void	parser(char *str);
 char	*join_with_sep(char *s1, char *s2, char sep);
 int		get_num_of_cmds(char *str);
-
-
-void	parce(t_data *data, char *str, char **env);
-void	execute(t_data *data, char **env);
-void	ft_replace(char *s, char rm, char rp, char c);
-int		look_for_paths_index(char *var, char **env);
-char	*trim_spaces (char *str);
-void	fill_quotes(char *str, char c);
-void	check_input_output(t_data *data ,char *str);
-void	handle_quotes(t_data *data, int i, char c);
-void	fill_quotes(char *str, char c);
-char	*get_env_variable(char *var, char **env);
-void	handle_dollar_sign(t_data *data, char **env);
 int		get_index(char *s, char c);
+void	get_path_and_args();
+void	free_arr(char **arr);
+
+
+// executer
+void execute(t_data *data, char **env);
 
 #endif
