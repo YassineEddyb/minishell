@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/15 16:22:30 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/16 11:20:03 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,14 @@ t_data data;
 
 // lexer
 void	lexer(char *str);
-token_t *init_token(int type, char *value);
+token_t init_token(int type, char *value);
 int		lexer_strlen(lexer_t *lexer, char c);
 void	lexer_next_char(lexer_t *lexer);
 void	lexer_skip_spaces(lexer_t *lexer);
 char	*lexer_get_char_as_string(char c);
 int		is_special_character(char c);
 lexer_t *init_lexer(char *str);
-token_t *lexer_get_next_token(lexer_t *lexer);
+token_t lexer_get_next_token(lexer_t *lexer);
 
 // parser
 void	parser(char *str);
@@ -92,6 +92,7 @@ int		get_num_of_cmds(char *str);
 int		get_index(char *s, char c);
 void	get_path_and_args();
 void	free_arr(char **arr);
+void	clean_data();
 
 
 // executer

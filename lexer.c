@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/15 15:14:32 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/16 12:34:10 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ lexer_t *init_lexer(char *str)
     return (lexer);
 }
 
-static token_t *lexer_get_string(lexer_t *lexer, char c)
+static token_t lexer_get_string(lexer_t *lexer, char c)
 {
     int i;
     char *val;
-    token_t *token;
+    token_t token;
     lexer_next_char(lexer);
 
     val = malloc(lexer_strlen(lexer, c) + 1 * sizeof(char));
@@ -47,7 +47,7 @@ static token_t *lexer_get_string(lexer_t *lexer, char c)
     return (token);
 }
 
-static token_t *lexer_get_word(lexer_t *lexer)
+static token_t lexer_get_word(lexer_t *lexer)
 {
     int i;
     char *val;
@@ -65,7 +65,7 @@ static token_t *lexer_get_word(lexer_t *lexer)
 }
 
 
-static token_t *lexer_get_special_characters(lexer_t *lexer)
+static token_t lexer_get_special_characters(lexer_t *lexer)
 {
     if (lexer->c == OLD_THAN)
         return (init_token(TOKEN_OLD_THAN, lexer_get_char_as_string(lexer->c)));
@@ -73,36 +73,31 @@ static token_t *lexer_get_special_characters(lexer_t *lexer)
         return (init_token(TOKEN_OLD_THAN, lexer_get_char_as_string(lexer->c)));
     else if (lexer->c == PIPE)
         return (init_token(TOKEN_PIPE, lexer_get_char_as_string(lexer->c)));
-    else if (lexer->c == DOLLAR_SIGN)
+    else
         return (init_token(TOKEN_DOLLAR_SIGN, lexer_get_char_as_string(lexer->c)));
 }
 
-static token_t *lexer_get_special_character_and_next(lexer_t *lexer)
+static token_t lexer_get_special_character_and_next(lexer_t *lexer)
 {
-    token_t *token;
+    token_t token;
     token = lexer_get_special_characters(lexer);
     lexer_next_char(lexer);
     return token;
 }
 
-token_t *lexer_get_next_token(lexer_t *lexer)
+token_t lexer_get_next_token(lexer_t *lexer)
 {
     while(lexer->c != '\0')
     {
         if (lexer->c == SPACE)
             lexer_skip_spaces(lexer);
-        
         if (lexer->c == DOUBLE_QUOTES)
             return lexer_get_string(lexer, DOUBLE_QUOTES);
-
         if (lexer->c == SINGLE_QUOTES)
             return lexer_get_string(lexer, SINGLE_QUOTES);
-
         if(!is_special_character(lexer->c))
             return lexer_get_word(lexer);
-        
         return lexer_get_special_character_and_next(lexer);
     }
-
     return init_token(TOKEN_END, ft_calloc(1, sizeof(char)));
 }

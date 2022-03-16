@@ -6,19 +6,19 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:54:57 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/14 20:29:01 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/16 13:07:27 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-token_t *init_token(int type, char *value)
+token_t init_token(int type, char *value)
 {
-    token_t *token;
+    token_t token;
 
-    token = malloc(sizeof(token_t));
-    token->type = type;
-    token->value = value;
+    //token = malloc(sizeof(token_t));
+    token.type = type;
+    token.value = value;
 
     return (token);
 }
@@ -35,7 +35,6 @@ int lexer_strlen(lexer_t *lexer, char c)
         i++;
         len++;
     }
-    
     return (len);
 }
 

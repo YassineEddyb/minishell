@@ -7,7 +7,7 @@ all: $(NAME)
 
 $(NAME): $(SRC)
 	cd libft && make && cd ..
-	$(CC) $(SRC) $(LIBFT) -lreadline -S
+	$(CC) $(SRC) $(LIBFT) -lreadline -g -o $(NAME)
 
 clean :
 	cd libft && make clean && cd ..

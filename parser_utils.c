@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/15 15:03:28 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/16 11:49:36 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,15 @@ int get_index(char *s, char c)
 char *join_with_sep(char *s1, char *s2, char sep)
 {
 	char *str;
+	char *tmp;
+	char *sep_str;
 
-    str = ft_strjoin(s1, lexer_get_char_as_string(sep));
-    str = ft_strjoin(str, s2);
+	sep_str = lexer_get_char_as_string(sep);
+    tmp = ft_strjoin(s1, sep_str);
+	free(sep_str);
+	free(s1);
+    str = ft_strjoin(tmp, s2);
+	free(tmp);
 
 	return (str);
 }
@@ -59,5 +65,25 @@ void free_arr(char **arr)
 		free(arr[i]);
 		i++;
 	}
+	free(arr);
 	arr = NULL;
+}
+
+void clean_data()
+{
+	int i = 0;
+
+	while(i < data.num_of_cmds)
+	{
+		free(data.cmds[i].path);
+		free_arr(data.cmds[i].args);
+		if (data.input)
+			free(data.input);
+		if (data.output)
+			free(data.output);
+
+		data.input = NULL;
+		data.output = NULL;
+		i++;
+	}
 }
