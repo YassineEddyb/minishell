@@ -1,20 +1,32 @@
-SRC = minishell.c lexer.c lexer_helpers.c parser.c parser_utils.c parse_path_and_args.c executer.c
+SRC = minishell.c \
+	lexer.c lexer_helpers.c \
+	parser.c parser_utils.c parse_path_and_args.c \
+	executer.c executer_utils.c heredoc.c
+
+GNL = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 LIBFT = libft/libft.a
+READLINE = -L readline/lib -I readline/include
 GFLAGS = -Wall -Wextra -Werror
 NAME = minishell
+GREEN=\033[0;32m
 
 all: $(NAME)
 
 $(NAME): $(SRC)
-	cd libft && make && cd ..
-	$(CC) $(SRC) $(LIBFT) -lreadline -g -o $(NAME)
+	@printf "${GREEN}compiling...\n"
+	@cd libft && make && cd ..
+	@$(CC) $(SRC) $(GNL) $(LIBFT) -lreadline $(READLINE) -o $(NAME) -fsanitize=address
 
 clean :
-	cd libft && make clean && cd ..
+	@printf "${GREEN}cleaning...\n"
+	@cd libft && make clean && cd ..
 
 fclean : clean
-	cd libft && make fclean && cd ..
-	rm -rf $(NAME)
+	@printf "${GREEN}cleaning...\n"
+	@cd libft && make fclean && cd ..
+	@rm -rf $(NAME)
+
+test: 
 
 re : fclean all
 

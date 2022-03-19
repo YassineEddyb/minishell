@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/16 11:49:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/18 12:20:04 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,17 @@ void clean_data()
 
 	while(i < data.num_of_cmds)
 	{
+		free(data.cmds[i].str); 
 		free(data.cmds[i].path);
 		free_arr(data.cmds[i].args);
 		if (data.input)
 			free(data.input);
 		if (data.output)
 			free(data.output);
-
 		data.input = NULL;
 		data.output = NULL;
+		data.append = 0;
+		data.heredoc = 0;
 		i++;
 	}
 }

@@ -6,30 +6,51 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/16 12:51:20 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/19 08:57:55 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void handle_signal(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
 int main (int ac , char **av, char **env)
 {
-    char *str;
+	struct sigaction sa;
+	sa.sa_handler = &handle_signal;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+
+    char *str = NULL;
 	(void)ac;
 	(void)av;
 	(void)env;
 
 	// env[1] = "SHELL=minishell";
 	// env[15] = "PWD=/Users/yed-dyb/Desktop/cursus";
+	data.env = env;
 	while(1)
 	{
        	str = readline("\033[0;32mminishell:$ \x1B[37m");
+		if (!str)
+			exit(1);
 		if (str[0])
 		{
 			add_history(str);
       		parser(str);
+			free(str);
+			str = NULL;
 			//printf("%s,%s\n", data.input, data.output);
-		 	execute(&data, env);
+		 	execute();
 			clean_data();
 			//system("leaks minishell");
 		}
@@ -49,4 +70,5 @@ int main (int ac , char **av, char **env)
 	// 	}
 	// 	i++;
 	// }
+	return (0);
 }

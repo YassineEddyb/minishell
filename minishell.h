@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/16 11:20:03 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/19 09:02:26 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 # define PIPEX_H
 
 # include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 // # include "Memd/mem.h"
@@ -33,6 +35,8 @@
 # define GARBEGE -1
 # define STDOUT 1
 # define STDIN 0
+# define ERROR 1
+# define SUCCESS 0
 
 typedef struct token_s
 {
@@ -41,6 +45,8 @@ typedef struct token_s
 		TOKEN_WORD,
 		TOKEN_OLD_THAN,
 		TOKEN_LESS_THAN,
+		TOKEN_LESS_LESS,
+		TOKEN_GREAT_GREAT,
 		TOKEN_STRING_DOUBLE_QUOTES,
 		TOKEN_STRING_SINGLE_QUOTES,
 		TOKEN_PIPE,
@@ -65,11 +71,15 @@ typedef struct s_cmd {
 }	t_cmd;
 
 typedef struct s_data {
+	char	**env;
 	int		num_of_cmds;
 	t_cmd	*cmds;
 	int 	index;
 	char	*input;
 	char	*output;
+	char	*limit;
+	int 	heredoc;
+	int		append;
 }	t_data;
 
 t_data data;
@@ -96,6 +106,11 @@ void	clean_data();
 
 
 // executer
-void execute(t_data *data, char **env);
+void	execute();
+void    here_doc();
+void	close_unused_pipes(int process_index);
+void	close_all_pipes();
+void	wait_all_child_processors();
+void	check_path(int i);
 
 #endif

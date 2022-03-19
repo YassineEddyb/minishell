@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/16 12:34:10 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/18 12:47:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,14 @@ static token_t lexer_get_word(lexer_t *lexer)
 
 static token_t lexer_get_special_characters(lexer_t *lexer)
 {
-    if (lexer->c == OLD_THAN)
+    if (lexer->c == OLD_THAN && lexer->content[lexer->index + 1] == OLD_THAN)
+        return (init_token(TOKEN_GREAT_GREAT, ft_strdup(">>")));
+    else if (lexer->c == LESS_THAN && lexer->content[lexer->index + 1] == LESS_THAN)
+        return (init_token(TOKEN_LESS_LESS, ft_strdup("<<")));
+    else if (lexer->c == OLD_THAN)
         return (init_token(TOKEN_OLD_THAN, lexer_get_char_as_string(lexer->c)));
     else if (lexer->c == LESS_THAN)
-        return (init_token(TOKEN_OLD_THAN, lexer_get_char_as_string(lexer->c)));
+        return (init_token(TOKEN_LESS_THAN, lexer_get_char_as_string(lexer->c)));
     else if (lexer->c == PIPE)
         return (init_token(TOKEN_PIPE, lexer_get_char_as_string(lexer->c)));
     else
@@ -82,6 +86,8 @@ static token_t lexer_get_special_character_and_next(lexer_t *lexer)
     token_t token;
     token = lexer_get_special_characters(lexer);
     lexer_next_char(lexer);
+    if(token.type == TOKEN_LESS_LESS || token.type == TOKEN_GREAT_GREAT)
+        lexer_next_char(lexer);
     return token;
 }
 
@@ -95,7 +101,7 @@ token_t lexer_get_next_token(lexer_t *lexer)
             return lexer_get_string(lexer, DOUBLE_QUOTES);
         if (lexer->c == SINGLE_QUOTES)
             return lexer_get_string(lexer, SINGLE_QUOTES);
-        if(!is_special_character(lexer->c))
+        if (!is_special_character(lexer->c))
             return lexer_get_word(lexer);
         return lexer_get_special_character_and_next(lexer);
     }
