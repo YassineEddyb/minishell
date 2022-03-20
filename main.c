@@ -4,10 +4,9 @@
 
 int main ()
 {
-    int fd1 = open("./file1", O_RDWR, 0644);
-    int fd2 = open("./file2", O_RDWR, 0644);
+    int i = 2 + 48;
 
-    dup2(fd1, 1);
-    dup2(fd2, 1);
-    printf("hello world");
+    char c = (char)i;
+
+    printf ("%c\n", c);
 }

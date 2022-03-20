@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 08:57:55 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/19 20:12:29 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ int main (int ac , char **av, char **env)
 	(void)av;
 	(void)env;
 
-	// env[1] = "SHELL=minishell";
+	env[1] = "SHELL=minishell";
 	// env[15] = "PWD=/Users/yed-dyb/Desktop/cursus";
 	data.env = env;
 	while(1)
 	{
-       	str = readline("\033[0;32mminishell:$ \x1B[37m");
+       	str = readline("\033[0;32mminishell:$ \x1B[0m");
 		if (!str)
-			exit(1);
+			exit(0);
 		if (str[0])
 		{
 			add_history(str);
@@ -51,6 +51,7 @@ int main (int ac , char **av, char **env)
 			str = NULL;
 			//printf("%s,%s\n", data.input, data.output);
 		 	execute();
+			//printf ("%d\n", WEXITSTATUS(data.exit_code));
 			clean_data();
 			//system("leaks minishell");
 		}

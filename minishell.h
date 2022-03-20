@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 09:02:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/19 18:43:10 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,14 @@
 # define SPACE ' '
 # define PIPE '|'
 # define DOLLAR_SIGN '$'
+# define QUESTION_MARK '?'
 # define GARBEGE -1
 # define STDOUT 1
 # define STDIN 0
-# define ERROR 1
+# define STDERR 2
+# define ERROR 2
 # define SUCCESS 0
+# define FAILURE 1
 
 typedef struct token_s
 {
@@ -80,6 +83,8 @@ typedef struct s_data {
 	char	*limit;
 	int 	heredoc;
 	int		append;
+	int		err;
+	int		exit_code;
 }	t_data;
 
 t_data data;
@@ -97,12 +102,14 @@ token_t lexer_get_next_token(lexer_t *lexer);
 
 // parser
 void	parser(char *str);
+void	parser_parse(token_t *token, lexer_t *lexer);
 char	*join_with_sep(char *s1, char *s2, char sep);
 int		get_num_of_cmds(char *str);
 int		get_index(char *s, char c);
 void	get_path_and_args();
 void	free_arr(char **arr);
 void	clean_data();
+int		starts_with(char *str, char c);
 
 
 // executer

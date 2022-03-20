@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:25:37 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/18 10:27:52 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/19 14:36:09 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	wait_all_child_processors()
 	i = 0;
 	while (i < data.num_of_cmds)
 	{
-		waitpid(data.cmds[i].pid, 0, 0);
+		waitpid(data.cmds[i].pid, &(data.exit_code), 0);
 		i++;
 	}
 }
@@ -60,10 +60,10 @@ void	check_path(int i)
 			data.cmds[i].path = data.cmds[i].args[0];
 		else
 		{
-			ft_putstr_fd("minishell: command not found: ", 2);
-            ft_putstr_fd(data.cmds[i].args[0], 2);
-            ft_putstr_fd("\n", 2);
-			exit(1);
+			ft_putstr_fd("minishell: command not found: ", STDERR);
+            ft_putstr_fd(data.cmds[i].args[0], STDERR);
+            ft_putstr_fd("\n", STDERR);
+			exit(ERROR);
 		}
 	}
 }

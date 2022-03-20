@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 09:00:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/19 20:09:14 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,14 @@ void	handle_input(int i)
     {
         fd = open(data.input,  O_RDONLY, 0644);
         if (fd == -1)
-            printf("Error opening input file\n");
+        {
+            perror("minishell");
+            exit(FAILURE);
+        }
         dup2(fd, STDIN);
     }
-    // if (data.num_of_cmds >= 2)
-    //     dup2(data.cmds[i].p[STDOUT], STDOUT);
+    if (data.num_of_cmds >= 2)
+        dup2(data.cmds[i].p[STDOUT], STDOUT);
 }
 
 void    dup_all(int i)
@@ -49,7 +52,10 @@ void    dup_all(int i)
             else
                 fd = open(data.output, O_CREAT | O_WRONLY | O_TRUNC, 0664);
             if (fd == -1)
-                printf("Error opening output file\n");
+            {
+                perror("minishell");
+                exit(FAILURE);
+            }
             dup2(fd, STDOUT);
         }
         if (i > 0)
@@ -78,7 +84,7 @@ void    execute_commands()
             check_path(i);
             if (execve(data.cmds[i].path, data.cmds[i].args, data.env) == -1)
                 perror("minishell");
-            exit(0);
+            exit(ERROR);
         }
         i++;
     }
@@ -86,9 +92,12 @@ void    execute_commands()
 
 void execute()
 {
-    if (data.heredoc)
-        here_doc();
-    execute_commands();
-    close_all_pipes();
-    wait_all_child_processors();
+    if (!data.err)
+    {
+        if (data.heredoc)
+            here_doc();
+        execute_commands();
+        close_all_pipes();
+        wait_all_child_processors();
+    }
 }
