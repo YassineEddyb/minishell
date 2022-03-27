@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 18:43:10 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/27 09:37:00 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <signal.h>
+#include <sys/errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 // # include "Memd/mem.h"
@@ -37,9 +38,9 @@
 # define STDOUT 1
 # define STDIN 0
 # define STDERR 2
-# define ERROR 2
+# define ERROR 1
 # define SUCCESS 0
-# define FAILURE 1
+# define FAILURE 2
 
 typedef struct token_s
 {

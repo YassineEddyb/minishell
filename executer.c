@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 20:09:14 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/27 12:46:12 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,17 @@ void    dup_all(int i)
     }
 }
 
+void handle_sigint(int sig)
+{
+    data.exit_code = 130;
+    // exit(ERROR);
+}
+
 void    execute_commands()
 {
     int     i;
+    struct sigaction sa;
+	sa.sa_handler = &handle_sigint;
 
     i = 0;
     while (i < data.num_of_cmds)
@@ -79,6 +87,7 @@ void    execute_commands()
         data.cmds[i].pid = fork();
         if (data.cmds[i].pid == 0)
         {
+            sigaction(SIGINT, &sa, NULL);
             close_unused_pipes(i);
             dup_all(i);
             check_path(i);

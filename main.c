@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-int main ()
-{
-    int i = 2 + 48;
+// int main ()
+// {
+//     char *arr[3];
+//     arr[0] = "cat";
+//     arr[]
 
-    char c = (char)i;
-
-    printf ("%c\n", c);
-}
+//     printf ("%c\n", c);
+// }
