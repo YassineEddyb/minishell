@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 20:40:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/27 19:47:36 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ token_t parser_expect(lexer_t *lexer, token_t *token, int token_type)
     token_t new_token;
 
     new_token = lexer_get_next_token(lexer);
-    if (new_token.type == token_type)
+    if (new_token.type == token_type || new_token.type == TOKEN_DOLLAR_SIGN)
     {
         return (new_token);
     }
@@ -106,7 +106,7 @@ void parser_parse(token_t *token, lexer_t *lexer)
     else if (token->type == TOKEN_LESS_THAN)
         data.input = parser_expect(lexer, token, TOKEN_WORD).value;
     else if (token->type == TOKEN_OLD_THAN)
-        data.output = parser_expect(lexer, token, TOKEN_WORD).value;
+        data.cmds[data.index].output = parser_expect(lexer, token, TOKEN_WORD).value;
     else if (token->type == TOKEN_LESS_LESS)
     {
         data.heredoc = 1;
@@ -122,7 +122,7 @@ void parser_parse(token_t *token, lexer_t *lexer)
     else if (token->type == TOKEN_GREAT_GREAT)
     {
         data.append = 1;
-        data.output = parser_expect(lexer, token, TOKEN_WORD).value;
+        data.cmds[data.index].output = parser_expect(lexer, token, TOKEN_WORD).value;
     }
     else if (token->type == TOKEN_PIPE)
         data.index++;
@@ -143,6 +143,7 @@ void init_data(char *str)
     {
         data.cmds[i].str = NULL;
         data.cmds[i].path = NULL;
+		data.cmds[i].output = NULL;
         i++;
     }
 }

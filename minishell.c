@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 20:12:29 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/01 12:19:12 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int main (int ac , char **av, char **env)
 	(void)av;
 	(void)env;
 
-	env[1] = "SHELL=minishell";
-	// env[15] = "PWD=/Users/yed-dyb/Desktop/cursus";
+	// env[1] = "SHELL=minishell";
 	data.env = env;
 	while(1)
 	{
@@ -49,20 +48,18 @@ int main (int ac , char **av, char **env)
       		parser(str);
 			free(str);
 			str = NULL;
-			//printf("%s,%s\n", data.input, data.output);
 		 	execute();
-			//printf ("%d\n", WEXITSTATUS(data.exit_code));
 			clean_data();
 			//system("leaks minishell");
 		}
 	}
 
-	//printf("%s,%s\n", data.input, data.output);
 	// int i = 0;
 	// int j;
 	// while (i < data.num_of_cmds)
 	// {
 	// 	printf("%s\n", data.cmds[i].path);
+	// 	printf ("%s\n", data.cmds[i].output);
 	// 	j = 0;
 	// 	while(data.cmds[i].args[j])
 	// 	{
@@ -71,5 +68,5 @@ int main (int ac , char **av, char **env)
 	// 	}
 	// 	i++;
 	// }
-	return (0);
+	// return (0);
 }

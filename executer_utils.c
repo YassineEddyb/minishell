@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:25:37 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/27 12:45:04 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/27 20:13:15 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	wait_all_child_processors()
 	}
 }
 
-void	check_path(int i)
+void	check_is_path(int i)
 {
 	if (!data.cmds[i].path)
 	{

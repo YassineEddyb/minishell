@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/27 09:37:00 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/03/30 09:25:50 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct lexer_s
 typedef struct s_cmd {
 	char	*str;
 	char	*path;
+	char	*output;
 	char	**args;
 	int		p[2];
 	int		pid;
@@ -80,7 +81,6 @@ typedef struct s_data {
 	t_cmd	*cmds;
 	int 	index;
 	char	*input;
-	char	*output;
 	char	*limit;
 	int 	heredoc;
 	int		append;
@@ -119,6 +119,10 @@ void    here_doc();
 void	close_unused_pipes(int process_index);
 void	close_all_pipes();
 void	wait_all_child_processors();
-void	check_path(int i);
+void	check_is_path(int i);
+
+// build in commands
+void echo_cmd(char **args);
+void cd_cmd(char **args);
 
 #endif

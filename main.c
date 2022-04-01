@@ -2,11 +2,9 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-// int main ()
-// {
-//     char *arr[3];
-//     arr[0] = "cat";
-//     arr[]
+int main()
+{
+    printf("%i", -2147483648);
 
-//     printf ("%c\n", c);
-// }
+    return 0;
+}
