@@ -1,10 +1,15 @@
 
 #include <stdio.h>
-#include <fcntl.h>
+#include <dirent.h>
 
-int main()
+int main(void)
 {
-    printf("%i", -2147483648);
+	struct dirent *de;
 
-    return 0;
+	DIR *dr = opendir(".");
+	while ((de = readdir(dr)) != NULL)
+			printf("%s\n", de->d_name);
+
+	closedir(dr);	
+	return 0;
 }

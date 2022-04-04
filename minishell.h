@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/30 09:25:50 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/03 12:21:54 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <signal.h>
-#include <sys/errno.h>
+# include <sys/errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-// # include "Memd/mem.h"
-
+# include <dirent.h>
 
 # define OLD_THAN '>'
 # define LESS_THAN '<'
@@ -33,7 +32,9 @@
 # define SPACE ' '
 # define PIPE '|'
 # define DOLLAR_SIGN '$'
+# define AND '&'
 # define QUESTION_MARK '?'
+# define ASTERISK '*'
 # define GARBEGE -1
 # define STDOUT 1
 # define STDIN 0
@@ -55,6 +56,8 @@ typedef struct token_s
 		TOKEN_STRING_SINGLE_QUOTES,
 		TOKEN_PIPE,
 		TOKEN_DOLLAR_SIGN,
+		TOKEN_AND_AND,
+		TOKEN_PIPE_PIPE
 	} type;
 	char *value;
 } token_t;
@@ -71,6 +74,9 @@ typedef struct s_cmd {
 	char	*path;
 	char	*output;
 	char	**args;
+	int		pipe;
+	int		and;
+	int 	or;
 	int		p[2];
 	int		pid;
 }	t_cmd;
@@ -124,5 +130,9 @@ void	check_is_path(int i);
 // build in commands
 void echo_cmd(char **args);
 void cd_cmd(char **args);
+
+// bonus functions
+int handle_and_and_or(int process_index);
+void parser_check_asterisk(token_t *token);
 
 #endif

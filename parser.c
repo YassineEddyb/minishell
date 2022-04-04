@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/27 19:47:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/03 15:37:17 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,12 @@ void parser_handle_dollar_sign(lexer_t *lexer, token_t *token)
 void parser_parse(token_t *token, lexer_t *lexer)
 {
     if (token->type == TOKEN_WORD)
-        data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, token->value, -1);
+    {
+        if (ft_strchr(token->value, ASTERISK))
+            parser_check_asterisk(token);
+        else
+            data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, token->value, -1);
+    }
     else if (token->type == TOKEN_DOLLAR_SIGN)
 		parser_handle_dollar_sign(lexer, token);
     else if (token->type == TOKEN_STRING_SINGLE_QUOTES)
@@ -124,8 +129,21 @@ void parser_parse(token_t *token, lexer_t *lexer)
         data.append = 1;
         data.cmds[data.index].output = parser_expect(lexer, token, TOKEN_WORD).value;
     }
-    else if (token->type == TOKEN_PIPE)
+    else if (token->type == TOKEN_PIPE_PIPE)
+    {
+        data.cmds[data.index].or = 1;
         data.index++;
+    }
+    else if (token->type == TOKEN_AND_AND)
+    {
+        data.cmds[data.index].and = 1;
+        data.index++;
+    }
+    else if (token->type == TOKEN_PIPE)
+    {
+        data.cmds[data.index].pipe = 1;
+        data.index++;
+    }
 }
 
 void init_data(char *str)
@@ -141,6 +159,9 @@ void init_data(char *str)
     i = 0;
     while(i < data.num_of_cmds)
     {
+        data.cmds[i].pipe = 0;
+        data.cmds[i].and = 0;
+        data.cmds[i].or = 0;
         data.cmds[i].str = NULL;
         data.cmds[i].path = NULL;
 		data.cmds[i].output = NULL;
@@ -160,7 +181,7 @@ void parser(char *str)
     free(token.value);
     while(token.type)
     {
-        //printf("%s\n", token.value);
+        // printf("%d\n", token.type);
         token = lexer_get_next_token(lexer);
         parser_parse(&token, lexer);
         free(token.value);
@@ -172,14 +193,13 @@ void parser(char *str)
     // int j;
     // while(i < data.num_of_cmds)
     // {
-    //     printf("%s\n[", data.cmds[i].path);
+    //     printf("%s\n", data.cmds[i].path);
     //     j = 0;
     //     while(data.cmds[i].args[j])
     //     {
-    //         printf("%s, ", data.cmds[i].args[j]);
+    //         printf("%s\n", data.cmds[i].args[j]);
     //         j++;
     //     }
     //     i++;
     // }
-    //printf("\n%s, %s\n", data.input, data.output);
 }

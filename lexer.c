@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 18:18:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/02 15:19:42 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,16 @@ static token_t lexer_get_special_characters(lexer_t *lexer)
         return (init_token(TOKEN_OLD_THAN, lexer_get_char_as_string(lexer->c)));
     else if (lexer->c == LESS_THAN)
         return (init_token(TOKEN_LESS_THAN, lexer_get_char_as_string(lexer->c)));
+    else if (lexer->c == PIPE && lexer->content[lexer->index + 1] == PIPE)
+    {
+        lexer_next_char(lexer);
+        return (init_token(TOKEN_PIPE_PIPE, ft_strdup("||")));
+    }
+    else if (lexer->c == AND && lexer->content[lexer->index + 1] == AND)
+    {
+        lexer_next_char(lexer);
+        return (init_token(TOKEN_AND_AND, ft_strdup("&&")));
+    }
     else if (lexer->c == PIPE)
         return (init_token(TOKEN_PIPE, lexer_get_char_as_string(lexer->c)));
     else

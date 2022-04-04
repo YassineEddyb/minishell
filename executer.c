@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/01 12:03:32 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/02 19:46:20 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_input(int i)
         }
         dup2(fd, STDIN);
     }
-    if (data.num_of_cmds >= 2)
+    if (data.num_of_cmds >= 2 && data.cmds[i].pipe)
         dup2(data.cmds[i].p[STDOUT], STDOUT);
 }
 
@@ -65,7 +65,8 @@ void    dup_all(int i)
     if (i > 0 && i < data.num_of_cmds - 1)
     {
         dup2(data.cmds[i - 1].p[STDIN], STDIN);
-        dup2(data.cmds[i].p[STDOUT], STDOUT);
+        if (data.cmds[i].pipe)
+            dup2(data.cmds[i].p[STDOUT], STDOUT);
     }
 }
 
@@ -85,8 +86,6 @@ int is_builtin(int i)
 void    execute_commands()
 {
     int     i;
-    struct sigaction sa;
-	sa.sa_handler = &handle_sigint;
 
     i = 0;
     while (i < data.num_of_cmds)
@@ -96,11 +95,10 @@ void    execute_commands()
             cd_cmd(data.cmds[i].args);
         else if (data.cmds[i].pid == 0)
         {
-            sigaction(SIGINT, &sa, NULL);
+            // sigaction(SIGINT, &sa, NULL);
             close_unused_pipes(i);
             dup_all(i);
             check_is_path(i);
-			//printf("%s\n", data.cmds[i].args[0]);
             if (!is_builtin(i))
 			{
 				if (execve(data.cmds[i].path, data.cmds[i].args, data.env) == -1)
@@ -108,6 +106,8 @@ void    execute_commands()
 			}
             exit(ERROR);
         }
+        if (!handle_and_and_or(i))
+            break ;
         i++;
     }
 }
