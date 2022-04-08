@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/03 12:21:54 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:52:53 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # define AND '&'
 # define QUESTION_MARK '?'
 # define ASTERISK '*'
+# define LEFT_PARENTHESES '('
+# define RIGHT_PARENTHESES ')'
 # define GARBEGE -1
 # define STDOUT 1
 # define STDIN 0
@@ -57,7 +59,8 @@ typedef struct token_s
 		TOKEN_PIPE,
 		TOKEN_DOLLAR_SIGN,
 		TOKEN_AND_AND,
-		TOKEN_PIPE_PIPE
+		TOKEN_PIPE_PIPE,
+		TOKEN_PARENTHESES
 	} type;
 	char *value;
 } token_t;

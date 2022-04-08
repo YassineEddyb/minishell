@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/03 15:37:17 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:07:39 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,10 @@ void parser_parse(token_t *token, lexer_t *lexer)
         data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, token->value, -1);
     else if (token->type == TOKEN_STRING_DOUBLE_QUOTES)
         data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, parser_handle_string(token), -1);
+    else if (token->type == TOKEN_PARENTHESES)
+    {
+        data.cmds[data.index].str = join_with_sep(ft_strdup("./minishell"), token->value, -1);
+    }
     else if (token->type == TOKEN_LESS_THAN)
         data.input = parser_expect(lexer, token, TOKEN_WORD).value;
     else if (token->type == TOKEN_OLD_THAN)
@@ -181,7 +185,6 @@ void parser(char *str)
     free(token.value);
     while(token.type)
     {
-        // printf("%d\n", token.type);
         token = lexer_get_next_token(lexer);
         parser_parse(&token, lexer);
         free(token.value);

@@ -6,25 +6,49 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:57:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/28 13:55:13 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/06 02:14:27 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
+int simlify_newline(char **args)
+{
+	int i;
+	int j;
+	int x;
+	i = 0;
+	x = 1;
+	while(args[i])
+	{
+		if (args[i][0] == '-')
+		{
+			j = 1;
+			while(args[i][j])
+			{
+				if (args[i][j] == 'n')
+					j++;
+				else
+					return (x);
+			}
+			if (j > 1)
+				x++;
+		}
+		i++;
+	}
+	return (x);
+}
+
 void echo_cmd(char **args)
 {
     int i;
     int new_line;
 
-    i = 1;
+    i = simlify_newline(args);
     new_line = 1;
-    if (args[i] && !strncmp(args[i], "-n", 3))
-    {
-        i++;
+    if (i > 1)
 		new_line = 0;
-    }
     while(args[i])
 	{
 		printf("%s", args[i]);

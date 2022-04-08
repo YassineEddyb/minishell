@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/02 15:20:33 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/06 22:05:04 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void handle_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		// printf("\n");
+		// rl_on_new_line();
+		// rl_replace_line("", 0);
+		// rl_redisplay();
 	}
 }
 
@@ -37,21 +37,29 @@ int main (int ac , char **av, char **env)
 
 	// env[1] = "SHELL=minishell";
 	data.env = env;
-	while(1)
+	if (ac == 1)
 	{
-       	str = readline("\033[0;32mminishell:$ \x1B[0m");
-		if (!str)
-			exit(0);
-		if (str[0])
+		while(1)
 		{
-			add_history(str);
-      		parser(str);
-			free(str);
-			str = NULL;
-		 	execute();
-			clean_data();
-			//system("leaks minishell");
+			str = readline("\033[0;32mminishell:$ \x1B[0m");
+			if (!str)
+				exit(0);
+			if (str[0])
+			{
+				add_history(str);
+				parser(str);
+				free(str);
+				str = NULL;
+				execute();
+				clean_data();
+				//system("leaks minishell");
+			}
 		}
+	} else if (ac == 2)
+	{
+		parser(av[1]);
+		execute();
+		clean_data();
 	}
 
 	// int i = 0;
@@ -68,5 +76,5 @@ int main (int ac , char **av, char **env)
 	// 	}
 	// 	i++;
 	// }
-	// return (0);
+	return (data.exit_code);
 }
