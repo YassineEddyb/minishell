@@ -1,7 +1,7 @@
 SRC = minishell.c \
 	lexer.c lexer_helpers.c \
-	parser.c parser_utils.c parse_path_and_args.c \
-	executer.c executer_utils.c heredoc.c executer_bnous.c parser_bonus.c
+	parser.c parser_utils.c parse_path_and_args.c parser_helpers.c parser_string.c parser_bonus.c\
+	executer.c executer_utils.c heredoc.c executer_bnous.c
 
 CMDS = echo_cmd.c cd_cmd.c
 

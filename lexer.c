@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/06 17:09:33 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/08 22:02:05 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ static token_t lexer_get_special_characters(lexer_t *lexer)
         return (init_token(TOKEN_AND_AND, ft_strdup("&&")));
     else if (lexer->c == PIPE)
         return (init_token(TOKEN_PIPE, lexer_get_char_as_string(lexer->c)));
+    else if (lexer->c == NEW_LINE)
+        return (init_token(TOKEN_NEW_LINE, ft_strdup("\n")));
     else
         return (init_token(TOKEN_DOLLAR_SIGN, lexer_get_char_as_string(lexer->c)));
 }

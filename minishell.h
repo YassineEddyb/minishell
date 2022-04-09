@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/06 15:52:53 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/08 23:12:15 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define ASTERISK '*'
 # define LEFT_PARENTHESES '('
 # define RIGHT_PARENTHESES ')'
+# define NEW_LINE '\n'
 # define GARBEGE -1
 # define STDOUT 1
 # define STDIN 0
@@ -60,7 +61,8 @@ typedef struct token_s
 		TOKEN_DOLLAR_SIGN,
 		TOKEN_AND_AND,
 		TOKEN_PIPE_PIPE,
-		TOKEN_PARENTHESES
+		TOKEN_PARENTHESES,
+		TOKEN_NEW_LINE
 	} type;
 	char *value;
 } token_t;
@@ -120,6 +122,13 @@ void	get_path_and_args();
 void	free_arr(char **arr);
 void	clean_data();
 int		starts_with(char *str, char c);
+token_t	parser_expect(lexer_t *lexer, token_t *token, int token_type);
+char	*parser_handle_string(token_t *token);
+void	parser_set_and_increment(token_t *token);
+void	parser_handle_word(token_t *token);
+void	parser_handle_append_redirect(token_t *token, lexer_t *lexer);
+void	parser_error(char *value);
+int		parser_expect_new_line(int n);
 
 
 // executer

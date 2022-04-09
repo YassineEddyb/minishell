@@ -6,54 +6,11 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/07 17:07:39 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/08 23:14:24 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-static char *parser_collect_string(lexer_t *lexer, char c)
-{
-    int i;
-    char *val;
-
-    val = malloc(lexer_strlen(lexer, c) + 1 * sizeof(char));
-    i = 0;
-    while(lexer->c != c && lexer->c != '\0')
-    {
-        val[i] = lexer->c;
-        lexer_next_char(lexer);
-        i++;
-    }
-    val[i] = '\0';
-    return (val);
-}
-
-static char *parser_handle_string(token_t *token)
-{
-    int i;
-    char *str = NULL;
-    lexer_t *lexer = init_lexer(token->value);
-
-    while(lexer->c != '\0')
-    {
-        if (lexer->c != DOLLAR_SIGN)
-            str = ft_strjoin(str ,parser_collect_string(lexer, DOLLAR_SIGN));
-        else if (lexer->c == DOLLAR_SIGN)
-        {
-            lexer_next_char(lexer);
-			if (lexer->c == QUESTION_MARK)
-			{
-				str = ft_strjoin(str, ft_itoa(data.exit_code));
-				lexer_next_char(lexer);
-			}
-			else
-           		str = ft_strjoin(str,getenv(parser_collect_string(lexer, SPACE)));
-        }
-    }
-    free(lexer);
-    return (str);
-}
 
 token_t parser_expect(lexer_t *lexer, token_t *token, int token_type)
 {
@@ -65,13 +22,7 @@ token_t parser_expect(lexer_t *lexer, token_t *token, int token_type)
         return (new_token);
     }
     else
-    {
-        ft_putstr_fd("minishell: syntax error near unexepcted token '", STDERR);
-        ft_putstr_fd(new_token.value, STDERR);
-        ft_putstr_fd("'\n", STDERR);
-		data.exit_code = 258;
-        data.err = 1;
-    }
+        parser_error(new_token.value);
 }
 
 void parser_handle_dollar_sign(lexer_t *lexer, token_t *token)
@@ -95,59 +46,32 @@ void parser_handle_dollar_sign(lexer_t *lexer, token_t *token)
 
 void parser_parse(token_t *token, lexer_t *lexer)
 {
+    char *str;
+
+    str = data.cmds[data.index].str;
     if (token->type == TOKEN_WORD)
-    {
-        if (ft_strchr(token->value, ASTERISK))
-            parser_check_asterisk(token);
-        else
-            data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, token->value, -1);
-    }
+        parser_handle_word(token);
     else if (token->type == TOKEN_DOLLAR_SIGN)
 		parser_handle_dollar_sign(lexer, token);
     else if (token->type == TOKEN_STRING_SINGLE_QUOTES)
-        data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, token->value, -1);
+        str = join_with_sep(str, token->value, -1);
     else if (token->type == TOKEN_STRING_DOUBLE_QUOTES)
-        data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, parser_handle_string(token), -1);
+        str = join_with_sep(str, parser_handle_string(token), -1);
     else if (token->type == TOKEN_PARENTHESES)
-    {
         data.cmds[data.index].str = join_with_sep(ft_strdup("./minishell"), token->value, -1);
-    }
     else if (token->type == TOKEN_LESS_THAN)
         data.input = parser_expect(lexer, token, TOKEN_WORD).value;
     else if (token->type == TOKEN_OLD_THAN)
         data.cmds[data.index].output = parser_expect(lexer, token, TOKEN_WORD).value;
     else if (token->type == TOKEN_LESS_LESS)
-    {
-        data.heredoc = 1;
-        data.limit = parser_expect(lexer, token, TOKEN_WORD).value;
-        data.input = NULL;
-        if(data.cmds[0].str == NULL)
-        {
-            data.cmds[0].path = ft_strdup("/bin/cat");
-            data.cmds[0].args = ft_calloc(2, sizeof(char *));
-            data.cmds[0].args[0] = ft_strdup("cat");
-        }
-    }
+        parser_handle_append_redirect(token, lexer);
     else if (token->type == TOKEN_GREAT_GREAT)
     {
         data.append = 1;
         data.cmds[data.index].output = parser_expect(lexer, token, TOKEN_WORD).value;
     }
-    else if (token->type == TOKEN_PIPE_PIPE)
-    {
-        data.cmds[data.index].or = 1;
-        data.index++;
-    }
-    else if (token->type == TOKEN_AND_AND)
-    {
-        data.cmds[data.index].and = 1;
-        data.index++;
-    }
-    else if (token->type == TOKEN_PIPE)
-    {
-        data.cmds[data.index].pipe = 1;
-        data.index++;
-    }
+    else
+        parser_set_and_increment(token);
 }
 
 void init_data(char *str)
@@ -166,6 +90,7 @@ void init_data(char *str)
         data.cmds[i].pipe = 0;
         data.cmds[i].and = 0;
         data.cmds[i].or = 0;
+        data.cmds[i].args = NULL;
         data.cmds[i].str = NULL;
         data.cmds[i].path = NULL;
 		data.cmds[i].output = NULL;
@@ -177,16 +102,24 @@ void parser(char *str)
 {
     lexer_t *lexer;
     token_t token;
+    token_t temp_token;
 
     init_data(str);
     lexer = init_lexer(str);
     token = lexer_get_next_token(lexer);
     parser_parse(&token, lexer);
+    temp_token = token;
     free(token.value);
     while(token.type)
     {
         token = lexer_get_next_token(lexer);
+        if (parser_expect_new_line(temp_token.type) && token.type == TOKEN_END)
+        {
+            parser_error("NEW_LINE");
+            break;
+        }
         parser_parse(&token, lexer);
+        temp_token = token;
         free(token.value);
     }
     free(lexer);

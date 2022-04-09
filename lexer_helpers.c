@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:54:57 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/06 15:57:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/08 22:08:14 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int is_special_character(char c)
             || c == DOLLAR_SIGN || c == PIPE\
             || c == OLD_THAN || c == LESS_THAN\
             || c == AND || c == LEFT_PARENTHESES\
-            || c == RIGHT_PARENTHESES)
+            || c == RIGHT_PARENTHESES || c == NEW_LINE)
         return (1);
     return (0);
 }

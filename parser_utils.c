@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/07 17:06:46 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/08 23:01:25 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void free_arr(char **arr)
 {
 	int i;
 
+	if (!arr)
+		return;
 	i = 0;
 	while(arr[i])
 	{
@@ -98,6 +100,7 @@ void clean_data()
 		data.cmds[i].output = NULL;
 		data.cmds[i].and = 0;
 		data.cmds[i].or = 0;
+		data.cmds[i].pipe = 0;
 		i++;
 	}
 }

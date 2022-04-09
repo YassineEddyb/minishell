@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 12:03:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/07 18:21:28 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/08 21:32:33 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void parser_check_asterisk(token_t *token)
         }
     }
     closedir(dr);
-    // if (i == 0)
-    // {
-    //     ft_putstr_fd("minishell: no matches found: ", 2);
-    //     ft_putstr_fd(token->value,2);
-    //     ft_putstr_fd("\n", 2);
-    //     data.err = 1;
-    // }
+    if (i == 0)
+    {
+        ft_putstr_fd("minishell: no matches found: ", 2);
+        ft_putstr_fd(token->value,2);
+        ft_putstr_fd("\n", 2);
+        data.err = 1;
+    }
 }
