@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 12:03:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/08 21:32:33 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/09 17:56:26 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void parser_check_asterisk(token_t *token)
     i = 0;
     while ((de = readdir(dr)) != NULL)
     {
-        if (is_match(de->d_name, token->value))
+        if (is_match(de->d_name, token->value) && de->d_name[0] != '.')
         {
             data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, de->d_name, -1);
             i++;

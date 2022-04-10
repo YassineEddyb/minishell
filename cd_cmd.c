@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 09:23:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/02 13:07:41 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/10 00:39:16 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,18 @@ int look_for_env_index(char **env, char *start)
 
 void cd_cmd(char **args)
 {
-	int index;
+	char buff[100];
+	int old_pwd_index;
+	int pwd_index;
+	char *pwd;
 
-	index = look_for_env_index(data.env, "PWD=");
-	printf ("%d\n", index);
-    char buff[100];
-    data.env[index] = ft_strjoin("PWD=", getcwd(buff, 100));
-    chdir(args[1]);
+	pwd = args[1];
+	if (!pwd)
+		pwd = ft_strdup(data.env[look_for_env_index(data.env, "HOME=")] + 5);
+
+	old_pwd_index = look_for_env_index(data.env, "OLDPWD=");
+    data.env[old_pwd_index] = ft_strjoin("OLDPWD=", getcwd(buff, 100));
+    chdir(pwd);
+	pwd_index = look_for_env_index(data.env, "PWD=");
+    data.env[pwd_index] = ft_strjoin("PWD=", getcwd(buff, 100));
 }

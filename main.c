@@ -2,14 +2,35 @@
 #include <stdio.h>
 #include <dirent.h>
 
+int is_match(char *str, char *match)
+{
+    int i;
+    int j;
+
+    i = j = 0;
+    while(str[i] && match[j])
+    {
+        if (str[i] == match[j])
+        {
+            i++;
+            j++;
+        }
+        if (match[j] == '*')
+        {
+            while(str[i] && match[j + 1] != str[i])
+                i++;
+            j++;
+        }
+        else if (str[i] != match[j])
+            break ;
+    }
+    if (!str[i] && !match[j])
+        return (1);
+    else
+        return (0);
+}
+
 int main(void)
 {
-	struct dirent *de;
-
-	DIR *dr = opendir(".");
-	while ((de = readdir(dr)) != NULL)
-			printf("%s\n", de->d_name);
-
-	closedir(dr);	
-	return 0;
+	printf("%d\n", is_match("efile", "*e"));
 }

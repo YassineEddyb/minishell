@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:57:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/06 02:14:27 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/10 00:10:49 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int simlify_newline(char **args)
 	int x;
 	i = 0;
 	x = 1;
+	if (ft_strlen(args[1]) == 1 && args[1][0] == '-') 
+		return (x + 1);
 	while(args[i])
 	{
 		if (args[i][0] == '-')

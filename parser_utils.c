@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/08 23:01:25 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/09 17:22:12 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void clean_data()
 
 int starts_with(char *str, char c)
 {
-	if (!str)
+	if (!str || !str[0])
 		return (1);
 	if (str[0] == c)
 		return (1);

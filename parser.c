@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/08 23:14:24 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/10 17:45:13 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,25 @@ void parser_handle_dollar_sign(lexer_t *lexer, token_t *token)
 			data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, getenv(tok.value), -1);
 	}
 	else
+    {
+        data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str, ft_strdup("$"), -1);
 		parser_parse(&tok, lexer);
+    }
 }
 
 void parser_parse(token_t *token, lexer_t *lexer)
 {
     char *str;
 
-    str = data.cmds[data.index].str;
+    str =  data.cmds[data.index].str;
     if (token->type == TOKEN_WORD)
         parser_handle_word(token);
     else if (token->type == TOKEN_DOLLAR_SIGN)
 		parser_handle_dollar_sign(lexer, token);
     else if (token->type == TOKEN_STRING_SINGLE_QUOTES)
-        str = join_with_sep(str, token->value, -1);
+        data.cmds[data.index].str = join_with_sep(str, token->value, -1);
     else if (token->type == TOKEN_STRING_DOUBLE_QUOTES)
-        str = join_with_sep(str, parser_handle_string(token), -1);
+        data.cmds[data.index].str = join_with_sep(str, parser_handle_string(token), -1);
     else if (token->type == TOKEN_PARENTHESES)
         data.cmds[data.index].str = join_with_sep(ft_strdup("./minishell"), token->value, -1);
     else if (token->type == TOKEN_LESS_THAN)
@@ -70,6 +73,8 @@ void parser_parse(token_t *token, lexer_t *lexer)
         data.append = 1;
         data.cmds[data.index].output = parser_expect(lexer, token, TOKEN_WORD).value;
     }
+    else if (token->type == TOKEN_END)
+        return ;
     else
         parser_set_and_increment(token);
 }
