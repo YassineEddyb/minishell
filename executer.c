@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/02 19:46:20 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/11 01:31:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ void    dup_all(int i)
     }
 }
 
-void handle_sigint(int sig)
-{
-    data.exit_code = 130;
-    // exit(ERROR);
-}
+// void handle_sigint(int sig)
+// {
+//     data.exit_code = 130;
+//     // exit(ERROR);
+// }
 
 int is_builtin(int i)
 {

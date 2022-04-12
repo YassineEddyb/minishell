@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/08 23:12:15 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/12 01:06:36 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,19 +117,20 @@ void	parser(char *str);
 void	parser_parse(token_t *token, lexer_t *lexer);
 char	*join_with_sep(char *s1, char *s2, char sep);
 int		get_num_of_cmds(char *str);
-int		get_index(char *s, char c);
 void	get_path_and_args();
-void	free_arr(char **arr);
 void	clean_data();
-int		starts_with(char *str, char c);
-token_t	parser_expect(lexer_t *lexer, token_t *token, int token_type);
+token_t	parser_expect(lexer_t *lexer, int token_type);
 char	*parser_handle_string(token_t *token);
-void	parser_set_and_increment(token_t *token);
+void	parser_parse_2(token_t *token, lexer_t *lexer);
 void	parser_handle_word(token_t *token);
-void	parser_handle_append_redirect(token_t *token, lexer_t *lexer);
+void	parser_handle_append_redirect(lexer_t *lexer);
 void	parser_error(char *value);
 int		parser_expect_new_line(int n);
 
+// minishell lib
+void	free_arr(char **arr);
+int		get_index(char *s, char c);
+int		starts_with(char *str, char c);
 
 // executer
 void	execute();

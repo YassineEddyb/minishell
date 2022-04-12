@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 09:23:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/10 00:39:16 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/11 01:33:31 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int look_for_env_index(char **env, char *start)
 			return (i);
 		i++;
 	}
-	if (!env[i])
-		return (-1);
+	return (-1);
 }
 
 void cd_cmd(char **args)

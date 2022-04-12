@@ -1,4 +1,4 @@
-SRC = minishell.c\
+SRC = minishell.c minishell_lib.c\
 	lexer.c lexer_helpers.c lexer_inits.c\
 	parser.c parser_utils.c parse_path_and_args.c parser_helpers.c parser_string.c parser_bonus.c\
 	executer.c executer_utils.c heredoc.c executer_bnous.c
@@ -8,7 +8,7 @@ CMDS = echo_cmd.c cd_cmd.c
 GNL = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 LIBFT = libft/libft.a
 READLINE = -L readline/lib -I readline/include
-GFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
 GREEN=\033[0;32m
 

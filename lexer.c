@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/10 18:03:57 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/11 01:22:48 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static token_t	lexer_get_string(lexer_t *lexer, char c, int token_type)
 {
 	int		i;
 	char	*val;
-	token_t	token;
 
 	lexer_next_char(lexer);
 	val = malloc((lexer_strlen(lexer, c) + 1) * sizeof(char));

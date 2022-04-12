@@ -6,13 +6,13 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 12:32:47 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/08 23:01:51 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/11 01:17:06 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void    check_for_path(char **arr, char *command, int i)
+static void	check_for_path(char **arr, char *command, int i)
 {
 	int		j;
 	int		a;
@@ -35,13 +35,13 @@ static void    check_for_path(char **arr, char *command, int i)
 	}
 }
 
-static void    get_path()
+static void	get_path(void)
 {
 	int		i;
 	char	*command;
-    char    **arr;
+	char	**arr;
 
-    arr = ft_split(getenv("PATH"), ':');
+	arr = ft_split(getenv("PATH"), ':');
 	i = 0;
 	while (i < data.num_of_cmds)
 	{
@@ -54,24 +54,24 @@ static void    get_path()
 	free_arr(arr);
 }
 
-static void get_args()
+static void	get_args(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < data.num_of_cmds)
+	while (i < data.num_of_cmds)
 	{
 		if (!data.cmds[i].path)
-        	data.cmds[i].args = ft_split(data.cmds[i].str, -1);
-        i++;
+			data.cmds[i].args = ft_split(data.cmds[i].str, -1);
+		i++;
 	}
 }
 
-void get_path_and_args()
+void	get_path_and_args(void)
 {
 	if (!data.err)
 	{
-    	get_args();
-    	get_path();
+		get_args();
+		get_path();
 	}
 }
