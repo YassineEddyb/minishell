@@ -6,11 +6,19 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 01:08:00 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/11 01:09:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/14 03:28:51 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int get_arr_size(char **arr)
+{
+    int i = 0;
+    while(arr[i])
+        i++;
+    return (i);
+}
 
 int	get_index(char *s, char c)
 {

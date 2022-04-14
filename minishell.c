@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/10 00:42:03 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/04/14 03:24:31 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main (int ac , char **av, char **env)
 			str = readline("\033[0;32mminishell:$ \x1B[0m");
 			if (!str)
 				exit(0);
-			else
+			if (str[0])
 			{
 				add_history(str);
 				parser(str);
