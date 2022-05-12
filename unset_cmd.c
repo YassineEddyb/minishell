@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 01:49:53 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/14 03:41:38 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/12 17:59:03 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,22 @@ void unset_cmd(char **args)
     if (args[1])
     {
         printf("UNSETTTT\n");
+        // while(data.env[i])
+        // {
+        //     printf("%s\n", data.env[i]);
+        //     i++;
+        // }
         while(args[j])
         {
             new_env = malloc((get_arr_size(data.env) + 1) * sizeof(char *));
             i = 0;
             while(data.env[i])
             {
-                if (!ft_strncmp(data.env[i], args[j], ft_strlen(args[j])) && data.env[i][ft_strlen(args[j])] == '=')
+                if (!ft_strncmp(data.env[i], args[j], ft_strlen(args[j]))
+                        && (data.env[i][ft_strlen(args[j])] == '=' || data.env[i][ft_strlen(args[j])] == '\0'))
                     i++;
-                new_env[k++] = ft_strdup(data.env[i]);
+                if (data.env[i])
+                    new_env[k++] = ft_strdup(data.env[i]);
                 i++;
             }
             new_env[k] = NULL;

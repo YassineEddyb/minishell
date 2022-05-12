@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/14 03:44:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/12 14:24:21 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,26 +80,45 @@ int is_builtin(int i)
 {
     if (!ft_strncmp(data.cmds[i].args[0], "echo", 5))
         echo_cmd(data.cmds[i].args);
-    if (!ft_strncmp(data.cmds[i].args[0], "pwd", 3))
+    else if (!ft_strncmp(data.cmds[i].args[0], "pwd", 3))
         pwd_cmd();
 	return 0;
+}
+
+int is_main_builtin(int i)
+{
+    if (!ft_strncmp(data.cmds[i].args[0], "cd", 3))
+    {
+        cd_cmd(data.cmds[i].args);
+        return (1);
+    }
+    else if (!ft_strncmp(data.cmds[i].args[0], "export", 6))
+    {
+        export_cmd(data.cmds[i].args);
+        return (1);
+    }
+    else if (!ft_strncmp(data.cmds[i].args[0], "unset", 5))
+    {
+        unset_cmd(data.cmds[i].args);
+        return (1);
+    }
+
+    return (0);
 }
 
 void    execute_commands()
 {
     int     i;
+    int builtin;
 
     i = 0;
+    builtin = 0;
     while (i < data.num_of_cmds)
     {
+        if (is_main_builtin(i))
+            builtin = 1;
         data.cmds[i].pid = fork();
-        if (!ft_strncmp(data.cmds[i].args[0], "cd", 3))
-            cd_cmd(data.cmds[i].args);
-        else if (!ft_strncmp(data.cmds[i].args[0], "export", 6))
-            export_cmd(data.cmds[i].args);
-        else if (!ft_strncmp(data.cmds[i].args[0], "unset", 5))
-            unset_cmd(data.cmds[i].args);
-        else if (data.cmds[i].pid == 0)
+        if (i < data.num_of_cmds && data.cmds[i].pid == 0 && !builtin)
         {
             // sigaction(SIGINT, &sa, NULL);
             close_unused_pipes(i);
@@ -112,7 +131,7 @@ void    execute_commands()
 			}
             exit(ERROR);
         }
-        if (!handle_and_and_or(i))
+        if (i < data.num_of_cmds && !handle_and_and_or(i))
             break ;
         i++;
     }
