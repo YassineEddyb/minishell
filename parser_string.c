@@ -6,14 +6,16 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 13:11:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/26 21:50:28 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_stop_charaters(char c) {
-	if (c >= 32 && c <= 47)
+int is_stop_charaters(char c, int quote) {
+	if (quote && (c == SINGLE_QUOTES || c == DOUBLE_QUOTES))
+		return (0);
+	if ((c >= 32 && c <= 47) || c == '\0')
 		return (1);
 	return (0);
 }
@@ -25,7 +27,7 @@ int	parser_count_word(lexer_t *lexer)
 
 	i = lexer->index;
 	len = 0;
-	while (!is_stop_charaters(lexer->content[i]) && lexer->content[i] != '\0')
+	while (!is_stop_charaters(lexer->content[i], 0) && lexer->content[i] != '\0')
 	{
 		i++;
 		len++;
@@ -33,11 +35,34 @@ int	parser_count_word(lexer_t *lexer)
 	return (len);
 }
 
+static char	*parser_collect_word(lexer_t *lexer, char c)
+{
+	int		i;
+	char	*val;
+
+	val = malloc((lexer_strlen(lexer, c) + 1) * sizeof(char));
+	i = 0;
+	while (lexer->c != c && lexer->c != SINGLE_QUOTES && lexer->c != '\0')
+	{
+		if (lexer->c == DOUBLE_QUOTES)
+			lexer_next_char(lexer);
+		else
+		{
+			val[i] = lexer->c;
+			lexer_next_char(lexer);
+			i++;
+		}
+	}
+	val[i] = '\0';
+	return (val);
+}
+
 static char	*parser_collect_string(lexer_t *lexer, char c)
 {
 	int		i;
 	char	*val;
 
+	lexer_next_char(lexer);
 	val = malloc((lexer_strlen(lexer, c) + 1) * sizeof(char));
 	i = 0;
 	while (lexer->c != c && lexer->c != '\0')
@@ -46,6 +71,7 @@ static char	*parser_collect_string(lexer_t *lexer, char c)
 		lexer_next_char(lexer);
 		i++;
 	}
+	lexer_next_char(lexer);
 	val[i] = '\0';
 	return (val);
 }
@@ -58,7 +84,7 @@ static char *parser_collect_dollar_sign_string(lexer_t *lexer)
 	i = 0;
 	val = malloc((parser_count_word(lexer) + 1) * sizeof(char));
 
-	while (!is_stop_charaters(lexer->c) && lexer->c != '\0')
+	while (!is_stop_charaters(lexer->c, 0) && lexer->c != '\0')
 	{
 		val[i] = lexer->c;
 		lexer_next_char(lexer);
@@ -78,8 +104,10 @@ char	*parser_handle_string(char *value)
 	while (lexer->c != '\0')
 	{
 		if (lexer->c != DOLLAR_SIGN)
-			str = ft_strjoin(str, parser_collect_string(lexer, DOLLAR_SIGN));
-		else if (lexer->c == DOLLAR_SIGN && is_stop_charaters(lexer->content[lexer->index + 1]))
+			str = ft_strjoin(str, parser_collect_word(lexer, DOLLAR_SIGN));
+		if (lexer->c == SINGLE_QUOTES)
+			str = ft_strjoin(str, parser_collect_string(lexer, SINGLE_QUOTES));
+		else if (lexer->c == DOLLAR_SIGN && is_stop_charaters(lexer->content[lexer->index + 1], 1))
 		{
 			str = ft_strjoin(str, ft_strdup("$"));
 			lexer_next_char(lexer);

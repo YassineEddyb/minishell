@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:25:37 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/25 18:02:12 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/26 20:32:59 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ void	wait_all_child_processors()
 		if (WIFEXITED(status))
 			data.exit_code = WEXITSTATUS(status);
 		else 
-		{
 			data.exit_code = 130;
-		}
 		i++;
 	}
 }
