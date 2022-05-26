@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:54:57 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/10 18:10:51 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/24 22:05:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,21 @@ int	lexer_strlen(lexer_t *lexer, char c)
 	i = lexer->index;
 	len = 0;
 	while (lexer->content[i] != c && lexer->content[i] != '\0')
+	{
+		i++;
+		len++;
+	}
+	return (len);
+}
+
+int	lexer_count_word(lexer_t *lexer)
+{
+	int	i;
+	int	len;
+
+	i = lexer->index;
+	len = 0;
+	while (!is_special_character(lexer->content[i]) && lexer->content[i] != SPACE && lexer->content[i] != '\0')
 	{
 		i++;
 		len++;
@@ -56,8 +71,7 @@ char	*lexer_get_char_as_string(char c)
 
 int	is_special_character(char c)
 {
-	if (c == DOUBLE_QUOTES || c == SINGLE_QUOTES
-		|| c == DOLLAR_SIGN || c == PIPE
+	if (c == DOUBLE_QUOTES || c == SINGLE_QUOTES || c == PIPE
 		|| c == OLD_THAN || c == LESS_THAN
 		|| c == AND || c == LEFT_PARENTHESES
 		|| c == RIGHT_PARENTHESES || c == NEW_LINE)

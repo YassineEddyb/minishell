@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/11 01:34:25 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/25 17:56:37 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,37 @@ token_t	parser_expect(lexer_t *lexer, int token_type)
 	token_t	new_token;
 
 	new_token = lexer_get_next_token(lexer);
-	if (new_token.type == token_type || new_token.type == TOKEN_DOLLAR_SIGN)
+	if (new_token.type == token_type)
 		return (new_token);
 	else
 		parser_error(new_token.value);
 	return (new_token);
 }
 
-void	parser_handle_dollar_sign(lexer_t *lexer)
-{
-	token_t	tok;
+// void	parser_handle_dollar_sign(lexer_t *lexer)
+// {
+// 	token_t	tok;
 
-	tok = lexer_get_next_token(lexer);
-	if (tok.type == TOKEN_WORD)
-	{
-		if (starts_with(tok.value, QUESTION_MARK))
-		{
-			tok.value = ft_strjoin("$", tok.value);
-			data.cmds[data.index].str = join_with_sep(
-					data.cmds[data.index].str, parser_handle_string(&tok), -1);
-		}
-		else
-			data.cmds[data.index].str = join_with_sep(
-					data.cmds[data.index].str, getenv(tok.value), -1);
-	}
-	else
-	{
-		data.cmds[data.index].str = join_with_sep(
-				data.cmds[data.index].str, ft_strdup("$"), -1);
-		parser_parse(&tok, lexer);
-	}
-}
+// 	tok = lexer_get_next_token(lexer);
+// 	if (tok.type == TOKEN_WORD)
+// 	{
+// 		if (starts_with(tok.value, QUESTION_MARK))
+// 		{
+// 			tok.value = ft_strjoin("$", tok.value);
+// 			data.cmds[data.index].str = join_with_sep(
+// 					data.cmds[data.index].str, parser_handle_string(&tok), -1);
+// 		}
+// 		else
+// 			data.cmds[data.index].str = join_with_sep(
+// 					data.cmds[data.index].str, getenv(tok.value), -1);
+// 	}
+// 	else
+// 	{
+// 		data.cmds[data.index].str = join_with_sep(
+// 				data.cmds[data.index].str, ft_strdup("$"), -1);
+// 		parser_parse(&tok, lexer);
+// 	}
+// }
 
 void	parser_parse(token_t *token, lexer_t *lexer)
 {
@@ -56,13 +56,11 @@ void	parser_parse(token_t *token, lexer_t *lexer)
 	str = data.cmds[data.index].str;
 	if (token->type == TOKEN_WORD)
 		parser_handle_word(token);
-	else if (token->type == TOKEN_DOLLAR_SIGN)
-		parser_handle_dollar_sign(lexer);
 	else if (token->type == TOKEN_STRING_SINGLE_QUOTES)
 		data.cmds[data.index].str = join_with_sep(str, token->value, -1);
 	else if (token->type == TOKEN_STRING_DOUBLE_QUOTES)
 		data.cmds[data.index].str = join_with_sep(str,
-				parser_handle_string(token), -1);
+			parser_handle_string(token->value), -1);
 	else if (token->type == TOKEN_PARENTHESES)
 		data.cmds[data.index].str
 			= join_with_sep(ft_strdup("./minishell"), token->value, -1);
@@ -110,6 +108,7 @@ void	parser(char *str)
 	free(token.value);
 	while (token.type)
 	{
+		// printf("%s\n", token.value);
 		token = lexer_get_next_token(lexer);
 		if (parser_expect_new_line(temp_token.type) && token.type == TOKEN_END)
 		{

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 12:03:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/12 01:15:48 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/26 13:53:56 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,18 @@
 
 int	is_match(char *str, char *match)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i] && match[j])
-	{
-		if (str[i] == match[j])
-		{
-			i++;
-			j++;
-		}
-		if (match[j] == ASTERISK)
-		{
-			while (str[i] && match[j + 1] != str[i])
-				i++;
-			j++;
-		}
-		else if (str[i] != match[j])
-			break ;
-	}
-	if (!str[i] && !match[j])
+	if (!*str && !*match)
 		return (1);
-	else
+	if (!*str && *match == ASTERISK)
+		return (is_match(str, match + 1));
+	if (!*str || !*match)
 		return (0);
+	if (*str == *match)
+		return (is_match(str + 1, match + 1));
+	if (*match == ASTERISK)
+		return (is_match(str + 1, match) || 
+			is_match(str, match + 1));
+	return (0);
 }
 
 void	parser_check_asterisk(token_t *token)

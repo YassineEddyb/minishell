@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/11 01:27:18 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/25 17:57:51 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ void	parser_parse_2(token_t *token, lexer_t *lexer)
 {
 	if (token->type == TOKEN_LESS_THAN)
 		data.input = parser_expect(lexer, TOKEN_WORD).value;
-	else if (token->type == TOKEN_OLD_THAN)
+	else if (token->type == TOKEN_OLD_THAN) {
 		data.cmds[data.index].output = parser_expect(
 				lexer, TOKEN_WORD).value;
+		open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
+	}
 	else if (token->type == TOKEN_LESS_LESS)
 		parser_handle_append_redirect(lexer);
 	else if (token->type == TOKEN_GREAT_GREAT)
@@ -44,13 +46,14 @@ void	parser_handle_word(token_t *token)
 		parser_check_asterisk(token);
 	else
 		data.cmds[data.index].str = join_with_sep(
-				data.cmds[data.index].str, token->value, -1);
+				data.cmds[data.index].str, parser_handle_string(token->value), -1);
 }
 
 void	parser_handle_append_redirect(lexer_t *lexer)
 {
 	data.heredoc = 1;
 	data.limit = parser_expect(lexer, TOKEN_WORD).value;
+	printf("%s\n", data.limit);
 	data.input = NULL;
 	if (data.cmds[0].str == NULL)
 	{

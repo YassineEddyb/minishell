@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/12 14:24:21 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/25 17:46:21 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void    dup_all(int i)
     }
     if (data.cmds[i].output)
     {
-        if (data.append || data.heredoc)
+        if (data.append)
             fd = open(data.cmds[i].output, O_RDWR | O_CREAT | O_APPEND, 0664);
         else
             fd = open(data.cmds[i].output, O_CREAT | O_WRONLY | O_TRUNC, 0664);
@@ -106,11 +106,11 @@ int is_main_builtin(int i)
     return (0);
 }
 
+
 void    execute_commands()
 {
     int     i;
     int builtin;
-
     i = 0;
     builtin = 0;
     while (i < data.num_of_cmds)
@@ -120,7 +120,6 @@ void    execute_commands()
         data.cmds[i].pid = fork();
         if (i < data.num_of_cmds && data.cmds[i].pid == 0 && !builtin)
         {
-            // sigaction(SIGINT, &sa, NULL);
             close_unused_pipes(i);
             dup_all(i);
             check_is_path(i);

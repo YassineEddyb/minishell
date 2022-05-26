@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/12 17:53:06 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/25 17:56:02 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct token_s
 		TOKEN_STRING_DOUBLE_QUOTES,
 		TOKEN_STRING_SINGLE_QUOTES,
 		TOKEN_PIPE,
-		TOKEN_DOLLAR_SIGN,
 		TOKEN_AND_AND,
 		TOKEN_PIPE_PIPE,
 		TOKEN_PARENTHESES,
@@ -111,6 +110,7 @@ char	*lexer_get_char_as_string(char c);
 int		is_special_character(char c);
 lexer_t *init_lexer(char *str);
 token_t lexer_get_next_token(lexer_t *lexer);
+int		lexer_count_word(lexer_t *lexer);
 
 // parser
 void	parser(char *str);
@@ -120,13 +120,13 @@ int		get_num_of_cmds(char *str);
 void	get_path_and_args();
 void	clean_data();
 token_t	parser_expect(lexer_t *lexer, int token_type);
-char	*parser_handle_string(token_t *token);
+char	*parser_handle_string(char *value);
 void	parser_parse_2(token_t *token, lexer_t *lexer);
 void	parser_handle_word(token_t *token);
 void	parser_handle_append_redirect(lexer_t *lexer);
 void	parser_error(char *value);
 int		parser_expect_new_line(int n);
-char **dup_arr(char **arr);
+char	**dup_arr(char **arr);
 
 // minishell lib
 void	free_arr(char **arr);
