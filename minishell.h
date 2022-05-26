@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/25 17:56:02 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/26 14:55:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,12 +142,17 @@ void	close_unused_pipes(int process_index);
 void	close_all_pipes();
 void	wait_all_child_processors();
 void	check_is_path(int i);
+void	ft_free_2d_table(char **table);
+int		table_len(char **tab);
+int		ft_strlen_till_c(char *s, char c);
 
 // build in commands
-void echo_cmd(char **args);
-void cd_cmd(char **args);
-void pwd_cmd(void);
-void export_cmd(char **args);
+void 	echo_cmd(char **args);
+void 	cd_cmd(char **args);
+void 	pwd_cmd(void);
+void 	export_cmd(char **args);
+void	env_cmd();
+void	exit_cmd(char **args);
 
 // bonus functions
 int handle_and_and_or(int process_index);

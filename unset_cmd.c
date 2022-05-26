@@ -5,61 +5,85 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 01:49:53 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/12 17:59:03 by yed-dyb          ###   ########.fr       */
+/*   Created: 2022/05/17 15:40:24 by aaizza            #+#    #+#             */
+/*   Updated: 2022/05/26 15:04:17 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-char **dup_arr(char **arr)
+int	ft_strlen2(char *s)
 {
-    int i = 0;
-    char **new_arr;
-    new_arr = malloc((get_arr_size(arr) + 1) * sizeof(char *));
-    while(arr[i])
-    {
-        new_arr[i] = ft_strdup(arr[i]);
-        i++;
-    }
-    new_arr[i] = NULL;
-    return (new_arr);
+	int	i;
+
+	if (!s) 
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-void unset_cmd(char **args)
+int	ft_strlen_till_c(char *s, char c)
 {
-    int i = 0;
-    int j = 1;
-    int k = 0;
-    int exist = 0;
-    char **new_env;
+	int	i;
 
-    if (args[1])
-    {
-        printf("UNSETTTT\n");
-        // while(data.env[i])
-        // {
-        //     printf("%s\n", data.env[i]);
-        //     i++;
-        // }
-        while(args[j])
-        {
-            new_env = malloc((get_arr_size(data.env) + 1) * sizeof(char *));
-            i = 0;
-            while(data.env[i])
-            {
-                if (!ft_strncmp(data.env[i], args[j], ft_strlen(args[j]))
-                        && (data.env[i][ft_strlen(args[j])] == '=' || data.env[i][ft_strlen(args[j])] == '\0'))
-                    i++;
-                if (data.env[i])
-                    new_env[k++] = ft_strdup(data.env[i]);
-                i++;
-            }
-            new_env[k] = NULL;
-            k = 0;
-            data.env = dup_arr(new_env);
-            free_arr(new_env);
-            j++;
-        }
-    }
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	return (i);
+}
+
+char	**help_unset(int i)
+{
+	int	j;
+	char	**tmp;
+
+	j = 0;
+	tmp = malloc(sizeof(char *) * table_len(data.env) + 1);
+	while (j < i)
+	{
+		tmp[j] = ft_strdup(data.env[j]);
+		j++;
+	}
+	while (data.env[j + 1])
+	{
+		tmp[j] = ft_strdup(data.env[j + 1]);
+		j++;
+	}
+	tmp[j] = NULL;
+	return (tmp);
+}
+
+void	unset_cmd(char **args)
+{
+	char	*s1;
+	char	**tmp;
+	int	i;
+	int	j;
+
+	if (args[1])
+	{
+		i = 1;
+		while (args[i])
+		{
+			printf("%s\n", args[i]);
+			j = 0;
+			while (data.env[j])
+			{
+				s1 = ft_substr(data.env[j], 0, ft_strlen_till_c(data.env[j], '='));
+				if (ft_strlen2(args[i]) == ft_strlen2(s1))
+				{
+					if(ft_strncmp(args[i], s1, ft_strlen2(s1)) == 0)
+					{
+						tmp = help_unset(j);
+						data.env = tmp;
+						// ft_free_2d_table(tmp);
+					}
+				}
+				j++;
+			}
+			i++;
+		}
+	}
 }

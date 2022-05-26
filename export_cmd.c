@@ -5,55 +5,115 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 01:27:39 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/14 03:44:09 by yed-dyb          ###   ########.fr       */
+/*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
+/*   Updated: 2022/05/26 15:07:25 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	ft_free_2d_table(char **table)
+{
+	int	i;
 
+	if (table != NULL)
+	{
+		i = -1;
+		while (table[++i])
+			free(table[i]);
+		free(table);
+	}
+}
+
+int	table_len(char **tab)
+{
+	int	i;
+	
+	if (!tab)
+		return (0);
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+char	**strdup_table(char **env)
+{
+	int		i;
+	char	**table;
+
+	if (env == NULL)
+		return (NULL);
+	i = table_len(env);
+	table = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!table)
+		return (NULL);
+	i = -1;
+	while (env[++i])
+	{
+		table[i] = ft_strdup(env[i]);
+		if (!table[i])
+			return (NULL);
+	}
+	table[i] = NULL;
+	return (table);
+}
 
 void export_cmd(char **args)
 {
-    int i = 0;
+    int i;
     int j;
-    int quote;
-    char **tmp;
+    int x;
+    char    **new_env;
+	char	**t;
+
+
+    i = 0;
     if (!args[1])
     {
-        while(data.env[i])
+        while (data.env[i])
         {
             printf("declare -x ");
             j = 0;
-            quote = 0;
-            while(data.env[i][j])
+            x = 0;
+            while (data.env[i][j])
             {
-                printf("%c", data.env[i][j]);
-                if (data.env[i][j] == '=' && quote == 0)
+                if (data.env[i][j] == '=')
                 {
-                    printf("\"");
-                    quote = 1;
+                    printf("=\"");
+                    x++;
+                    j++;
                 }
-                if (quote == 1 && !data.env[i][j + 1])
-                    printf("\"");
+                printf("%c", data.env[i][j]);
                 j++;
             }
+            if (x != 0)
+                printf("\"");
             printf("\n");
             i++;
         }
-    } else
-    {
-        unset_cmd(args);
-        tmp = malloc(sizeof (char *) * (get_arr_size(data.env) + 1 + get_arr_size(args)));
-        j = -1;
-        while(data.env[++j])
-            tmp[j] = ft_strdup(data.env[j]);
-        i = 0;
-        while(args[++i])
-            tmp[j++] = ft_strdup(args[i]);
-        tmp[j] = NULL;
-    }
-    data.env = tmp;
-    
+	}
+	else
+	{
+		t = strdup_table(args);
+		i = table_len(data.env);
+		j = table_len(args) - 1;
+		new_env = malloc(sizeof(char *) * (i + j + 1));
+		x = 0;
+		while(x < i)
+		{
+			new_env[x] = ft_strdup(data.env[x]);
+			x++;
+		}
+		i = 1;
+		while(i < j + 1)
+		{
+			t[i] = ft_substr(args[i], 0, ft_strlen_till_c(args[i], '='));
+			unset_cmd(t);
+			new_env[x++] = ft_strdup(args[i++]);
+		}
+		new_env[x] = NULL;
+		data.env = strdup_table(new_env);
+		ft_free_2d_table(new_env);
+	}
 }
