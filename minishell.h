@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 18:16:51 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 14:47:50 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ typedef struct token_s
 		TOKEN_LESS_THAN,
 		TOKEN_LESS_LESS,
 		TOKEN_GREAT_GREAT,
-		TOKEN_STRING_DOUBLE_QUOTES,
-		TOKEN_STRING_SINGLE_QUOTES,
 		TOKEN_PIPE,
 		TOKEN_AND_AND,
 		TOKEN_PIPE_PIPE,
@@ -120,10 +118,10 @@ int		get_num_of_cmds(char *str);
 void	get_path_and_args();
 void	clean_data();
 token_t	parser_expect(lexer_t *lexer, int token_type);
-char	*parser_handle_string(char *value);
-void	parser_parse_2(token_t *token, lexer_t *lexer);
+char	*parser_handle_dollar_sign(char *value, int quote);
+void	parser_redirect(token_t *token, lexer_t *lexer);
 void	parser_handle_word(token_t *token);
-void	parser_handle_append_redirect(lexer_t *lexer);
+void	parser_handle_heredoc(lexer_t *lexer);
 void	parser_error(char *value);
 int		parser_expect_new_line(int n);
 char	**dup_arr(char **arr);

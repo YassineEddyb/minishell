@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:24 by aaizza            #+#    #+#             */
-/*   Updated: 2022/05/26 15:04:17 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 18:59:42 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	ft_strlen_till_c(char *s, char c)
 	int	i;
 
 	i = 0;
+	if (!s) 
+		return (0);
 	while (s[i] && s[i] != c)
 		i++;
 	return (i);
@@ -67,7 +69,6 @@ void	unset_cmd(char **args)
 		i = 1;
 		while (args[i])
 		{
-			printf("%s\n", args[i]);
 			j = 0;
 			while (data.env[j])
 			{

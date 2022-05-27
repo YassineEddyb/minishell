@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 14:03:11 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 18:50:13 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ int is_builtin(int i)
 {
     if (!ft_strncmp(data.cmds[i].args[0], "echo", 5))
         echo_cmd(data.cmds[i].args);
-    else if (!ft_strncmp(data.cmds[i].args[0], "pwd", 3))
+    else if (!ft_strncmp(data.cmds[i].args[0], "pwd", 4))
         pwd_cmd();
-    else if (!ft_strncmp(data.cmds[i].args[0], "env", 3))
+    else if (!ft_strncmp(data.cmds[i].args[0], "env", 4))
         env_cmd();
 	return 0;
 }
@@ -94,17 +94,17 @@ int is_main_builtin(int i)
         cd_cmd(data.cmds[i].args);
         return (1);
     }
-    else if (!ft_strncmp(data.cmds[i].args[0], "export", 6))
+    else if (!ft_strncmp(data.cmds[i].args[0], "export", 7))
     {
         export_cmd(data.cmds[i].args);
         return (1);
     }
-    else if (!ft_strncmp(data.cmds[i].args[0], "unset", 5))
+    else if (!ft_strncmp(data.cmds[i].args[0], "unset", 6))
     {
         unset_cmd(data.cmds[i].args);
         return (1);
     }
-    else if (!ft_strncmp(data.cmds[i].args[0], "exit", 4))
+    else if (!ft_strncmp(data.cmds[i].args[0], "exit", 5))
     {
         exit_cmd(data.cmds[i].args);
         return (1);

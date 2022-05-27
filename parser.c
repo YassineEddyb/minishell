@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 18:16:20 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 13:45:44 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,13 @@ void	parser_parse(token_t *token, lexer_t *lexer)
 	str = data.cmds[data.index].str;
 	if (token->type == TOKEN_WORD)
 		parser_handle_word(token);
-	else if (token->type == TOKEN_STRING_SINGLE_QUOTES)
-		data.cmds[data.index].str = join_with_sep(str, token->value, -1);
-	else if (token->type == TOKEN_STRING_DOUBLE_QUOTES)
-		data.cmds[data.index].str = join_with_sep(str,
-			parser_handle_string(token->value), -1);
 	else if (token->type == TOKEN_PARENTHESES)
 		data.cmds[data.index].str
 			= join_with_sep(ft_strdup("./minishell"), token->value, -1);
 	else if (token->type == TOKEN_END)
 		return ;
 	else
-		parser_parse_2(token, lexer);
+		parser_redirect(token, lexer);
 }
 
 void	init_data(char *str)
@@ -88,7 +83,7 @@ void	parser(char *str)
 		token = lexer_get_next_token(lexer);
 		if (parser_expect_new_line(temp_token.type) && token.type == TOKEN_END)
 		{
-			parser_error("NEW_LINE");
+			parser_error(token.value);
 			break ;
 		}
 		parser_parse(&token, lexer);

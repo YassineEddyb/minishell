@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 15:11:03 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 18:56:50 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	get_num_of_cmds(char *str)
 {
 	int	i;
 	int	len;
+	char quote;
 
 	i = 0;
 	len = 1;
@@ -38,7 +39,13 @@ int	get_num_of_cmds(char *str)
 	{
 		if (str[i] == LEFT_PARENTHESES)
 		{
-			while (str[i] != RIGHT_PARENTHESES)
+			while (str[i] != RIGHT_PARENTHESES && str[i] != '\0')
+				i++;
+		}
+		if (str[i] == SINGLE_QUOTES || str[i] == DOUBLE_QUOTES)
+		{
+			quote = str[i++];
+			while (str[i] != quote && str[i] != '\0')
 				i++;
 		}
 		if ((str[i] == PIPE && str[i + 1] == PIPE)

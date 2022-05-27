@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/05/26 15:07:25 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 19:04:24 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,14 @@ void export_cmd(char **args)
 			x++;
 		}
 		i = 1;
-		while(i < j + 1)
+		while(t[i] && i < j + 1)
 		{
 			t[i] = ft_substr(args[i], 0, ft_strlen_till_c(args[i], '='));
 			unset_cmd(t);
 			new_env[x++] = ft_strdup(args[i++]);
 		}
 		new_env[x] = NULL;
-		data.env = strdup_table(new_env);
-		ft_free_2d_table(new_env);
+		data.env = new_env;
+		//ft_free_2d_table(new_env);
 	}
 }

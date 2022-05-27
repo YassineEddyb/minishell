@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:54:57 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 15:51:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 12:40:06 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,23 @@ int	lexer_count_word(lexer_t *lexer)
 {
 	int	i;
 	int	len;
+	char quote;
 
 	i = lexer->index;
 	len = 0;
 	while (!is_special_character(lexer->content[i]) && lexer->content[i] != SPACE && lexer->content[i] != '\0')
 	{
+		if (lexer->content[i] == SINGLE_QUOTES || lexer->content[i] == DOUBLE_QUOTES)
+		{
+			quote = lexer->content[i];
+			i++;
+			len++;
+			while(lexer->content[i] != quote && lexer->content[i] != '\0')
+			{
+				i++;
+				len++;
+			}
+		}
 		i++;
 		len++;
 	}

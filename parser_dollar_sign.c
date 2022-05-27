@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_string.c                                    :+:      :+:    :+:   */
+/*   parser_dollar_sign.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 21:50:28 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 14:48:29 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ int	parser_count_word(lexer_t *lexer)
 	return (len);
 }
 
-static char	*parser_collect_word(lexer_t *lexer, char c)
+static char	*parser_collect_word(lexer_t *lexer, char c, int quote)
 {
 	int		i;
 	char	*val;
 
 	val = malloc((lexer_strlen(lexer, c) + 1) * sizeof(char));
 	i = 0;
-	while (lexer->c != c && lexer->c != SINGLE_QUOTES && lexer->c != '\0')
+	while (lexer->c != c && (!quote || lexer->c != SINGLE_QUOTES) && lexer->c != '\0')
 	{
-		if (lexer->c == DOUBLE_QUOTES)
+		if (quote && lexer->c == DOUBLE_QUOTES)
 			lexer_next_char(lexer);
 		else
 		{
@@ -94,7 +94,7 @@ static char *parser_collect_dollar_sign_string(lexer_t *lexer)
 	return (val);
 }
 
-char	*parser_handle_string(char *value)
+char	*parser_handle_dollar_sign(char *value, int quote)
 {
 	char	*str;
 	lexer_t	*lexer;
@@ -104,8 +104,8 @@ char	*parser_handle_string(char *value)
 	while (lexer->c != '\0')
 	{
 		if (lexer->c != DOLLAR_SIGN)
-			str = ft_strjoin(str, parser_collect_word(lexer, DOLLAR_SIGN));
-		if (lexer->c == SINGLE_QUOTES)
+			str = ft_strjoin(str, parser_collect_word(lexer, DOLLAR_SIGN, quote));
+		if (quote && lexer->c == SINGLE_QUOTES)
 			str = ft_strjoin(str, parser_collect_string(lexer, SINGLE_QUOTES));
 		else if (lexer->c == DOLLAR_SIGN && is_stop_charaters(lexer->content[lexer->index + 1], 1))
 		{

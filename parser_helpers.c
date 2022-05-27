@@ -6,13 +6,13 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 21:18:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 14:53:06 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parser_parse_2(token_t *token, lexer_t *lexer)
+void	parser_redirect(token_t *token, lexer_t *lexer)
 {
 	if (token->type == TOKEN_LESS_THAN)
 		data.input = parser_expect(lexer, TOKEN_WORD).value;
@@ -22,7 +22,7 @@ void	parser_parse_2(token_t *token, lexer_t *lexer)
 		open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
 	}
 	else if (token->type == TOKEN_LESS_LESS)
-		parser_handle_append_redirect(lexer);
+		parser_handle_heredoc(lexer);
 	else if (token->type == TOKEN_GREAT_GREAT)
 	{
 		data.append = 1;
@@ -46,13 +46,38 @@ void	parser_handle_word(token_t *token)
 		parser_check_asterisk(token);
 	else
 		data.cmds[data.index].str = join_with_sep(
-				data.cmds[data.index].str, parser_handle_string(token->value), -1);
+				data.cmds[data.index].str, parser_handle_dollar_sign(token->value, 1), -1);
 }
 
-void	parser_handle_append_redirect(lexer_t *lexer)
+char *remove_quotes(char *str) {
+	int i = 0;
+	int j = 0;
+	int len;
+	char quote = 0;
+	char *new;
+
+	new = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+
+	while(str[i])
+	{
+		if (!quote && (str[i] == SINGLE_QUOTES || str[i] == DOUBLE_QUOTES))
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = 0;
+		else {
+			new[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+
+	return (new);
+}
+
+void	parser_handle_heredoc(lexer_t *lexer)
 {
 	data.heredoc = 1;
-	data.limit = parser_expect(lexer, TOKEN_WORD).value;
+	data.limit = remove_quotes(parser_expect(lexer, TOKEN_WORD).value);
 	printf("%s\n", data.limit);
 	data.input = NULL;
 	if (data.cmds[0].str == NULL)

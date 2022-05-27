@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:26:02 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 13:13:29 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 14:49:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void	read_form_stdout(char *limit, int fd)
 
 	write(1, "heredoc> ", 9);
 	line = get_next_line(STDIN);
-	while (ft_strncmp(limit, line, ft_strlen(limit)))
+	while (line && ft_strncmp(limit, line, ft_strlen(limit)))
 	{
 		write(1, "heredoc> ", 9);
-		line = ft_strjoin(parser_handle_string(ft_substr(line,0, ft_strlen(line) - 1)), "\n");
+		line = ft_strjoin(parser_handle_dollar_sign(ft_substr(line,0, ft_strlen(line) - 1), 0), "\n");
 		write(fd, line, ft_strlen(line));
 		free(line);
 		line = get_next_line(STDIN);

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 21:47:18 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/27 11:54:06 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ static token_t	lexer_get_word(lexer_t *lexer)
 			lexer_next_char(lexer);
 			while(lexer->c != quote && lexer->c != '\0')
 			{
-
 				val[i] = lexer->c;
 				lexer_next_char(lexer);
 				i++;
 			}
+			val[i++] = lexer->c;
+			lexer_next_char(lexer);
 		} else {
 			val[i] = lexer->c;
 			lexer_next_char(lexer);
@@ -102,12 +103,6 @@ token_t	lexer_get_next_token(lexer_t *lexer)
 	{
 		if (lexer->c == SPACE)
 			lexer_skip_spaces(lexer);
-		// if (lexer->c == DOUBLE_QUOTES)
-		// 	return (lexer_get_string(lexer, DOUBLE_QUOTES, \
-		// 		TOKEN_STRING_DOUBLE_QUOTES));
-		// if (lexer->c == SINGLE_QUOTES)
-		// 	return (lexer_get_string(lexer, SINGLE_QUOTES, \
-		// 		TOKEN_STRING_SINGLE_QUOTES));
 		if (lexer->c == LEFT_PARENTHESES)
 			return (lexer_get_string(lexer, RIGHT_PARENTHESES, \
 				TOKEN_PARENTHESES));
