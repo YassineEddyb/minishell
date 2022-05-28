@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/28 11:57:53 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/28 17:57:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	parser_redirect(token_t *token, lexer_t *lexer)
 	else if (token->type == TOKEN_OLD_THAN) {
 		data.cmds[data.index].output = parser_expect(
 				lexer, TOKEN_WORD).value;
-		open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
+		if (!data.err)
+			open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
 	}
 	else if (token->type == TOKEN_LESS_LESS)
 		parser_handle_heredoc(lexer);
@@ -85,16 +86,19 @@ void	parser_handle_heredoc(lexer_t *lexer)
 void	parser_error(char *value)
 {
 	ft_putstr_fd("minishell: syntax error near unexepcted token '", STDERR);
-	ft_putstr_fd(value, STDERR);
+	if (value[0] == '\0')
+		ft_putstr_fd("NEW_LINE", STDERR);
+	else 
+		ft_putstr_fd(value, STDERR);
 	ft_putstr_fd("'\n", STDERR);
 	data.exit_code = 258;
 	data.err = 1;
 }
 
-int	parser_expect_new_line(int n)
+int	is_commands_breaker(int n)
 {
 	if (n == TOKEN_PIPE || n == TOKEN_PIPE_PIPE
-		|| n == TOKEN_AND_AND)
+		|| n == TOKEN_AND_AND || n == TOKEN_END)
 		return (1);
 	return (0);
 }

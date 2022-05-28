@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/28 11:43:50 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/28 16:51:17 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,13 @@ static char *parser_collect_dollar_sign_string(lexer_t *lexer)
 	return (val);
 }
 
+int is_surrounded_with_qoutes(lexer_t *lexer) {
+	if (lexer->index > 0 && lexer->content[lexer->index + 1] == DOUBLE_QUOTES 
+		&& lexer->content[lexer->index - 1] == DOUBLE_QUOTES)
+		return (1);
+	return (0);
+}
+
 char	*parser_handle_dollar_sign(char *value, int quote)
 {
 	char	*str;
@@ -107,7 +114,7 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 			str = ft_strjoin(str, parser_collect_word(lexer, DOLLAR_SIGN, quote));
 		if (quote && lexer->c == SINGLE_QUOTES)
 			str = ft_strjoin(str, parser_collect_string(lexer, SINGLE_QUOTES));
-		else if (lexer->c == DOLLAR_SIGN && is_stop_charaters(lexer->content[lexer->index + 1], 1))
+		else if (lexer->c == DOLLAR_SIGN && (is_surrounded_with_qoutes(lexer) || is_stop_charaters(lexer->content[lexer->index + 1], 1)))
 		{
 			str = ft_strjoin(str, ft_strdup("$"));
 			lexer_next_char(lexer);
