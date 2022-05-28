@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 12:32:47 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/11 01:17:06 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/28 12:34:19 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,13 @@ static void	get_path(void)
 	i = 0;
 	while (i < data.num_of_cmds)
 	{
-		pipe(data.cmds[i].p);
-		command = ft_strjoin("/", data.cmds[i].args[0]);
-		check_for_path(arr, command, i);
-		free(command);
+		if (data.cmds[i].str)
+		{
+			pipe(data.cmds[i].p);
+			command = ft_strjoin("/", data.cmds[i].args[0]);
+			check_for_path(arr, command, i);
+			free(command);
+		}
 		i++;
 	}
 	free_arr(arr);

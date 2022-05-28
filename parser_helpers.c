@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/27 14:53:06 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/28 11:57:53 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,6 @@ void	parser_handle_heredoc(lexer_t *lexer)
 	data.limit = remove_quotes(parser_expect(lexer, TOKEN_WORD).value);
 	printf("%s\n", data.limit);
 	data.input = NULL;
-	if (data.cmds[0].str == NULL)
-	{
-		data.cmds[0].path = ft_strdup("/bin/cat");
-		data.cmds[0].args = ft_calloc(2, sizeof(char *));
-		data.cmds[0].args[0] = ft_strdup("cat");
-	}
 }
 
 void	parser_error(char *value)

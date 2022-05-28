@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/27 18:50:13 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/28 12:34:47 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int is_builtin(int i)
     else if (!ft_strncmp(data.cmds[i].args[0], "pwd", 4))
         pwd_cmd();
     else if (!ft_strncmp(data.cmds[i].args[0], "env", 4))
-        env_cmd();
+        env_cmd(data.cmds[i].args);
 	return 0;
 }
 
@@ -121,20 +121,27 @@ void    execute_commands()
     builtin = 0;
     while (i < data.num_of_cmds)
     {
-        if (is_main_builtin(i))
-            builtin = 1;
-        data.cmds[i].pid = fork();
-        if (i < data.num_of_cmds && data.cmds[i].pid == 0 && !builtin)
+        if (data.cmds[i].args)
         {
-            close_unused_pipes(i);
-            dup_all(i);
-            check_is_path(i);
-            if (!is_builtin(i))
-			{
-				if (execve(data.cmds[i].path, data.cmds[i].args, data.env) == -1)
-					perror("minishell");
-			}
-            exit(ERROR);
+            if (is_main_builtin(i))
+                builtin = 1;
+            if (!builtin)
+            {
+                data.cmds[i].pid = fork();
+                if (i < data.num_of_cmds && data.cmds[i].pid == 0)
+                {
+                    close_unused_pipes(i);
+                    dup_all(i);
+                    check_is_path(i);
+                    if (!is_builtin(i) && data.cmds[i].args[0] != '\0')
+                    {
+                        if (execve(data.cmds[i].path, data.cmds[i].args, data.env) == -1)
+                            perror("minishell");
+                        exit(ERROR);
+                    }
+                    exit(SUCCESS);
+                }
+            }
         }
         if (i < data.num_of_cmds && !handle_and_and_or(i))
             break ;
