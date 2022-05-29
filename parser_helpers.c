@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/28 17:57:18 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/29 18:04:34 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	parser_redirect(token_t *token, lexer_t *lexer)
 		data.append = 1;
 		data.cmds[data.index].output = parser_expect(
 				lexer, TOKEN_WORD).value;
+		if (!data.err)
+			open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
 	}
 	else if (token->type == TOKEN_PIPE_PIPE)
 		data.cmds[data.index].or = 1;
@@ -77,9 +79,14 @@ char *remove_quotes(char *str) {
 
 void	parser_handle_heredoc(lexer_t *lexer)
 {
-	data.heredoc = 1;
-	data.limit = remove_quotes(parser_expect(lexer, TOKEN_WORD).value);
-	printf("%s\n", data.limit);
+
+	data.limit = parser_expect(lexer, TOKEN_WORD).value;
+	if (ft_strchr(data.limit, DOUBLE_QUOTES) || ft_strchr(data.limit, SINGLE_QUOTES))
+		data.heredoc = 2;
+	else
+		data.heredoc = 1;
+	data.limit = remove_quotes(data.limit);
+	here_doc();
 	data.input = NULL;
 }
 

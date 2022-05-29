@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/28 11:55:42 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/29 18:14:42 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,22 @@ int	get_num_of_cmds(char *str)
 	char quote;
 
 	i = 0;
-	// if (is_special_character(str[0]))
-	// 	len = 0;
-	// else 
-		len = 1;
+	len = 1;
 	while (str[i])
 	{
 		if (str[i] == LEFT_PARENTHESES)
 		{
+			if (str[i + 1] == RIGHT_PARENTHESES)
+				parser_error(")");
 			while (str[i] != RIGHT_PARENTHESES && str[i] != '\0')
+			{
+				// if (str[i] == '\0')
+				// {
+				// 	parser_error("NEW_LINE");
+				// 	break;
+				// }
 				i++;
+			}
 		}
 		if (str[i] == SINGLE_QUOTES || str[i] == DOUBLE_QUOTES)
 		{

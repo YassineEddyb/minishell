@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 20:33:13 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/29 20:02:25 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,22 @@ int main (int ac , char **av, char **env)
 	data.env = env;
 	if (ac == 1)
 	{
-		while(1)
-		{
-			str = readline("\033[0;32mminishell:$ \x1B[0m");
-			if (!str)
-				exit(0);
-			if (str[0])
-			{
-				add_history(str);
-				parser(str);
+	// 	while(1)
+	// 	{
+	// 		str = readline("\033[0;32mminishell:$ \x1B[0m");
+	// 		if (!str)
+	// 			exit(0);
+	// 		if (str[0])
+	// 		{
+	// 			add_history(str);
+				parser("ls");
 				free(str);
 				str = NULL;
 				execute();
 				clean_data();
-				// system("leaks minishell");
-			}
-		}
+				system("leaks minishell");
+	// 		}
+	// 	}
 	} else if (ac == 2)
 	{
 		parser(av[1]);

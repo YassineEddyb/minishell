@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/28 16:51:17 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/29 20:27:10 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,29 @@ static char *parser_collect_dollar_sign_string(lexer_t *lexer)
 }
 
 int is_surrounded_with_qoutes(lexer_t *lexer) {
-	if (lexer->index > 0 && lexer->content[lexer->index + 1] == DOUBLE_QUOTES 
-		&& lexer->content[lexer->index - 1] == DOUBLE_QUOTES)
+	if ((lexer->index > 0 && lexer->content[lexer->index + 1] == DOUBLE_QUOTES 
+		&& lexer->content[lexer->index - 1] == DOUBLE_QUOTES) 
+		|| (lexer->index > 0 && lexer->content[lexer->index + 1] == SINGLE_QUOTES 
+		&& lexer->content[lexer->index - 1] == SINGLE_QUOTES))
 		return (1);
 	return (0);
+}
+
+char *join_and_free(char *s1, char *s2) {
+	char	*tmp;
+
+	tmp = ft_strjoin(s1, s2);
+
+	free(s1);
+	free(s2);
+
+	return (tmp);
 }
 
 char	*parser_handle_dollar_sign(char *value, int quote)
 {
 	char	*str;
+
 	lexer_t	*lexer;
 
 	str = NULL; 
@@ -111,12 +125,12 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 	while (lexer->c != '\0')
 	{
 		if (lexer->c != DOLLAR_SIGN)
-			str = ft_strjoin(str, parser_collect_word(lexer, DOLLAR_SIGN, quote));
+			str = join_and_free(str, parser_collect_word(lexer, DOLLAR_SIGN, quote));
 		if (quote && lexer->c == SINGLE_QUOTES)
-			str = ft_strjoin(str, parser_collect_string(lexer, SINGLE_QUOTES));
-		else if (lexer->c == DOLLAR_SIGN && (is_surrounded_with_qoutes(lexer) || is_stop_charaters(lexer->content[lexer->index + 1], 1)))
+			str = join_and_free(str, parser_collect_string(lexer, SINGLE_QUOTES));
+		else if (lexer->c == DOLLAR_SIGN && (!quote || is_surrounded_with_qoutes(lexer) || is_stop_charaters(lexer->content[lexer->index + 1], 1)))
 		{
-			str = ft_strjoin(str, ft_strdup("$"));
+			str = join_and_free(str, ft_strdup("$"));
 			lexer_next_char(lexer);
 		}
 		else if (lexer->c == DOLLAR_SIGN)
@@ -124,11 +138,11 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 			lexer_next_char(lexer);
 			if (lexer->c == QUESTION_MARK)
 			{
-				str = ft_strjoin(str, ft_itoa(data.exit_code));
+				str = join_and_free(str, ft_itoa(data.exit_code));
 				lexer_next_char(lexer);
 			}
 			else
-				str = ft_strjoin(str, getenv(
+				str = join_and_free(str, getenv(
 					parser_collect_dollar_sign_string(lexer)));
 		}
 	}

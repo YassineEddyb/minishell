@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/28 12:34:47 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/29 18:10:27 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,6 @@ void execute()
 {
     if (!data.err)
     {
-        if (data.heredoc)
-            here_doc();
         execute_commands();
         close_all_pipes();
         wait_all_child_processors();

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/28 17:55:07 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/29 17:19:17 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ void	parser_parse(token_t *token, lexer_t *lexer)
 	if (token->type == TOKEN_WORD)
 		parser_handle_word(token);
 	else if (token->type == TOKEN_PARENTHESES)
-		data.cmds[data.index].str
-			= join_with_sep(ft_strdup("./minishell"), token->value, -1);
+	{
+		if (!data.err)
+			data.cmds[data.index].str
+				= join_with_sep(ft_strdup("./minishell"), token->value, -1);
+	}
 	else if (token->type == TOKEN_END)
 		return ;
 	else
