@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:26:02 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/29 11:28:35 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/31 14:30:52 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	read_form_stdout(char *limit, int fd)
 {
 	char	*line;
+	char	*limiter;
 
 	write(1, "heredoc> ", 9);
 	line = get_next_line(STDIN);
@@ -22,7 +23,12 @@ static void	read_form_stdout(char *limit, int fd)
 	{
 		write(1, "heredoc> ", 9);
 		if (data.heredoc == 1)
-			line = ft_strjoin(parser_handle_dollar_sign(ft_substr(line,0, ft_strlen(line) - 1), 0), "\n");
+		{
+			limiter = ft_substr(line, 0, ft_strlen(line) - 1);
+			free(line);
+			line = join_and_free(parser_handle_dollar_sign(limiter, 0), ft_strdup("\n"));
+			free(limiter);
+		}
 		write(fd, line, ft_strlen(line));
 		free(line);
 		line = get_next_line(STDIN);
@@ -34,7 +40,7 @@ void	here_doc(void)
 {
 	int	fd;
 
-	data.limit = ft_strjoin(data.limit, "\n");
+	data.limit = join_and_free(ft_strdup(data.limit), ft_strdup("\n"));
 	fd = open("/tmp/.temp", O_RDWR | O_CREAT | O_TRUNC, 0664);
 	read_form_stdout(data.limit, fd);
 	free(data.limit);

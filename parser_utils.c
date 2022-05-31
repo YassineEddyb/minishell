@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/29 18:14:42 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/31 14:29:45 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,9 @@ char	*join_with_sep(char *s1, char *s2, char sep)
 {
 	char	*str;
 	char	*tmp;
-	char	*sep_str;
 
-	sep_str = lexer_get_char_as_string(sep);
-	tmp = ft_strjoin(s1, sep_str);
-	free(sep_str);
-	free(s1);
-	str = ft_strjoin(tmp, s2);
-	free(tmp);
+	tmp = join_and_free(s1, lexer_get_char_as_string(sep));
+	str = join_and_free(tmp, s2);
 	return (str);
 }
 
@@ -78,14 +73,14 @@ void	clean_data(void)
 	data.append = 0;
 	data.heredoc = 0;
 	data.err = 0;
+	if (data.input)
+		free(data.input);
 	data.input = NULL;
 	while (i < data.num_of_cmds)
 	{
 		free(data.cmds[i].str);
 		free(data.cmds[i].path);
 		free_arr(data.cmds[i].args);
-		if (data.input)
-			free(data.input);
 		if (data.cmds[i].output)
 			free(data.cmds[i].output);
 		data.cmds[i].output = NULL;

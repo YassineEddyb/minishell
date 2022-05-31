@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/28 17:32:04 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/31 13:02:50 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int		get_index(char *s, char c);
 int		starts_with(char *str, char c);
 void	unset_cmd(char **args);
 int		get_arr_size(char **arr);
+char	*join_and_free(char *s1, char *s2);
 
 // executer
 void	execute();

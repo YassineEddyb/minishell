@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/29 20:27:10 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/31 14:29:31 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,24 +103,13 @@ int is_surrounded_with_qoutes(lexer_t *lexer) {
 	return (0);
 }
 
-char *join_and_free(char *s1, char *s2) {
-	char	*tmp;
-
-	tmp = ft_strjoin(s1, s2);
-
-	free(s1);
-	free(s2);
-
-	return (tmp);
-}
-
 char	*parser_handle_dollar_sign(char *value, int quote)
 {
 	char	*str;
 
 	lexer_t	*lexer;
 
-	str = NULL; 
+	str = NULL;
 	lexer = init_lexer(value);
 	while (lexer->c != '\0')
 	{

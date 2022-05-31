@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 01:08:00 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/27 14:00:48 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/05/31 14:18:41 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,31 @@ int	starts_with(char *str, char c)
 		return (1);
 	else
 		return (0);
+}
+
+char *join_and_free(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		s1 = ft_strdup("");
+	str = ft_calloc((ft_strlen(s1) + ft_strlen(s2) + 1), sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	i = -1;
+	j = 0;
+	while (s1[++i] != '\0')
+		str[i] = s1[i];
+	if (s2)
+	{
+		while (s2[j] != '\0')
+			str[i++] = s2[j++];
+	}
+	free(s1);
+	free(s2);
+	return (str);
 }
