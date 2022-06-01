@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 10:35:37 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:16:51 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef struct token_s
 		TOKEN_AND_AND,
 		TOKEN_PIPE_PIPE,
 		TOKEN_PARENTHESES,
-		TOKEN_NEW_LINE
 	} type;
 	char *value;
 } token_t;
@@ -122,7 +121,7 @@ char	*parser_handle_dollar_sign(char *value, int quote);
 void	parser_redirect(token_t *token, lexer_t *lexer);
 void	parser_handle_word(token_t *token);
 void	parser_handle_heredoc(lexer_t *lexer);
-void	parser_error(char *value);
+void	parser_error(char *value, int token_type);
 int		is_commands_breaker(int n);
 char	**dup_arr(char **arr);
 

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 12:32:47 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 14:43:12 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:34:56 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	get_path(void)
 	i = 0;
 	while (i < data.num_of_cmds)
 	{
-		printf("%s\n", data.cmds[i].str);
 		if (data.cmds[i].str)
 		{
 			pipe(data.cmds[i].p);

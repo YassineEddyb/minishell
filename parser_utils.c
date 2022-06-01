@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 19:41:45 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 21:43:36 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	get_num_of_cmds(char *str)
 		if (str[i] == LEFT_PARENTHESES)
 		{
 			if (str[i + 1] == RIGHT_PARENTHESES)
-				parser_error(")");
+				parser_error(")", TOKEN_PARENTHESES);
 			while (str[i] != RIGHT_PARENTHESES && str[i] != '\0')
 			{
 				// if (str[i] == '\0')

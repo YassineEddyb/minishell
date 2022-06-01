@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 11:32:18 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 21:39:29 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	parser_handle_word(token_t *token)
 char *remove_quotes(char *str) {
 	int i = 0;
 	int j = 0;
-	int len;
 	char quote = 0;
 	char *new;
 
@@ -92,10 +91,10 @@ void	parser_handle_heredoc(lexer_t *lexer)
 	free_if_exists(data.input);
 }
 
-void	parser_error(char *value)
+void	parser_error(char *value, int token_type)
 {
 	ft_putstr_fd("minishell: syntax error near unexepcted token '", STDERR);
-	if (value[0] == '\0')
+	if (token_type == TOKEN_END)
 		ft_putstr_fd("NEW_LINE", STDERR);
 	else 
 		ft_putstr_fd(value, STDERR);

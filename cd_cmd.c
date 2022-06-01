@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 09:23:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 14:18:07 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 21:30:37 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void cd_cmd(char **args)
 
 	old_pwd_index = look_for_env_index(data.env, "OLDPWD=");
     data.env[old_pwd_index] = ft_str_join(ft_strdup("OLDPWD="), getcwd(buff, 1000));
-    chdir(pwd);
-	pwd_index = look_for_env_index(data.env, "PWD=");
-    data.env[pwd_index] = ft_str_join(ft_strdup("PWD="), getcwd(buff, 1000));
+    if (chdir(pwd) == -1)
+		perror("minishell");
+	else {
+		pwd_index = look_for_env_index(data.env, "PWD=");
+		data.env[pwd_index] = ft_str_join(ft_strdup("PWD="), getcwd(buff, 1000));
+	}
 }

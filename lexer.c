@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 12:56:57 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:20:19 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,9 @@ static token_t	lexer_get_special_characters(lexer_t *lexer)
 	else if (lexer->c == AND && lexer->content[lexer->index + 1] == AND)
 		return (init_token(TOKEN_AND_AND, ft_strdup("&&")));
 	else if (lexer->c == AND && lexer->content[lexer->index + 1] != AND)
-		parser_error("&");
-	else if (lexer->c == PIPE)
-		return (init_token(TOKEN_PIPE, lexer_get_char_as_string(lexer->c)));
-	return (init_token(TOKEN_NEW_LINE, ft_strdup("\n")));
+		parser_error("&", TOKEN_AND_AND);
+	
+	return (init_token(TOKEN_PIPE, lexer_get_char_as_string(lexer->c)));
 }
 
 static token_t	lexer_get_special_character_and_next(lexer_t *lexer)
@@ -105,6 +104,8 @@ token_t	lexer_get_next_token(lexer_t *lexer)
 	{
 		if (lexer->c == SPACE)
 			lexer_skip_spaces(lexer);
+		if (lexer->c == '\0')
+			return (init_token(TOKEN_END, ft_strdup("")));
 		if (lexer->c == LEFT_PARENTHESES)
 			return (lexer_get_string(lexer, RIGHT_PARENTHESES, \
 				TOKEN_PARENTHESES));

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 01:18:49 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/14 01:26:38 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 19:09:20 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void pwd_cmd(void)
 {
-    char buf[100];
-    getcwd(buf, 100);
+    char buf[1000];
+    getcwd(buf, 1000);
     printf("%s\n",  buf);
     exit(0);
 }

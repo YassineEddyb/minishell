@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 14:42:42 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:15:25 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ token_t	parser_expect(lexer_t *lexer, int token_type)
 	if (new_token.type == token_type)
 		return (new_token);
 	else
-		parser_error(new_token.value);
+		parser_error(new_token.value, token_type);
 	return (new_token);
 }
 
@@ -84,9 +84,9 @@ void	parser(char *str)
 	{
 		// printf("%s\n", token.value);
 		token = lexer_get_next_token(lexer);
-		if (is_commands_breaker(temp_token.type) && is_commands_breaker(token.type))
+		if (is_commands_breaker(temp_token.type) && (is_commands_breaker(token.type)))
 		{
-			parser_error(token.value);
+			parser_error(token.value, token.type);
 			break ;
 		}
 		parser_parse(&token, lexer);

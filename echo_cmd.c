@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:57:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/04/10 00:10:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:45:06 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void echo_cmd(char **args)
 {
     int i;
     int new_line;
-
     i = simlify_newline(args);
     new_line = 1;
     if (i > 1)
