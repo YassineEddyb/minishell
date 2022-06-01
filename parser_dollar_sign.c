@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 14:29:31 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 10:30:26 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int is_surrounded_with_qoutes(lexer_t *lexer) {
 char	*parser_handle_dollar_sign(char *value, int quote)
 {
 	char	*str;
-
+	char	*tmp;
 	lexer_t	*lexer;
 
 	str = NULL;
@@ -117,7 +117,8 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 			str = join_and_free(str, parser_collect_word(lexer, DOLLAR_SIGN, quote));
 		if (quote && lexer->c == SINGLE_QUOTES)
 			str = join_and_free(str, parser_collect_string(lexer, SINGLE_QUOTES));
-		else if (lexer->c == DOLLAR_SIGN && (!quote || is_surrounded_with_qoutes(lexer) || is_stop_charaters(lexer->content[lexer->index + 1], 1)))
+		else if (lexer->c == DOLLAR_SIGN && (!quote || is_surrounded_with_qoutes(lexer) 
+			|| is_stop_charaters(lexer->content[lexer->index + 1], 1)))
 		{
 			str = join_and_free(str, ft_strdup("$"));
 			lexer_next_char(lexer);
@@ -131,8 +132,11 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 				lexer_next_char(lexer);
 			}
 			else
-				str = join_and_free(str, getenv(
-					parser_collect_dollar_sign_string(lexer)));
+			{
+				tmp  = parser_collect_dollar_sign_string(lexer);
+				str = ft_str_join(str, getenv(tmp));
+				free(tmp);
+			}
 		}
 	}
 	free(lexer);

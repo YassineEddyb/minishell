@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:26:02 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 14:30:52 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 11:57:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	read_form_stdout(char *limit, int fd)
 {
 	char	*line;
-	char	*limiter;
+	char	*str;
 
 	write(1, "heredoc> ", 9);
 	line = get_next_line(STDIN);
@@ -24,10 +24,10 @@ static void	read_form_stdout(char *limit, int fd)
 		write(1, "heredoc> ", 9);
 		if (data.heredoc == 1)
 		{
-			limiter = ft_substr(line, 0, ft_strlen(line) - 1);
+			str = ft_substr(line, 0, ft_strlen(line) - 1);
 			free(line);
-			line = join_and_free(parser_handle_dollar_sign(limiter, 0), ft_strdup("\n"));
-			free(limiter);
+			line = join_and_free(parser_handle_dollar_sign(str, 0), ft_strdup("\n"));
+			free(str);
 		}
 		write(fd, line, ft_strlen(line));
 		free(line);
@@ -40,9 +40,9 @@ void	here_doc(void)
 {
 	int	fd;
 
-	data.limit = join_and_free(ft_strdup(data.limit), ft_strdup("\n"));
+	data.limit = join_and_free(data.limit, ft_strdup("\n"));
 	fd = open("/tmp/.temp", O_RDWR | O_CREAT | O_TRUNC, 0664);
 	read_form_stdout(data.limit, fd);
-	free(data.limit);
+	free_if_exists(data.limit);
 	close(fd);
 }

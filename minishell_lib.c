@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 01:08:00 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 14:18:41 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 10:54:49 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,14 @@ char *join_and_free(char *s1, char *s2)
 		while (s2[j] != '\0')
 			str[i++] = s2[j++];
 	}
-	free(s1);
-	free(s2);
+	free_if_exists(s1);
+	free_if_exists(s2);
 	return (str);
+}
+
+void free_if_exists(char *str)
+{
+	if (str)
+		free(str);
+	str = NULL;
 }

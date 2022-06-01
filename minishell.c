@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 14:31:43 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 10:53:08 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int main (int ac , char **av, char **env)
 			{
 				add_history(str);
 				parser(str);
-				free(str);
-				str = NULL;
+				free_if_exists(str);
 				execute();
 				clean_data();
 				system("leaks minishell");

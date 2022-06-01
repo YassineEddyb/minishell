@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/31 13:02:50 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 10:35:37 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int		starts_with(char *str, char c);
 void	unset_cmd(char **args);
 int		get_arr_size(char **arr);
 char	*join_and_free(char *s1, char *s2);
+void	free_if_exists(char *str);
 
 // executer
 void	execute();

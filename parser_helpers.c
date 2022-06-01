@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/29 18:04:34 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/01 11:32:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	parser_redirect(token_t *token, lexer_t *lexer)
 	if (token->type == TOKEN_LESS_THAN)
 		data.input = parser_expect(lexer, TOKEN_WORD).value;
 	else if (token->type == TOKEN_OLD_THAN) {
+		free_if_exists(data.cmds[data.index].output);
 		data.cmds[data.index].output = parser_expect(
 				lexer, TOKEN_WORD).value;
 		if (!data.err)
@@ -27,6 +28,7 @@ void	parser_redirect(token_t *token, lexer_t *lexer)
 	else if (token->type == TOKEN_GREAT_GREAT)
 	{
 		data.append = 1;
+		free_if_exists(data.cmds[data.index].output);
 		data.cmds[data.index].output = parser_expect(
 				lexer, TOKEN_WORD).value;
 		if (!data.err)
@@ -73,21 +75,21 @@ char *remove_quotes(char *str) {
 		}
 		i++;
 	}
-
 	return (new);
 }
 
 void	parser_handle_heredoc(lexer_t *lexer)
 {
-
-	data.limit = parser_expect(lexer, TOKEN_WORD).value;
-	if (ft_strchr(data.limit, DOUBLE_QUOTES) || ft_strchr(data.limit, SINGLE_QUOTES))
+	char *tmp;
+	tmp = parser_expect(lexer, TOKEN_WORD).value;
+	if (ft_strchr(tmp, DOUBLE_QUOTES) || ft_strchr(tmp, SINGLE_QUOTES))
 		data.heredoc = 2;
 	else
 		data.heredoc = 1;
-	data.limit = remove_quotes(data.limit);
+	data.limit = remove_quotes(tmp);
+	free(tmp);
 	here_doc();
-	data.input = NULL;
+	free_if_exists(data.input);
 }
 
 void	parser_error(char *value)
