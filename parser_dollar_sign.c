@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 19:05:20 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/03 10:20:20 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 	lexer_t	*lexer;
 
 	str = NULL;
+	if (!ft_strncmp(value, "\"\"", ft_strlen(value)) || !ft_strncmp(value, "\'\'", ft_strlen(value)))
+		return (lexer_get_char_as_string(-2));
 	lexer = init_lexer(value);
 	while (lexer->c != '\0')
 	{

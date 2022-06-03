@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 21:31:45 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/03 12:20:30 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,21 @@ void    dup_all(int i)
 int is_builtin(int i)
 {
     if (!ft_strncmp(data.cmds[i].args[0], "echo", 5))
+    {
         echo_cmd(data.cmds[i].args);
+        return (1);
+    }
     else if (!ft_strncmp(data.cmds[i].args[0], "pwd", 4))
+    {
         pwd_cmd();
+        return (1);
+    }
     else if (!ft_strncmp(data.cmds[i].args[0], "env", 4))
+    {
         env_cmd(data.cmds[i].args);
-	return 0;
-}
-
-int is_main_builtin(int i)
-{
-    if (!ft_strncmp(data.cmds[i].args[0], "cd", 3))
+        return (1);
+    }
+    else if (!ft_strncmp(data.cmds[i].args[0], "cd", 3)) 
     {
         cd_cmd(data.cmds[i].args);
         return (1);
@@ -104,14 +108,13 @@ int is_main_builtin(int i)
         unset_cmd(data.cmds[i].args);
         return (1);
     }
-    else if (!ft_strncmp(data.cmds[i].args[0], "exit", 5))
+    else if (!ft_strncmp(data.cmds[i].args[0], "exit", 5)) 
     {
         exit_cmd(data.cmds[i].args);
         return (1);
     }
-    return (0);
+	return 0;
 }
-
 
 void    execute_commands()
 {
@@ -123,18 +126,18 @@ void    execute_commands()
     {
         if (data.cmds[i].args)
         {
-            if (is_main_builtin(i))
+            if (data.num_of_cmds == 1 && is_builtin(i))
                 builtin = 1;
             if (!builtin)
             {
                 data.cmds[i].pid = fork();
-                if (i < data.num_of_cmds && data.cmds[i].pid == 0)
+                if (i < data.num_of_cmds && data.cmds[i].pid == 0 && !builtin)
                 {
                     close_unused_pipes(i);
                     dup_all(i);
-                    check_is_path(i);
-                    if (!is_builtin(i) && data.cmds[i].args[0] != '\0')
+                    if (!is_builtin(i))
                     {
+                        check_is_path(i);
                         if (execve(data.cmds[i].path, data.cmds[i].args, data.env) == -1)
                             perror("minishell");
                         exit(ERROR);

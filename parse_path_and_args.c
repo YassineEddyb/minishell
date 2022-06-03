@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 12:32:47 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 18:34:56 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/03 10:58:33 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,37 @@ static void	get_path(void)
 static void	get_args(void)
 {
 	int	i;
+	int j;
 
 	i = 0;
+	while (i < data.num_of_cmds)
+	{
+		if (!data.cmds[i].path)
+			data.cmds[i].args = ft_split(data.cmds[i].str, -1);
+		i++;
+	}
+	i = 0;
+	while (i < data.num_of_cmds)
+	{
+		j = 0;
+		while(data.cmds[i].args && data.cmds[i].args[j])
+		{
+			if (data.cmds[i].args[j][0] == -2)
+			{
+				free(data.cmds[i].args[j]);
+				data.cmds[i].args[j] = ft_strdup("");
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+static void replace_args(void)
+{
+	int i;
+	int j;
+
 	while (i < data.num_of_cmds)
 	{
 		if (!data.cmds[i].path)
