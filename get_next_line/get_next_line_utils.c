@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 16:15:51 by yed-dyb           #+#    #+#             */
-/*   Updated: 2021/12/08 15:45:59 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/03 13:21:39 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ char	*ft_str_join(char *s1, char *s2)
 	j = 0;
 	while (s1[++i] != '\0')
 		str[i] = s1[i];
-	while (s2[j] != '\0')
-		str[i++] = s2[j++];
+	if (s2)
+	{
+		while (s2[j] != '\0')
+			str[i++] = s2[j++];
+	}
 	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
 	free(s1);
 	return (str);

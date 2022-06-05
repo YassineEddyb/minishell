@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 22:16:51 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:41:28 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_cmd {
 	char	*str;
 	char	*path;
 	char	*output;
+	char	*input;
 	char	**args;
 	int		pipe;
 	int		and;
@@ -87,7 +88,7 @@ typedef struct s_data {
 	int		num_of_cmds;
 	t_cmd	*cmds;
 	int 	index;
-	char	*input;
+
 	char	*limit;
 	int 	heredoc;
 	int		append;
@@ -144,6 +145,7 @@ void	check_is_path(int i);
 void	ft_free_2d_table(char **table);
 int		table_len(char **tab);
 int		ft_strlen_till_c(char *s, char c);
+char	**strdup_table(char **env);
 
 // build in commands
 void 	echo_cmd(char **args);

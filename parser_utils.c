@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 21:43:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/03 16:20:55 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,8 @@ void	clean_data(void)
 		free(data.cmds[i].str);
 		free(data.cmds[i].path);
 		free_arr(data.cmds[i].args);
-		if (data.cmds[i].output)
-			free(data.cmds[i].output);
-		if (data.input)
-			free(data.input);
+		free_if_exists(data.cmds[i].output);
+		free_if_exists(data.cmds[i].input);
 		data.cmds[i].and = 0;
 		data.cmds[i].or = 0;
 		data.cmds[i].pipe = 0;

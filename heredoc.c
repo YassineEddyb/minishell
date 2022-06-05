@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:26:02 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 13:22:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/03 14:55:05 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	here_doc(void)
 	int	fd;
 
 	data.limit = join_and_free(data.limit, ft_strdup("\n"));
-	fd = open("/tmp/.temp", O_RDWR | O_CREAT | O_TRUNC, 0664);
+	fd = open("/tmp/.temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	read_form_stdout(data.limit, fd);
 	free_if_exists(data.limit);
 	close(fd);

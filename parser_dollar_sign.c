@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/03 10:20:20 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/05 16:30:46 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,11 @@ static char	*parser_collect_word(lexer_t *lexer, char c, int quote)
 
 	val = malloc((lexer_strlen(lexer, c) + 1) * sizeof(char));
 	i = 0;
-	while (lexer->c != c && (!quote || lexer->c != SINGLE_QUOTES) && lexer->c != '\0')
+	while (lexer->c != c && lexer->c != SINGLE_QUOTES && lexer->c != DOUBLE_QUOTES && lexer->c != '\0')
 	{
-		if (quote && lexer->c == DOUBLE_QUOTES)
-			lexer_next_char(lexer);
-		else
-		{
-			val[i] = lexer->c;
-			lexer_next_char(lexer);
-			i++;
-		}
+		val[i] = lexer->c;
+		lexer_next_char(lexer);
+		i++;
 	}
 	val[i] = '\0';
 	return (val);
@@ -61,17 +56,23 @@ static char	*parser_collect_string(lexer_t *lexer, char c)
 {
 	int		i;
 	char	*val;
+	int		sq = 0;
 
 	lexer_next_char(lexer);
 	val = malloc((lexer_strlen(lexer, c) + 1) * sizeof(char));
 	i = 0;
 	while (lexer->c != c && lexer->c != '\0')
 	{
+		if (lexer->c == SINGLE_QUOTES)
+			sq = !sq;
+		if (c == DOUBLE_QUOTES && lexer->c == DOLLAR_SIGN && !sq)
+			break;
 		val[i] = lexer->c;
 		lexer_next_char(lexer);
 		i++;
 	}
-	lexer_next_char(lexer);
+	if (lexer->c == SINGLE_QUOTES || lexer->c == DOUBLE_QUOTES)
+		lexer_next_char(lexer);
 	val[i] = '\0';
 	return (val);
 }
@@ -103,6 +104,27 @@ int is_surrounded_with_qoutes(lexer_t *lexer) {
 	return (0);
 }
 
+char *get_env_value(lexer_t *lexer)
+{
+	char	*str;
+	char	*tmp;
+
+	lexer_next_char(lexer);
+	if (lexer->c == QUESTION_MARK)
+	{
+		str = ft_itoa(data.exit_code);
+		lexer_next_char(lexer);
+	}
+	else
+	{
+		tmp = parser_collect_dollar_sign_string(lexer);
+		str =  getenv(tmp);
+		free(tmp);
+	}
+
+	return (str);
+}
+
 char	*parser_handle_dollar_sign(char *value, int quote)
 {
 	char	*str;
@@ -110,15 +132,13 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 	lexer_t	*lexer;
 
 	str = NULL;
-	if (!ft_strncmp(value, "\"\"", ft_strlen(value)) || !ft_strncmp(value, "\'\'", ft_strlen(value)))
-		return (lexer_get_char_as_string(-2));
 	lexer = init_lexer(value);
 	while (lexer->c != '\0')
 	{
 		if (lexer->c != DOLLAR_SIGN)
 			str = join_and_free(str, parser_collect_word(lexer, DOLLAR_SIGN, quote));
-		if (quote && lexer->c == SINGLE_QUOTES)
-			str = join_and_free(str, parser_collect_string(lexer, SINGLE_QUOTES));
+		if (quote && (lexer->c == SINGLE_QUOTES || lexer->c == DOUBLE_QUOTES))
+			str = join_and_free(str, parser_collect_string(lexer, lexer->c));
 		else if (lexer->c == DOLLAR_SIGN && (!quote || is_surrounded_with_qoutes(lexer) 
 			|| is_stop_charaters(lexer->content[lexer->index + 1], 1)))
 		{
@@ -126,21 +146,11 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 			lexer_next_char(lexer);
 		}
 		else if (lexer->c == DOLLAR_SIGN)
-		{
-			lexer_next_char(lexer);
-			if (lexer->c == QUESTION_MARK)
-			{
-				str = join_and_free(str, ft_itoa(data.exit_code));
-				lexer_next_char(lexer);
-			}
-			else
-			{
-				tmp  = parser_collect_dollar_sign_string(lexer);
-				str = ft_str_join(str, getenv(tmp));
-				free(tmp);
-			}
-		}
+			str = ft_str_join(str, get_env_value(lexer));
 	}
 	free(lexer);
+	if (!ft_strncmp(str, "\"\"", ft_strlen(str)) 
+			|| !ft_strncmp(str, "\'\'", ft_strlen(str)))
+			return (lexer_get_char_as_string(-2));
 	return (str);
 }

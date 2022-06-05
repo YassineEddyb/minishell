@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 12:03:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/29 16:41:11 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/03 15:25:32 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	parser_check_asterisk(token_t *token)
 		if (is_match(de->d_name, token->value) && de->d_name[0] != '.')
 		{
 			data.cmds[data.index].str
-				= join_with_sep(data.cmds[data.index].str, de->d_name, -1);
+				= join_with_sep(data.cmds[data.index].str, ft_strdup(de->d_name), -1);
 			i++;
 		}
 		de = readdir(dr);

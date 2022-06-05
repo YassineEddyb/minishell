@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:24 by aaizza            #+#    #+#             */
-/*   Updated: 2022/05/27 20:33:30 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:50:32 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	unset_cmd(char **args)
 					{
 						tmp = help_unset(j);
 						data.env = tmp;
+						break;
 						// ft_free_2d_table(tmp);
 					}
 				}

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/03 12:23:25 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:41:56 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int main (int ac , char **av, char **env)
 	(void)ac;
 	(void)av;
 
-	data.env = env;
+	data.env = strdup_table(env);
 	if (ac == 1)
 	{
 		while(1)

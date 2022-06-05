@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 22:15:25 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/05 15:54:21 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ token_t	parser_expect(lexer_t *lexer, int token_type)
 	if (new_token.type == token_type)
 		return (new_token);
 	else
-		parser_error(new_token.value, token_type);
+		parser_error(new_token.value, new_token.type);
 	return (new_token);
 }
 
@@ -64,6 +64,7 @@ void	init_data(char *str)
 		data.cmds[i].str = NULL;
 		data.cmds[i].path = NULL;
 		data.cmds[i].output = NULL;
+		data.cmds[i].input = NULL;
 		i++;
 	}
 }
@@ -79,19 +80,22 @@ void	parser(char *str)
 	token = lexer_get_next_token(lexer);
 	parser_parse(&token, lexer);
 	temp_token = token;
-	free(token.value);
+	if (token.type != TOKEN_PARENTHESES)
+		free_if_exists(token.value);
 	while (token.type)
 	{
-		// printf("%s\n", token.value);
 		token = lexer_get_next_token(lexer);
 		if (is_commands_breaker(temp_token.type) && (is_commands_breaker(token.type)))
 		{
 			parser_error(token.value, token.type);
+			if (token.type != TOKEN_PARENTHESES)
+				free(token.value);
 			break ;
 		}
 		parser_parse(&token, lexer);
 		temp_token = token;
-		free(token.value);
+		if (token.type != TOKEN_PARENTHESES)
+			free(token.value);
 	}
 	free(lexer);
 	get_path_and_args();

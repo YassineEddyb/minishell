@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 21:08:29 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/03 12:20:30 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/05 13:36:09 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	handle_input(int i)
 
 	if (data.heredoc)
     {
-		fd = open("/tmp/.temp", O_RDONLY, 0664);
+		fd = open("/tmp/.temp", O_RDONLY, 0644);
         dup2(fd, STDIN);
     }
-    if (data.input)
+    else if (data.cmds[i].input)
     {
-        fd = open(data.input,  O_RDONLY, 0644);
+        fd = open(data.cmds[i].input,  O_RDONLY, 0644);
         if (fd == -1)
         {
             perror("minishell");
@@ -31,107 +31,97 @@ void	handle_input(int i)
         }
         dup2(fd, STDIN);
     }
-    if (data.num_of_cmds >= 2 && data.cmds[i].pipe)
-        dup2(data.cmds[i].p[STDOUT], STDOUT);
+    else if (i > 0 && data.cmds[i - 1].pipe)
+        dup2(data.cmds[i - 1].p[STDIN], STDIN);
 }
 
 void    dup_all(int i)
 {
     int     fd;
 
-    if (i == 0)
-    {
-        handle_input(i);
-    }
+    handle_input(i);
     if (data.cmds[i].output)
     {
         if (data.append)
-            fd = open(data.cmds[i].output, O_RDWR | O_CREAT | O_APPEND, 0664);
+            fd = open(data.cmds[i].output, O_RDWR | O_CREAT | O_APPEND, 0644);
         else
-            fd = open(data.cmds[i].output, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+            fd = open(data.cmds[i].output, O_CREAT | O_WRONLY | O_TRUNC, 0644);
         if (fd == -1)
         {
             perror("minishell");
             exit(FAILURE);
         }
         dup2(fd, STDOUT);
-    }
-    if (i == data.num_of_cmds - 1)
-    {
-        if (i > 0)
-            dup2(data.cmds[i - 1].p[STDIN], STDIN);
-        close(data.cmds[i].p[STDOUT]);
-    }
-    if (i > 0 && i < data.num_of_cmds - 1)
-    {
-        dup2(data.cmds[i - 1].p[STDIN], STDIN);
-        if (data.cmds[i].pipe)
-            dup2(data.cmds[i].p[STDOUT], STDOUT);
-    }
+    } else if (data.cmds[i].pipe)
+        dup2(data.cmds[i].p[STDOUT], STDOUT);
 }
 
-// void handle_sigint(int sig)
-// {
-//     data.exit_code = 130;
-//     // exit(ERROR);
-// }
+int is_builtin_cmd(char *cmd)
+{
+    int i = 0;
+    char *cmds[6] = {"echo", "env", "export", "unset", "pwd", "cd"};
+
+    
+    while(i < 6)
+    {
+        if (!ft_strncmp(cmd, cmds[i], ft_strlen(cmd) + 1))
+            return (1);
+        i++;
+    }
+    return (0);
+}
 
 int is_builtin(int i)
 {
+    int fd;
+    if (data.cmds[i].output && is_builtin_cmd(data.cmds[i].args[0]))
+    {
+        if (data.append)
+            fd = open(data.cmds[i].output, O_RDWR | O_CREAT | O_APPEND, 0644);
+        else
+            fd = open(data.cmds[i].output, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+        if (fd == -1)
+        {
+            perror("minishell");
+            exit(FAILURE);
+        }
+        dup2(fd, STDOUT);
+    } 
+    if (data.cmds[i].pipe)
+        return (0);
     if (!ft_strncmp(data.cmds[i].args[0], "echo", 5))
-    {
         echo_cmd(data.cmds[i].args);
-        return (1);
-    }
     else if (!ft_strncmp(data.cmds[i].args[0], "pwd", 4))
-    {
         pwd_cmd();
-        return (1);
-    }
     else if (!ft_strncmp(data.cmds[i].args[0], "env", 4))
-    {
         env_cmd(data.cmds[i].args);
-        return (1);
-    }
     else if (!ft_strncmp(data.cmds[i].args[0], "cd", 3)) 
-    {
         cd_cmd(data.cmds[i].args);
-        return (1);
-    }
     else if (!ft_strncmp(data.cmds[i].args[0], "export", 7))
-    {
         export_cmd(data.cmds[i].args);
-        return (1);
-    }
     else if (!ft_strncmp(data.cmds[i].args[0], "unset", 6))
-    {
         unset_cmd(data.cmds[i].args);
-        return (1);
-    }
     else if (!ft_strncmp(data.cmds[i].args[0], "exit", 5)) 
-    {
         exit_cmd(data.cmds[i].args);
-        return (1);
-    }
-	return 0;
+
+    if (is_builtin_cmd(data.cmds[i].args[0]))
+        dup2(0, 1);
+    return (is_builtin_cmd(data.cmds[i].args[0]));
 }
 
 void    execute_commands()
 {
     int     i;
-    int builtin;
+
     i = 0;
-    builtin = 0;
     while (i < data.num_of_cmds)
     {
         if (data.cmds[i].args)
         {
-            if (data.num_of_cmds == 1 && is_builtin(i))
-                builtin = 1;
-            if (!builtin)
+            if (!is_builtin(i))
             {
                 data.cmds[i].pid = fork();
-                if (i < data.num_of_cmds && data.cmds[i].pid == 0 && !builtin)
+                if (i < data.num_of_cmds && data.cmds[i].pid == 0)
                 {
                     close_unused_pipes(i);
                     dup_all(i);
@@ -142,7 +132,7 @@ void    execute_commands()
                             perror("minishell");
                         exit(ERROR);
                     }
-                    exit(SUCCESS);
+                    exit(data.exit_code);
                 }
             }
         }
