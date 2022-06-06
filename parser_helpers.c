@@ -5,123 +5,75 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/03 16:33:29 by yed-dyb          ###   ########.fr       */
+/*   Created: 2022/06/05 19:45:32 by yed-dyb           #+#    #+#             */
+/*   Updated: 2022/06/06 11:11:27 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parser_redirect(token_t *token, lexer_t *lexer)
+int	is_stop_charaters(char c, int quote)
 {
-	if (token->type == TOKEN_LESS_THAN)
-	{
-		free_if_exists(data.cmds[data.index].input);
-		data.cmds[data.index].input = parser_expect(lexer, TOKEN_WORD).value;
-		data.heredoc = 0;
-	}
-	else if (token->type == TOKEN_OLD_THAN) {
-		free_if_exists(data.cmds[data.index].output);
-		data.cmds[data.index].output = parser_expect(
-				lexer, TOKEN_WORD).value;
-		data.append = 0;
-		if (!data.err)
-			open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
-	}
-	else if (token->type == TOKEN_LESS_LESS)
-		parser_handle_heredoc(lexer);
-	else if (token->type == TOKEN_GREAT_GREAT)
-	{
-		data.append = 1;
-		free_if_exists(data.cmds[data.index].output);
-		data.cmds[data.index].output = parser_expect(
-				lexer, TOKEN_WORD).value;
-		if (!data.err)
-			open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
-	}
-	else if (token->type == TOKEN_PIPE_PIPE)
-		data.cmds[data.index].or = 1;
-	else if (token->type == TOKEN_AND_AND)
-		data.cmds[data.index].and = 1;
-	else if (token->type == TOKEN_PIPE)
-		data.cmds[data.index].pipe = 1;
-	if (token->type == TOKEN_AND_AND || token->type == TOKEN_PIPE
-		||token->type == TOKEN_PIPE_PIPE)
-		data.index++;
+	if (quote && (c == SINGLE_QUOTES || c == DOUBLE_QUOTES))
+		return (0);
+	if ((c >= 32 && c <= 47) || c == '\0')
+		return (1);
+	return (0);
 }
 
-void	parser_handle_word(token_t *token)
+int	parser_count_word(lexer_t *lexer)
 {
-	if (ft_strchr(token->value, ASTERISK))
-		parser_check_asterisk(token);
-	else
+	int	i;
+	int	len;
+
+	i = lexer->index;
+	len = 0;
+	while (!is_stop_charaters(lexer->content[i], 0)
+		&& lexer->content[i] != '\0')
 	{
-		if (!ft_strncmp(token->value, "\"\"", ft_strlen(token->value)) 
-			|| !ft_strncmp(token->value, "\'\'", ft_strlen(token->value)))
-			data.cmds[data.index].str = join_with_sep(
-					data.cmds[data.index].str, lexer_get_char_as_string(-2), -1);
-		else 
-			data.cmds[data.index].str = join_with_sep(
-					data.cmds[data.index].str, parser_handle_dollar_sign(token->value, 1), -1);
+		i++;
+		len++;
 	}
+	return (len);
 }
 
-char *remove_quotes(char *str) {
-	int i = 0;
-	int j = 0;
-	char quote = 0;
-	char *new;
+char	*get_env_variable(char *var)
+{
+	int		i;
+	char	*tmp;
 
-	new = ft_calloc(ft_strlen(str) + 1, sizeof(char));
-
-	while(str[i])
+	i = 0;
+	tmp = ft_strjoin(var, "=");
+	while (data.env[i])
 	{
-		if (!quote && (str[i] == SINGLE_QUOTES || str[i] == DOUBLE_QUOTES))
-			quote = str[i];
-		else if (str[i] == quote)
-			quote = 0;
-		else {
-			new[j] = str[i];
-			j++;
+		if (!ft_strncmp(tmp, data.env[i], ft_strlen(var) + 1))
+		{
+			free(tmp);
+			return (ft_substr(data.env[i], ft_strlen(var) + 1,
+					ft_strlen(data.env[i]) - ft_strlen(var) + 1));
 		}
 		i++;
 	}
-	return (new);
-}
-
-void	parser_handle_heredoc(lexer_t *lexer)
-{
-	char *tmp;
-	tmp = parser_expect(lexer, TOKEN_WORD).value;
-	if (ft_strchr(tmp, DOUBLE_QUOTES) || ft_strchr(tmp, SINGLE_QUOTES))
-		data.heredoc = 2;
-	else
-		data.heredoc = 1;
-	data.limit = remove_quotes(tmp);
 	free(tmp);
-	here_doc();
-	free_if_exists(data.cmds[data.index].input);
+	return (ft_strdup(""));
 }
 
-void	parser_error(char *value, int token_type)
+int	is_surrounded_with_qoutes(lexer_t *lexer)
 {
-	if (!data.err)
-	{
-		ft_putstr_fd("minishell: syntax error near unexepcted token '", STDERR);
-		if (token_type == TOKEN_END)
-			ft_putstr_fd("NEW_LINE", STDERR);
-		else 
-			ft_putstr_fd(value, STDERR);
-		ft_putstr_fd("'\n", STDERR);
-		data.exit_code = 258;
-		data.err = 1;
-	}
+	if ((lexer->index > 0
+			&& lexer->content[lexer->index + 1] == DOUBLE_QUOTES
+			&& lexer->content[lexer->index - 1] == DOUBLE_QUOTES)
+		|| (lexer->index > 0
+			&& lexer->content[lexer->index + 1] == SINGLE_QUOTES
+			&& lexer->content[lexer->index - 1] == SINGLE_QUOTES))
+		return (1);
+	return (0);
 }
 
-int	is_commands_breaker(int n)
+int	is_empty_string(char *str)
 {
-	if (n == TOKEN_PIPE || n == TOKEN_PIPE_PIPE
-		|| n == TOKEN_AND_AND || n == TOKEN_END)
+	if (!ft_strncmp(str, "\"\"", ft_strlen(str))
+		|| !ft_strncmp(str, "\'\'", ft_strlen(str)))
 		return (1);
 	return (0);
 }

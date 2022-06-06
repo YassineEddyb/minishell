@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/01 22:20:19 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:27:54 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,26 @@ static token_t	lexer_get_word(lexer_t *lexer)
 	char	*val;
 	char	quote;
 
-	val = malloc((lexer_count_word(lexer) + 1) * sizeof(char));
+	val = ft_calloc((lexer_count_word(lexer) + 1), sizeof(char));
 	i = 0;
-	while (!is_special_character(lexer->c) && lexer->c != SPACE && lexer->c != '\0')
+	while (!is_special_character(lexer->c) && lexer->c != '\0')
 	{
 		if (lexer->c == SINGLE_QUOTES || lexer->c == DOUBLE_QUOTES)
 		{
 			quote = lexer->c;
 			val[i++] = lexer->c;
 			lexer_next_char(lexer);
-			while(lexer->c != quote && lexer->c != '\0')
+			while (lexer->c != quote && lexer->c != '\0')
 			{
-				val[i] = lexer->c;
+				val[i++] = lexer->c;
 				lexer_next_char(lexer);
-				i++;
 			}
 			val[i++] = lexer->c;
-			lexer_next_char(lexer);
-		} else {
-			val[i] = lexer->c;
-			lexer_next_char(lexer);
-			i++;
 		}
+		else
+			val[i++] = lexer->c;
+		lexer_next_char(lexer);
 	}
-	val[i] = '\0';
 	return (init_token(TOKEN_WORD, val));
 }
 
@@ -74,15 +70,14 @@ static token_t	lexer_get_special_characters(lexer_t *lexer)
 	else if (lexer->c == OLD_THAN)
 		return (init_token(TOKEN_OLD_THAN, lexer_get_char_as_string(lexer->c)));
 	else if (lexer->c == LESS_THAN)
-		return (init_token(TOKEN_LESS_THAN, \
-			lexer_get_char_as_string(lexer->c)));
+		return (init_token(TOKEN_LESS_THAN,
+				lexer_get_char_as_string(lexer->c)));
 	else if (lexer->c == PIPE && lexer->content[lexer->index + 1] == PIPE)
 		return (init_token(TOKEN_PIPE_PIPE, ft_strdup("||")));
 	else if (lexer->c == AND && lexer->content[lexer->index + 1] == AND)
 		return (init_token(TOKEN_AND_AND, ft_strdup("&&")));
 	else if (lexer->c == AND && lexer->content[lexer->index + 1] != AND)
 		parser_error("&", TOKEN_AND_AND);
-	
 	return (init_token(TOKEN_PIPE, lexer_get_char_as_string(lexer->c)));
 }
 

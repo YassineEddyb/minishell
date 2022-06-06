@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/05 17:41:28 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/06 15:09:48 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,11 @@ void	parser_handle_heredoc(lexer_t *lexer);
 void	parser_error(char *value, int token_type);
 int		is_commands_breaker(int n);
 char	**dup_arr(char **arr);
+int		is_empty_string(char *str);
+int		is_surrounded_with_qoutes(lexer_t *lexer);
+int		is_stop_charaters(char c, int quote);
+int		parser_count_word(lexer_t *lexer);
+char	*get_env_variable(char *var);
 
 // minishell lib
 void	free_arr(char **arr);
@@ -146,6 +151,9 @@ void	ft_free_2d_table(char **table);
 int		table_len(char **tab);
 int		ft_strlen_till_c(char *s, char c);
 char	**strdup_table(char **env);
+void	dup_all(int i);
+void	dup_output_file(int i);
+int		is_builtin_cmd(char *cmd);
 
 // build in commands
 void 	echo_cmd(char **args);

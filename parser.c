@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/05 15:54:21 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/06 12:22:09 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ token_t	parser_expect(lexer_t *lexer, int token_type)
 	return (new_token);
 }
 
-
 void	parser_parse(token_t *token, lexer_t *lexer)
 {
 	char	*str;
@@ -38,6 +37,14 @@ void	parser_parse(token_t *token, lexer_t *lexer)
 			data.cmds[data.index].str
 				= join_with_sep(ft_strdup("./minishell"), token->value, -1);
 	}
+	else if (token->type == TOKEN_LESS_THAN)
+	{
+		free_if_exists(data.cmds[data.index].input);
+		data.cmds[data.index].input = parser_expect(lexer, TOKEN_WORD).value;
+		data.heredoc = 0;
+	}
+	else if (token->type == TOKEN_LESS_LESS)
+		parser_handle_heredoc(lexer);
 	else if (token->type == TOKEN_END)
 		return ;
 	else
@@ -69,6 +76,19 @@ void	init_data(char *str)
 	}
 }
 
+int	check_parse_error(token_t token, token_t temp_token)
+{
+	if (is_commands_breaker(temp_token.type)
+		&& (is_commands_breaker(token.type)))
+	{
+		parser_error(token.value, token.type);
+		if (token.type != TOKEN_PARENTHESES)
+			free(token.value);
+		return (1);
+	}
+	return (0);
+}
+
 void	parser(char *str)
 {
 	lexer_t	*lexer;
@@ -85,13 +105,8 @@ void	parser(char *str)
 	while (token.type)
 	{
 		token = lexer_get_next_token(lexer);
-		if (is_commands_breaker(temp_token.type) && (is_commands_breaker(token.type)))
-		{
-			parser_error(token.value, token.type);
-			if (token.type != TOKEN_PARENTHESES)
-				free(token.value);
+		if (check_parse_error(token, temp_token))
 			break ;
-		}
 		parser_parse(&token, lexer);
 		temp_token = token;
 		if (token.type != TOKEN_PARENTHESES)

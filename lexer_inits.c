@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 17:49:48 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/26 18:17:48 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:33:57 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,14 @@ token_t	init_token(int type, char *value)
 	token.type = type;
 	token.value = value;
 	return (token);
+}
+
+int	is_special_character(char c)
+{
+	if (c == PIPE || c == SPACE
+		|| c == OLD_THAN || c == LESS_THAN
+		|| c == AND || c == LEFT_PARENTHESES
+		|| c == RIGHT_PARENTHESES || c == NEW_LINE)
+		return (1);
+	return (0);
 }

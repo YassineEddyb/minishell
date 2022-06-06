@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/05 17:41:56 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/06 11:01:54 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int main (int ac , char **av, char **env)
 				free_if_exists(str);
 				execute();
 				clean_data();
-				// system("leaks minishell");
+				system("leaks minishell");
 			}
 		}
 	} else if (ac == 2)

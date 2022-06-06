@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:54:57 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/05/27 12:40:06 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:34:28 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,22 @@ int	lexer_strlen(lexer_t *lexer, char c)
 
 int	lexer_count_word(lexer_t *lexer)
 {
-	int	i;
-	int	len;
-	char quote;
+	int		i;
+	int		len;
+	char	quote;
 
 	i = lexer->index;
 	len = 0;
-	while (!is_special_character(lexer->content[i]) && lexer->content[i] != SPACE && lexer->content[i] != '\0')
+	while (!is_special_character(lexer->content[i])
+		&& lexer->content[i] != '\0')
 	{
-		if (lexer->content[i] == SINGLE_QUOTES || lexer->content[i] == DOUBLE_QUOTES)
+		if (lexer->content[i] == SINGLE_QUOTES
+			|| lexer->content[i] == DOUBLE_QUOTES)
 		{
 			quote = lexer->content[i];
 			i++;
 			len++;
-			while(lexer->content[i] != quote && lexer->content[i] != '\0')
+			while (lexer->content[i] != quote && lexer->content[i] != '\0')
 			{
 				i++;
 				len++;
@@ -66,9 +68,7 @@ void	lexer_next_char(lexer_t *lexer)
 void	lexer_skip_spaces(lexer_t *lexer)
 {
 	while (lexer->c == SPACE)
-	{
 		lexer_next_char(lexer);
-	}
 }
 
 char	*lexer_get_char_as_string(char c)
@@ -79,14 +79,4 @@ char	*lexer_get_char_as_string(char c)
 	str[0] = c;
 	str[1] = '\0';
 	return (str);
-}
-
-int	is_special_character(char c)
-{
-	if (c == PIPE
-		|| c == OLD_THAN || c == LESS_THAN
-		|| c == AND || c == LEFT_PARENTHESES
-		|| c == RIGHT_PARENTHESES || c == NEW_LINE)
-		return (1);
-	return (0);
 }

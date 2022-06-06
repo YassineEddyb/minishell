@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/03 16:20:55 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/06 12:35:38 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,35 @@ char	*join_with_sep(char *s1, char *s2, char sep)
 	return (str);
 }
 
+void	skip_strings(char *str, int *i)
+{
+	char	quote;
+
+	if (str[*i] == LEFT_PARENTHESES)
+	{
+		if (str[*i + 1] == RIGHT_PARENTHESES)
+			parser_error(")", TOKEN_PARENTHESES);
+		while (str[*i] != RIGHT_PARENTHESES && str[*i] != '\0')
+			(*i)++;
+	}
+	if (str[*i] == SINGLE_QUOTES || str[*i] == DOUBLE_QUOTES)
+	{
+		quote = str[(*i)++];
+		while (str[*i] != quote && str[*i] != '\0')
+			(*i)++;
+	}
+}
+
 int	get_num_of_cmds(char *str)
 {
-	int	i;
-	int	len;
-	char quote;
+	int		i;
+	int		len;
 
 	i = 0;
 	len = 1;
 	while (str[i])
 	{
-		if (str[i] == LEFT_PARENTHESES)
-		{
-			if (str[i + 1] == RIGHT_PARENTHESES)
-				parser_error(")", TOKEN_PARENTHESES);
-			while (str[i] != RIGHT_PARENTHESES && str[i] != '\0')
-			{
-				// if (str[i] == '\0')
-				// {
-				// 	parser_error("NEW_LINE");
-				// 	break;
-				// }
-				i++;
-			}
-		}
-		if (str[i] == SINGLE_QUOTES || str[i] == DOUBLE_QUOTES)
-		{
-			quote = str[i++];
-			while (str[i] != quote && str[i] != '\0')
-				i++;
-		}
+		skip_strings(str, &i);
 		if ((str[i] == PIPE && str[i + 1] == PIPE)
 			|| (str[i] == AND && str[i + 1] == AND))
 		{
@@ -86,4 +85,19 @@ void	clean_data(void)
 		i++;
 	}
 	free(data.cmds);
+}
+
+void	parser_error(char *value, int token_type)
+{
+	if (!data.err)
+	{
+		ft_putstr_fd("minishell: syntax error near unexepcted token '", STDERR);
+		if (token_type == TOKEN_END)
+			ft_putstr_fd("NEW_LINE", STDERR);
+		else
+			ft_putstr_fd(value, STDERR);
+		ft_putstr_fd("'\n", STDERR);
+		data.exit_code = 258;
+		data.err = 1;
+	}
 }
