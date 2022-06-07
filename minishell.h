@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 15:09:48 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/07 10:15:40 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ char	*get_env_variable(char *var);
 void	free_arr(char **arr);
 int		get_index(char *s, char c);
 int		starts_with(char *str, char c);
-void	unset_cmd(char **args);
+void	unset_cmd(char **args, int q);
 int		get_arr_size(char **arr);
 char	*join_and_free(char *s1, char *s2);
 void	free_if_exists(char *str);
@@ -154,6 +154,8 @@ char	**strdup_table(char **env);
 void	dup_all(int i);
 void	dup_output_file(int i);
 int		is_builtin_cmd(char *cmd);
+int		ft_check_alnum(char *str);
+int		ft_check_alnum2(char *str);
 
 // build in commands
 void 	echo_cmd(char **args);

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 12:33:42 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/07 12:14:15 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	parser_redirect(token_t *token, lexer_t *lexer)
 	if (token->type == TOKEN_OLD_THAN)
 	{
 		free_if_exists(data.cmds[data.index].output);
-		data.cmds[data.index].output = parser_expect(
-				lexer, TOKEN_WORD).value;
+		data.cmds[data.index].output = parser_handle_dollar_sign(
+				parser_expect(lexer, TOKEN_WORD).value, 1);
 		data.append = 0;
 		if (!data.err)
 			open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
@@ -27,8 +27,8 @@ void	parser_redirect(token_t *token, lexer_t *lexer)
 	{
 		data.append = 1;
 		free_if_exists(data.cmds[data.index].output);
-		data.cmds[data.index].output = parser_expect(
-				lexer, TOKEN_WORD).value;
+		data.cmds[data.index].output = parser_handle_dollar_sign(
+			parser_expect(lexer, TOKEN_WORD).value, 1);
 		if (!data.err)
 			open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
 	}

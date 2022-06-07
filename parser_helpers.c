@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 19:45:32 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 11:11:27 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/07 12:46:39 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	is_stop_charaters(char c, int quote)
 {
-	if (quote && (c == SINGLE_QUOTES || c == DOUBLE_QUOTES))
-		return (0);
-	if ((c >= 32 && c <= 47) || c == '\0')
+	if (!ft_isalnum(c))
 		return (1);
 	return (0);
 }

@@ -6,11 +6,11 @@
 /*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:45:02 by aaizza            #+#    #+#             */
-/*   Updated: 2022/05/25 16:45:58 by aaizza           ###   ########.fr       */
+/*   Updated: 2022/06/07 02:17:08 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int	ft_digit_check(char *str)
 {
@@ -28,7 +28,7 @@ int	ft_digit_check(char *str)
 	return (1);
 }
 
-void exit_cmd(char **args)
+void	exit_cmd(char **args)
 {
 	if (!args[1])
 	{

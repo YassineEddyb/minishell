@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:26:02 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/03 14:55:05 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/06 17:29:32 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	read_form_stdout(char *limit, int fd)
 		{
 			str = ft_substr(line, 0, ft_strlen(line) - 1);
 			free(line);
-			line = join_and_free(parser_handle_dollar_sign(str, 0), ft_strdup("\n"));
+			line = join_and_free(parser_handle_dollar_sign(str, 0),
+					ft_strdup("\n"));
 			free(str);
 		}
 		write(fd, line, ft_strlen(line));

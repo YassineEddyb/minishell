@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/07 10:54:31 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/07 03:12:46 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,8 @@ void	help_export2(char **args, int i, int j, int x)
 	while (i < j + 1)
 	{
 		if (!ft_isalpha(args[i][0]) || !ft_check_alnum2(args[i] + 1))
-		{
-			printf("minishell: export: `%s':not a valid identifier\n",
-					args[i++]);
-			data.exit_code = 1;
-		}
+			printf("minishell: export: `%s': \
+			not a valid identifier\n", args[i++]);
 		else
 			new_env[x++] = ft_strdup(args[i++]);
 	}
