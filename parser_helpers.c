@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 19:45:32 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/07 12:46:39 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/07 14:01:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_env_variable(char *var)
 	char	*tmp;
 
 	i = 0;
-	tmp = ft_strjoin(var, "=");
+	tmp = join_and_free(ft_strdup(var), ft_strdup("="));
 	while (data.env[i])
 	{
 		if (!ft_strncmp(tmp, data.env[i], ft_strlen(var) + 1))

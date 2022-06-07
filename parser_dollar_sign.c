@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/07 12:50:20 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/07 15:20:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 		if (quote && (lexer->c == SINGLE_QUOTES || lexer->c == DOUBLE_QUOTES))
 			str = join_and_free(str, parser_collect_string(lexer, lexer->c));
 		else if (lexer->c == DOLLAR_SIGN)
-			str = ft_str_join(str, get_env_value(lexer));
+			str = join_and_free(str, get_env_value(lexer));
 	}
 	free(lexer);
 	return (str);
