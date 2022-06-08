@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 10:02:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/16 13:08:27 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:23:47 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	if (!s1)
 		s1 = ft_calloc(1, sizeof(char));
-	// if (!s2)
-	// 	s2 = ft_calloc(1, sizeof(char));
 	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);

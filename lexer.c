@@ -6,13 +6,13 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:36:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 14:27:54 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:03:28 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static token_t	lexer_get_string(lexer_t *lexer, char c, int token_type)
+static t_token	lexer_get_string(t_lexer *lexer, char c, int t_tokenype)
 {
 	int		i;
 	char	*val;
@@ -28,10 +28,10 @@ static token_t	lexer_get_string(lexer_t *lexer, char c, int token_type)
 	}
 	lexer_next_char(lexer);
 	val[i] = '\0';
-	return (init_token(token_type, val));
+	return (init_token(t_tokenype, val));
 }
 
-static token_t	lexer_get_word(lexer_t *lexer)
+static t_token	lexer_get_word(t_lexer *lexer)
 {
 	int		i;
 	char	*val;
@@ -60,7 +60,7 @@ static token_t	lexer_get_word(lexer_t *lexer)
 	return (init_token(TOKEN_WORD, val));
 }
 
-static token_t	lexer_get_special_characters(lexer_t *lexer)
+static t_token	lexer_get_special_characters(t_lexer *lexer)
 {
 	if (lexer->c == OLD_THAN && lexer->content[lexer->index + 1] == OLD_THAN)
 		return (init_token(TOKEN_GREAT_GREAT, ft_strdup(">>")));
@@ -81,19 +81,19 @@ static token_t	lexer_get_special_characters(lexer_t *lexer)
 	return (init_token(TOKEN_PIPE, lexer_get_char_as_string(lexer->c)));
 }
 
-static token_t	lexer_get_special_character_and_next(lexer_t *lexer)
+static t_token	lexer_get_special_character_and_next(t_lexer *lexer)
 {
-	token_t	token;
+	t_token	token;
 
 	token = lexer_get_special_characters(lexer);
 	lexer_next_char(lexer);
-	if (token.type == TOKEN_LESS_LESS || token.type == TOKEN_GREAT_GREAT
-		|| token.type == TOKEN_PIPE_PIPE || token.type == TOKEN_AND_AND)
+	if (token.e_type == TOKEN_LESS_LESS || token.e_type == TOKEN_GREAT_GREAT
+		|| token.e_type == TOKEN_PIPE_PIPE || token.e_type == TOKEN_AND_AND)
 		lexer_next_char(lexer);
 	return (token);
 }
 
-token_t	lexer_get_next_token(lexer_t *lexer)
+t_token	lexer_get_next_token(t_lexer *lexer)
 {
 	while (lexer->c != '\0')
 	{

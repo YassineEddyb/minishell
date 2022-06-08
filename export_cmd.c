@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/07 10:54:31 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 18:54:26 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@ char	**strdup_table(char **env)
 
 void	help_export(char **args, int i, int j, int x)
 {
-	while (data.env[i])
+	while (g_data.env[i])
 	{
 		printf("declare -x ");
 		j = 0;
 		x = 0;
-		while (data.env[i][j])
+		while (g_data.env[i][j])
 		{
-			if (data.env[i][j] == '=')
+			if (g_data.env[i][j] == '=')
 			{
 				printf("=\"");
 				x++;
 				j++;
 			}
-			printf("%c", data.env[i][j]);
+			printf("%c", g_data.env[i][j]);
 			j++;
 		}
 		if (x != 0)
@@ -72,17 +72,17 @@ void	help_export1(char **args, int i, int j)
 	unset_cmd(t, 1);
 }
 
-void	help_export2(char **args, int i, int j, int x)
+int	help_export2(char **args, int i, int j, int x)
 {
 	char	**new_env;
 
-	i = table_len(data.env);
+	i = table_len(g_data.env);
 	j = table_len(args) - 1;
 	new_env = malloc(sizeof(char *) * (i + j + 1));
 	x = 0;
 	while (x < i)
 	{
-		new_env[x] = ft_strdup(data.env[x]);
+		new_env[x] = ft_strdup(g_data.env[x]);
 		x++;
 	}
 	i = 1;
@@ -92,14 +92,14 @@ void	help_export2(char **args, int i, int j, int x)
 		{
 			printf("minishell: export: `%s':not a valid identifier\n",
 					args[i++]);
-			data.exit_code = 1;
 		}
 		else
 			new_env[x++] = ft_strdup(args[i++]);
 	}
 	new_env[x] = NULL;
-	free(data.env);
-	data.env = new_env;
+	free(g_data.env);
+	g_data.env = new_env;
+	return (0);
 }
 
 void	export_cmd(char **args)
@@ -110,10 +110,13 @@ void	export_cmd(char **args)
 
 	i = 0;
 	if (!args[1])
+	{
 		help_export(args, i, j, x);
+		g_data.exit_code = 0;
+	}
 	else
 	{
 		help_export1(args, i, j);
-		help_export2(args, i, j, x);
+		(help_export2(args, i, j, x));
 	}
 }

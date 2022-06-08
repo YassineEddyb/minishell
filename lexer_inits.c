@@ -6,28 +6,28 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 17:49:48 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 14:33:57 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:14:21 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-lexer_t	*init_lexer(char *str)
+t_lexer	*init_lexer(char *str)
 {
-	lexer_t	*lexer;
+	t_lexer	*lexer;
 
-	lexer = malloc(sizeof(lexer_t));
+	lexer = malloc(sizeof(t_lexer));
 	lexer->content = str;
 	lexer->index = 0;
 	lexer->c = str[lexer->index];
 	return (lexer);
 }
 
-token_t	init_token(int type, char *value)
+t_token	init_token(int type, char *value)
 {
-	token_t	token;
+	t_token	token;
 
-	token.type = type;
+	token.e_type = type;
 	token.value = value;
 	return (token);
 }

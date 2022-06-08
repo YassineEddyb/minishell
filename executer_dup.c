@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:50:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 17:31:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 13:01:51 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ static void	handle_input(int i)
 {
 	int	fd;
 
-	if (data.heredoc)
+	if (g_data.heredoc)
 	{
 		fd = open("/tmp/.temp", O_RDONLY, 0644);
 		dup2(fd, STDIN);
 	}
-	else if (data.cmds[i].input)
+	else if (g_data.cmds[i].input)
 	{
-		fd = open(data.cmds[i].input, O_RDONLY, 0644);
+		fd = open(g_data.cmds[i].input, O_RDONLY, 0644);
 		if (fd == -1)
 		{
 			perror("minishell");
@@ -31,8 +31,8 @@ static void	handle_input(int i)
 		}
 		dup2(fd, STDIN);
 	}
-	else if (i > 0 && data.cmds[i - 1].pipe)
-		dup2(data.cmds[i - 1].p[STDIN], STDIN);
+	else if (i > 0 && g_data.cmds[i - 1].pipe)
+		dup2(g_data.cmds[i - 1].p[STDIN], STDIN);
 }
 
 void	dup_all(int i)
@@ -40,12 +40,12 @@ void	dup_all(int i)
 	int	fd;
 
 	handle_input(i);
-	if (data.cmds[i].output)
+	if (g_data.cmds[i].output)
 	{
-		if (data.append)
-			fd = open(data.cmds[i].output, O_RDWR | O_CREAT | O_APPEND, 0644);
+		if (g_data.append)
+			fd = open(g_data.cmds[i].output, O_CREAT | O_RDWR | O_APPEND, 0644);
 		else
-			fd = open(data.cmds[i].output, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			fd = open(g_data.cmds[i].output, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd == -1)
 		{
 			perror("minishell");
@@ -53,20 +53,20 @@ void	dup_all(int i)
 		}
 		dup2(fd, STDOUT);
 	}
-	else if (data.cmds[i].pipe)
-		dup2(data.cmds[i].p[STDOUT], STDOUT);
+	else if (g_data.cmds[i].pipe)
+		dup2(g_data.cmds[i].p[STDOUT], STDOUT);
 }
 
 void	dup_output_file(int i)
 {
 	int	fd;
 
-	if (data.cmds[i].output && is_builtin_cmd(data.cmds[i].args[0]))
+	if (g_data.cmds[i].output && is_builtin_cmd(g_data.cmds[i].args[0]))
 	{
-		if (data.append)
-			fd = open(data.cmds[i].output, O_RDWR | O_CREAT | O_APPEND, 0644);
+		if (g_data.append)
+			fd = open(g_data.cmds[i].output, O_CREAT | O_RDWR | O_APPEND, 0644);
 		else
-			fd = open(data.cmds[i].output, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			fd = open(g_data.cmds[i].output, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd == -1)
 		{
 			perror("minishell");

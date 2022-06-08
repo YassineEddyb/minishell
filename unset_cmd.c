@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:24 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/07 03:12:41 by aaizza           ###   ########.fr       */
+/*   Updated: 2022/06/08 12:10:17 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ char	**help_unset(int i)
 	char	**tmp;
 
 	j = 0;
-	tmp = malloc(sizeof(char *) * table_len(data.env) + 1);
+	tmp = malloc(sizeof(char *) * table_len(g_data.env) + 1);
 	while (j < i)
 	{
-		tmp[j] = ft_strdup(data.env[j]);
+		tmp[j] = ft_strdup(g_data.env[j]);
 		j++;
 	}
-	while (data.env[j + 1])
+	while (g_data.env[j + 1])
 	{
-		tmp[j] = ft_strdup(data.env[j + 1]);
+		tmp[j] = ft_strdup(g_data.env[j + 1]);
 		j++;
 	}
 	tmp[j] = NULL;
@@ -62,15 +62,15 @@ void	help_unset1(char **args, int i, int j)
 	char	**tmp;
 	char	*s1;
 
-	while (data.env[j])
+	while (g_data.env[j])
 	{
-		s1 = ft_substr(data.env[j], 0, ft_strlen_till_c(data.env[j], '='));
+		s1 = ft_substr(g_data.env[j], 0, ft_strlen_till_c(g_data.env[j], '='));
 		if (ft_strlen2(args[i]) == ft_strlen2(s1))
 		{
 			if (ft_strncmp(args[i], s1, ft_strlen2(s1)) == 0)
 			{
 				tmp = help_unset(j);
-				data.env = tmp;
+				g_data.env = tmp;
 				break ;
 			}
 		}
@@ -90,8 +90,8 @@ void	unset_cmd(char **args, int q)
 		while (args[i])
 		{
 			if (!ft_isalpha(args[i][0]) || !ft_check_alnum(args[i] + 1))
-				printf("minishell: unset: `%s': \
-				not a valid identifier\n", args[i]);
+				printf("minishell: unset: `%s': not a valid identifier\n"
+					, args[i]);
 			i++;
 		}
 	}

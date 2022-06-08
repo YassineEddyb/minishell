@@ -6,44 +6,44 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/07 12:14:15 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:56:45 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parser_redirect(token_t *token, lexer_t *lexer)
+void	parser_redirect(t_token *token, t_lexer *lexer)
 {
-	if (token->type == TOKEN_OLD_THAN)
+	if (token->e_type == TOKEN_OLD_THAN)
 	{
-		free_if_exists(data.cmds[data.index].output);
-		data.cmds[data.index].output = parser_handle_dollar_sign(
-				parser_expect(lexer, TOKEN_WORD).value, 1);
-		data.append = 0;
-		if (!data.err)
-			open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
+		free_if_exists(g_data.cmds[g_data.index].output);
+		g_data.cmds[g_data.index].output = parser_handle_dollar_sign(
+				parser_expect(lexer, TOKEN_WORD).value);
+		g_data.append = 0;
+		if (!g_data.err)
+			open(g_data.cmds[g_data.index].output, O_RDWR | O_CREAT, 0644);
 	}
-	else if (token->type == TOKEN_GREAT_GREAT)
+	else if (token->e_type == TOKEN_GREAT_GREAT)
 	{
-		data.append = 1;
-		free_if_exists(data.cmds[data.index].output);
-		data.cmds[data.index].output = parser_handle_dollar_sign(
-			parser_expect(lexer, TOKEN_WORD).value, 1);
-		if (!data.err)
-			open(data.cmds[data.index].output, O_RDWR | O_CREAT, 0644);
+		g_data.append = 1;
+		free_if_exists(g_data.cmds[g_data.index].output);
+		g_data.cmds[g_data.index].output = parser_handle_dollar_sign(
+				parser_expect(lexer, TOKEN_WORD).value);
+		if (!g_data.err)
+			open(g_data.cmds[g_data.index].output, O_RDWR | O_CREAT, 0644);
 	}
-	else if (token->type == TOKEN_PIPE_PIPE)
-		data.cmds[data.index].or = 1;
-	else if (token->type == TOKEN_AND_AND)
-		data.cmds[data.index].and = 1;
-	else if (token->type == TOKEN_PIPE)
-		data.cmds[data.index].pipe = 1;
-	if (token->type == TOKEN_AND_AND || token->type == TOKEN_PIPE
-		||token->type == TOKEN_PIPE_PIPE)
-		data.index++;
+	else if (token->e_type == TOKEN_PIPE_PIPE)
+		g_data.cmds[g_data.index].or = 1;
+	else if (token->e_type == TOKEN_AND_AND)
+		g_data.cmds[g_data.index].and = 1;
+	else if (token->e_type == TOKEN_PIPE)
+		g_data.cmds[g_data.index].pipe = 1;
+	if (token->e_type == TOKEN_AND_AND || token->e_type == TOKEN_PIPE
+		||token->e_type == TOKEN_PIPE_PIPE)
+		g_data.index++;
 }
 
-void	parser_handle_word(token_t *token)
+void	parser_handle_word(t_token *token)
 {
 	char	*str;
 
@@ -51,14 +51,14 @@ void	parser_handle_word(token_t *token)
 		parser_check_asterisk(token);
 	else
 	{
-		str = parser_handle_dollar_sign(token->value, 1);
+		str = parser_handle_dollar_sign(token->value);
 		if (is_empty_string(str))
 		{
 			free(str);
 			str = lexer_get_char_as_string(-2);
 		}
-		data.cmds[data.index].str = join_with_sep(
-				data.cmds[data.index].str, str, -1);
+		g_data.cmds[g_data.index].str = join_with_sep(
+				g_data.cmds[g_data.index].str, str, -1);
 	}
 }
 
@@ -89,19 +89,19 @@ char	*remove_quotes(char *str)
 	return (new);
 }
 
-void	parser_handle_heredoc(lexer_t *lexer)
+void	parser_handle_heredoc(t_lexer *lexer)
 {
 	char	*tmp;
 
 	tmp = parser_expect(lexer, TOKEN_WORD).value;
 	if (ft_strchr(tmp, DOUBLE_QUOTES) || ft_strchr(tmp, SINGLE_QUOTES))
-		data.heredoc = 2;
+		g_data.heredoc = 2;
 	else
-		data.heredoc = 1;
-	data.limit = remove_quotes(tmp);
+		g_data.heredoc = 1;
+	g_data.limit = remove_quotes(tmp);
 	free(tmp);
 	here_doc();
-	free_if_exists(data.cmds[data.index].input);
+	free_if_exists(g_data.cmds[g_data.index].input);
 }
 
 int	is_commands_breaker(int n)

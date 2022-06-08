@@ -6,12 +6,12 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/07 10:15:40 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:46:42 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "libft/libft.h"
 # include "get_next_line/get_next_line.h"
@@ -46,7 +46,7 @@
 # define SUCCESS 0
 # define FAILURE 2
 
-typedef struct token_s
+typedef struct s_token
 {
 	enum {
 		TOKEN_END,
@@ -59,16 +59,16 @@ typedef struct token_s
 		TOKEN_AND_AND,
 		TOKEN_PIPE_PIPE,
 		TOKEN_PARENTHESES,
-	} type;
-	char *value;
-} token_t;
+	}	e_type;
+	char	*value;
+}	t_token;
 
-typedef struct lexer_s
+typedef struct s_lexer
 {
-	char *content;
-	char c;
-	int index;
-}	lexer_t;
+	char	*content;
+	char	c;
+	int		index;
+}	t_lexer;
 
 typedef struct s_cmd {
 	char	*str;
@@ -78,7 +78,7 @@ typedef struct s_cmd {
 	char	**args;
 	int		pipe;
 	int		and;
-	int 	or;
+	int		or;
 	int		p[2];
 	int		pid;
 }	t_cmd;
@@ -87,48 +87,47 @@ typedef struct s_data {
 	char	**env;
 	int		num_of_cmds;
 	t_cmd	*cmds;
-	int 	index;
-
+	int		index;
 	char	*limit;
-	int 	heredoc;
+	int		heredoc;
 	int		append;
 	int		err;
 	int		exit_code;
 }	t_data;
 
-t_data data;
+t_data	g_data;
 
 // lexer
 void	lexer(char *str);
-token_t init_token(int type, char *value);
-int		lexer_strlen(lexer_t *lexer, char c);
-void	lexer_next_char(lexer_t *lexer);
-void	lexer_skip_spaces(lexer_t *lexer);
+t_token	init_token(int type, char *value);
+int		lexer_strlen(t_lexer *lexer, char c);
+void	lexer_next_char(t_lexer *lexer);
+void	lexer_skip_spaces(t_lexer *lexer);
 char	*lexer_get_char_as_string(char c);
 int		is_special_character(char c);
-lexer_t *init_lexer(char *str);
-token_t lexer_get_next_token(lexer_t *lexer);
-int		lexer_count_word(lexer_t *lexer);
+t_lexer	*init_lexer(char *str);
+t_token	lexer_get_next_token(t_lexer *lexer);
+int		lexer_count_word(t_lexer *lexer);
 
 // parser
 void	parser(char *str);
-void	parser_parse(token_t *token, lexer_t *lexer);
+void	parser_parse(t_token *token, t_lexer *lexer);
 char	*join_with_sep(char *s1, char *s2, char sep);
 int		get_num_of_cmds(char *str);
-void	get_path_and_args();
-void	clean_data();
-token_t	parser_expect(lexer_t *lexer, int token_type);
-char	*parser_handle_dollar_sign(char *value, int quote);
-void	parser_redirect(token_t *token, lexer_t *lexer);
-void	parser_handle_word(token_t *token);
-void	parser_handle_heredoc(lexer_t *lexer);
-void	parser_error(char *value, int token_type);
+void	get_path_and_args(void);
+void	clean_data(void);
+t_token	parser_expect(t_lexer *lexer, int t_tokenype);
+char	*parser_handle_dollar_sign(char *value);
+void	parser_redirect(t_token *token, t_lexer *lexer);
+void	parser_handle_word(t_token *token);
+void	parser_handle_heredoc(t_lexer *lexer);
+void	parser_error(char *value, int t_tokenype);
 int		is_commands_breaker(int n);
 char	**dup_arr(char **arr);
 int		is_empty_string(char *str);
-int		is_surrounded_with_qoutes(lexer_t *lexer);
-int		is_stop_charaters(char c, int quote);
-int		parser_count_word(lexer_t *lexer);
+int		is_surrounded_with_qoutes(t_lexer *lexer);
+int		is_stop_charaters(char c);
+int		parser_count_word(t_lexer *lexer);
 char	*get_env_variable(char *var);
 
 // minishell lib
@@ -141,11 +140,11 @@ char	*join_and_free(char *s1, char *s2);
 void	free_if_exists(char *str);
 
 // executer
-void	execute();
-void    here_doc();
+void	execute(void);
+void	here_doc(void);
 void	close_unused_pipes(int process_index);
-void	close_all_pipes();
-void	wait_all_child_processors();
+void	close_all_pipes(void);
+void	wait_all_child_processors(void);
 void	check_is_path(int i);
 void	ft_free_2d_table(char **table);
 int		table_len(char **tab);
@@ -158,15 +157,15 @@ int		ft_check_alnum(char *str);
 int		ft_check_alnum2(char *str);
 
 // build in commands
-void 	echo_cmd(char **args);
-void 	cd_cmd(char **args);
-void 	pwd_cmd(void);
-void 	export_cmd(char **args);
+void	echo_cmd(char **args);
+void	cd_cmd(char **args);
+void	pwd_cmd(void);
+void	export_cmd(char **args);
 void	env_cmd(char **args);
 void	exit_cmd(char **args);
 
 // bonus functions
-int handle_and_and_or(int process_index);
-void parser_check_asterisk(token_t *token);
+int		handle_and_and_or(int process_index);
+void	parser_check_asterisk(t_token *token);
 
 #endif

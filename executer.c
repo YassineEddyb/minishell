@@ -34,26 +34,26 @@ int	is_builtin_cmd(char *cmd)
 
 int	is_builtin(int i)
 {
-	if (data.num_of_cmds > 1)
+	if (g_data.num_of_cmds > 1)
 		return (0);
 	dup_output_file(i);
-	if (!ft_strncmp(data.cmds[i].args[0], "echo", 5))
-		echo_cmd(data.cmds[i].args);
-	else if (!ft_strncmp(data.cmds[i].args[0], "pwd", 4))
+	if (!ft_strncmp(g_data.cmds[i].args[0], "echo", 5))
+		echo_cmd(g_data.cmds[i].args);
+	else if (!ft_strncmp(g_data.cmds[i].args[0], "pwd", 4))
 		pwd_cmd();
-	else if (!ft_strncmp(data.cmds[i].args[0], "env", 4))
-		env_cmd(data.cmds[i].args);
-	else if (!ft_strncmp(data.cmds[i].args[0], "cd", 3))
-		cd_cmd(data.cmds[i].args);
-	else if (!ft_strncmp(data.cmds[i].args[0], "export", 7))
-		export_cmd(data.cmds[i].args);
-	else if (!ft_strncmp(data.cmds[i].args[0], "unset", 6))
-		unset_cmd(data.cmds[i].args, 0);
-	else if (!ft_strncmp(data.cmds[i].args[0], "exit", 5))
-		exit_cmd(data.cmds[i].args);
-	if (is_builtin_cmd(data.cmds[i].args[0]))
+	else if (!ft_strncmp(g_data.cmds[i].args[0], "env", 4))
+		env_cmd(g_data.cmds[i].args);
+	else if (!ft_strncmp(g_data.cmds[i].args[0], "cd", 3))
+		cd_cmd(g_data.cmds[i].args);
+	else if (!ft_strncmp(g_data.cmds[i].args[0], "export", 7))
+		export_cmd(g_data.cmds[i].args);
+	else if (!ft_strncmp(g_data.cmds[i].args[0], "unset", 6))
+		unset_cmd(g_data.cmds[i].args, 0);
+	else if (!ft_strncmp(g_data.cmds[i].args[0], "exit", 5))
+		exit_cmd(g_data.cmds[i].args);
+	if (is_builtin_cmd(g_data.cmds[i].args[0]))
 		dup2(0, 1);
-	return (is_builtin_cmd(data.cmds[i].args[0]));
+	return (is_builtin_cmd(g_data.cmds[i].args[0]));
 }
 
 void	execute_commands(void)
@@ -61,33 +61,33 @@ void	execute_commands(void)
 	int	i;
 
 	i = -1;
-	while (++i < data.num_of_cmds)
+	while (++i < g_data.num_of_cmds)
 	{
-		if (data.cmds[i].args && !is_builtin(i))
+		if (g_data.cmds[i].args && !is_builtin(i))
 		{
-			data.cmds[i].pid = fork();
-			if (i < data.num_of_cmds && data.cmds[i].pid == 0)
+			g_data.cmds[i].pid = fork();
+			if (i < g_data.num_of_cmds && g_data.cmds[i].pid == 0)
 			{
 				close_unused_pipes(i);
 				dup_all(i);
 				if (!is_builtin(i))
 				{
 					check_is_path(i);
-					if (execve(data.cmds[i].path, data.cmds[i].args, data.env))
+					if (execve(g_data.cmds[i].path, g_data.cmds[i].args, g_data.env))
 						perror("minishell");
 					exit(ERROR);
 				}
-				exit(data.exit_code);
+				exit(g_data.exit_code);
 			}
 		}
-		if (i < data.num_of_cmds && !handle_and_and_or(i))
+		if (i < g_data.num_of_cmds && !handle_and_and_or(i))
 			break ;
 	}
 }
 
 void	execute(void)
 {
-	if (!data.err)
+	if (!g_data.err)
 	{
 		execute_commands();
 		close_all_pipes();

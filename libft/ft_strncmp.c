@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:11:15 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/03/19 11:19:58 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:24:53 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	int		b;
 
 	if (!s1 && !s2)
-		return 0;
-	if(!s1 || !s2)
+		return (0);
+	if (!s1 || !s2)
 		return (-1);
 	i = 0;
 	while (i < n)

@@ -6,13 +6,13 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/07 15:20:07 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:56:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*parser_collect_word(lexer_t *lexer, char c, int quote)
+static char	*parser_collect_word(t_lexer *lexer, char c)
 {
 	int		i;
 	char	*val;
@@ -30,14 +30,14 @@ static char	*parser_collect_word(lexer_t *lexer, char c, int quote)
 	return (val);
 }
 
-static char	*parser_collect_dollar_sign_string(lexer_t *lexer)
+static char	*parser_collect_dollar_sign_string(t_lexer *lexer)
 {
 	int		i;
 	char	*val;
 
 	i = 0;
 	val = malloc((parser_count_word(lexer) + 1) * sizeof(char));
-	while (!is_stop_charaters(lexer->c, 0) && lexer->c != '\0')
+	while (!is_stop_charaters(lexer->c) && lexer->c != '\0')
 	{
 		val[i] = lexer->c;
 		lexer_next_char(lexer);
@@ -47,7 +47,7 @@ static char	*parser_collect_dollar_sign_string(lexer_t *lexer)
 	return (val);
 }
 
-char	*get_env_value(lexer_t *lexer)
+char	*get_env_value(t_lexer *lexer)
 {
 	char	*str;
 	char	*tmp;
@@ -57,7 +57,7 @@ char	*get_env_value(lexer_t *lexer)
 		str = ft_strdup("$");
 	else if (lexer->c == QUESTION_MARK)
 	{
-		str = ft_itoa(data.exit_code);
+		str = ft_itoa(g_data.exit_code);
 		lexer_next_char(lexer);
 	}
 	else
@@ -69,7 +69,7 @@ char	*get_env_value(lexer_t *lexer)
 	return (str);
 }
 
-static char	*parser_collect_string(lexer_t *lexer, char c)
+static char	*parser_collect_string(t_lexer *lexer, char c)
 {
 	int		i;
 	char	*val;
@@ -80,7 +80,7 @@ static char	*parser_collect_string(lexer_t *lexer, char c)
 	{
 		if (lexer->c == DOLLAR_SIGN
 			&& (is_surrounded_with_qoutes(lexer)
-			|| !ft_isalnum(lexer->content[lexer->index + 1])))
+				|| !ft_isalnum(lexer->content[lexer->index + 1])))
 		{
 			val = join_and_free(val, ft_strdup("$"));
 			lexer_next_char(lexer);
@@ -98,10 +98,10 @@ static char	*parser_collect_string(lexer_t *lexer, char c)
 	return (val);
 }
 
-char	*parser_handle_dollar_sign(char *value, int quote)
+char	*parser_handle_dollar_sign(char *value)
 {
 	char	*str;
-	lexer_t	*lexer;
+	t_lexer	*lexer;
 
 	str = NULL;
 	lexer = init_lexer(value);
@@ -109,8 +109,8 @@ char	*parser_handle_dollar_sign(char *value, int quote)
 	{
 		if (lexer->c != DOLLAR_SIGN)
 			str = join_and_free(str,
-					parser_collect_word(lexer, DOLLAR_SIGN, quote));
-		if (quote && (lexer->c == SINGLE_QUOTES || lexer->c == DOUBLE_QUOTES))
+					parser_collect_word(lexer, DOLLAR_SIGN));
+		if (lexer->c == SINGLE_QUOTES || lexer->c == DOUBLE_QUOTES)
 			str = join_and_free(str, parser_collect_string(lexer, lexer->c));
 		else if (lexer->c == DOLLAR_SIGN)
 			str = join_and_free(str, get_env_value(lexer));

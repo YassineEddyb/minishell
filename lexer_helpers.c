@@ -6,13 +6,13 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 19:54:57 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 14:34:28 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:03:13 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	lexer_strlen(lexer_t *lexer, char c)
+int	lexer_strlen(t_lexer *lexer, char c)
 {
 	int	i;
 	int	len;
@@ -27,7 +27,7 @@ int	lexer_strlen(lexer_t *lexer, char c)
 	return (len);
 }
 
-int	lexer_count_word(lexer_t *lexer)
+int	lexer_count_word(t_lexer *lexer)
 {
 	int		i;
 	int		len;
@@ -56,7 +56,7 @@ int	lexer_count_word(lexer_t *lexer)
 	return (len);
 }
 
-void	lexer_next_char(lexer_t *lexer)
+void	lexer_next_char(t_lexer *lexer)
 {
 	if (lexer->c != '\0')
 	{
@@ -65,7 +65,7 @@ void	lexer_next_char(lexer_t *lexer)
 	}
 }
 
-void	lexer_skip_spaces(lexer_t *lexer)
+void	lexer_skip_spaces(t_lexer *lexer)
 {
 	while (lexer->c == SPACE)
 		lexer_next_char(lexer);

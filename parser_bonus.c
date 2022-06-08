@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 12:03:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 11:23:28 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:49:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_match(char *str, char *match)
 	return (0);
 }
 
-void	parser_check_asterisk(token_t *token)
+void	parser_check_asterisk(t_token *token)
 {
 	int				i;
 	struct dirent	*de;
@@ -41,8 +41,8 @@ void	parser_check_asterisk(token_t *token)
 	{
 		if (is_match(de->d_name, token->value) && de->d_name[0] != '.')
 		{
-			data.cmds[data.index].str = join_with_sep(
-					data.cmds[data.index].str, ft_strdup(de->d_name), -1);
+			g_data.cmds[g_data.index].str = join_with_sep(
+					g_data.cmds[g_data.index].str, ft_strdup(de->d_name), -1);
 			i++;
 		}
 		de = readdir(dr);
@@ -50,7 +50,8 @@ void	parser_check_asterisk(token_t *token)
 	closedir(dr);
 	if (i == 0)
 	{
-		data.cmds[data.index].str = join_with_sep(data.cmds[data.index].str,
-				parser_handle_dollar_sign(token->value, 1), -1);
+		g_data.cmds[g_data.index].str = join_with_sep(
+				g_data.cmds[g_data.index].str,
+				parser_handle_dollar_sign(token->value), -1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:26:02 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 17:29:32 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:49:36 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	read_form_stdout(char *limit, int fd)
 	while (line && ft_strncmp(limit, line, ft_strlen(limit)))
 	{
 		write(1, "heredoc> ", 9);
-		if (data.heredoc == 1)
+		if (g_data.heredoc == 1)
 		{
 			str = ft_substr(line, 0, ft_strlen(line) - 1);
 			free(line);
-			line = join_and_free(parser_handle_dollar_sign(str, 0),
+			line = join_and_free(parser_handle_dollar_sign(str),
 					ft_strdup("\n"));
 			free(str);
 		}
@@ -41,9 +41,9 @@ void	here_doc(void)
 {
 	int	fd;
 
-	data.limit = join_and_free(data.limit, ft_strdup("\n"));
+	g_data.limit = join_and_free(g_data.limit, ft_strdup("\n"));
 	fd = open("/tmp/.temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	read_form_stdout(data.limit, fd);
-	free_if_exists(data.limit);
+	read_form_stdout(g_data.limit, fd);
+	free_if_exists(g_data.limit);
 	close(fd);
 }

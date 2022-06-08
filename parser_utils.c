@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/06 12:35:38 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:10:17 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,35 +69,35 @@ void	clean_data(void)
 	int	i;
 
 	i = 0;
-	data.append = 0;
-	data.heredoc = 0;
-	data.err = 0;
-	while (i < data.num_of_cmds)
+	g_data.append = 0;
+	g_data.heredoc = 0;
+	g_data.err = 0;
+	while (i < g_data.num_of_cmds)
 	{
-		free(data.cmds[i].str);
-		free(data.cmds[i].path);
-		free_arr(data.cmds[i].args);
-		free_if_exists(data.cmds[i].output);
-		free_if_exists(data.cmds[i].input);
-		data.cmds[i].and = 0;
-		data.cmds[i].or = 0;
-		data.cmds[i].pipe = 0;
+		free(g_data.cmds[i].str);
+		free(g_data.cmds[i].path);
+		free_arr(g_data.cmds[i].args);
+		free_if_exists(g_data.cmds[i].output);
+		free_if_exists(g_data.cmds[i].input);
+		g_data.cmds[i].and = 0;
+		g_data.cmds[i].or = 0;
+		g_data.cmds[i].pipe = 0;
 		i++;
 	}
-	free(data.cmds);
+	free(g_data.cmds);
 }
 
-void	parser_error(char *value, int token_type)
+void	parser_error(char *value, int t_tokenype)
 {
-	if (!data.err)
+	if (!g_data.err)
 	{
 		ft_putstr_fd("minishell: syntax error near unexepcted token '", STDERR);
-		if (token_type == TOKEN_END)
+		if (t_tokenype == TOKEN_END)
 			ft_putstr_fd("NEW_LINE", STDERR);
 		else
 			ft_putstr_fd(value, STDERR);
 		ft_putstr_fd("'\n", STDERR);
-		data.exit_code = 258;
-		data.err = 1;
+		g_data.exit_code = 258;
+		g_data.err = 1;
 	}
 }

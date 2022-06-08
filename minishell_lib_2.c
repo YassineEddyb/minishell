@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer_bnous.c                                   :+:      :+:    :+:   */
+/*   minishell_lib_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/02 18:48:35 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 12:10:17 by yed-dyb          ###   ########.fr       */
+/*   Created: 2022/06/08 12:17:19 by yed-dyb           #+#    #+#             */
+/*   Updated: 2022/06/08 12:19:15 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_and_and_or(int process_index)
+char	*join_and_free(char *s1, char *s2)
 {
-	int	i;
-	int	status;
+	int		i;
+	int		j;
+	char	*str;
 
-	if (g_data.cmds[process_index].and || g_data.cmds[process_index].or)
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		s1 = ft_strdup("");
+	str = ft_calloc((ft_strlen(s1) + ft_strlen(s2) + 1), sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	i = -1;
+	j = 0;
+	while (s1[++i] != '\0')
+		str[i] = s1[i];
+	if (s2)
 	{
-		i = 0;
-		while (i < process_index + 1)
-		{
-			waitpid(-1, &status, 0);
-			i++;
-		}
-		if (g_data.cmds[process_index].and)
-		{
-			if (WEXITSTATUS(status) != 0)
-				return (0);
-		}
-		else if (g_data.cmds[process_index].or)
-		{
-			if (WEXITSTATUS(status) == 0)
-				return (0);
-		}
+		while (s2[j] != '\0')
+			str[i++] = s2[j++];
 	}
-	return (1);
+	free_if_exists(s1);
+	free_if_exists(s2);
+	return (str);
 }
