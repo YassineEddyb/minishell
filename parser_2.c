@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 19:34:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 10:09:00 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,8 @@ char	*remove_quotes(char *str)
 void	parser_handle_heredoc(t_lexer *lexer)
 {
 	char	*tmp;
-
+	g_data.cmds[g_data.index].heredoc = 1;
 	tmp = parser_expect(lexer, TOKEN_WORD).value;
-	if (ft_strchr(tmp, DOUBLE_QUOTES) || ft_strchr(tmp, SINGLE_QUOTES))
-		g_data.heredoc = 2;
-	else
-		g_data.heredoc = 1;
 	g_data.limit = remove_quotes(tmp);
 	free(tmp);
 	here_doc();

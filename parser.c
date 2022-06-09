@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 19:34:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 10:17:13 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	parser_parse(t_token *token, t_lexer *lexer)
 		free_if_exists(g_data.cmds[g_data.index].input);
 		g_data.cmds[g_data.index].input
 			= parser_expect(lexer, TOKEN_WORD).value;
-		g_data.heredoc = 0;
+		g_data.cmds[g_data.index].heredoc = 0;
 	}
 	else if (token->e_type == TOKEN_LESS_LESS)
 		parser_handle_heredoc(lexer);
@@ -58,7 +58,6 @@ void	init_data(char *str)
 
 	g_data.num_of_cmds = get_num_of_cmds(str);
 	g_data.index = 0;
-	g_data.heredoc = 0;
 	g_data.append = 0;
 	g_data.err = 0;
 	g_data.cmds = malloc(g_data.num_of_cmds * sizeof(t_cmd));
@@ -73,6 +72,7 @@ void	init_data(char *str)
 		g_data.cmds[i].path = NULL;
 		g_data.cmds[i].output = NULL;
 		g_data.cmds[i].input = NULL;
+		g_data.cmds[i].heredoc = 0;
 		i++;
 	}
 }

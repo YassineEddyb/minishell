@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:25:37 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 19:34:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 11:28:56 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	wait_all_child_processors(void)
 
 void	check_is_path(int i)
 {
-	if (!g_data.cmds[i].path || g_data.cmds[i].args[0] == '\0')
+	if (!g_data.cmds[i].path)
 	{
 		if (g_data.cmds[i].args[0] != '\0' && ft_strchr(
 				g_data.cmds[i].args[0], '/'))

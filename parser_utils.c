@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 19:34:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 10:17:58 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	clean_data(void)
 
 	i = 0;
 	g_data.append = 0;
-	g_data.heredoc = 0;
 	g_data.err = 0;
 	while (i < g_data.num_of_cmds)
 	{
@@ -82,6 +81,7 @@ void	clean_data(void)
 		g_data.cmds[i].and = 0;
 		g_data.cmds[i].or = 0;
 		g_data.cmds[i].pipe = 0;
+		g_data.cmds[i].heredoc = 0;
 		i++;
 	}
 	free(g_data.cmds);

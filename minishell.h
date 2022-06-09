@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 20:03:42 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 10:16:40 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef struct s_cmd {
 	char	*output;
 	char	*input;
 	char	**args;
+	int		heredoc;
+	int		doc[2];
 	int		pipe;
 	int		and;
 	int		or;
@@ -89,7 +91,6 @@ typedef struct s_data {
 	t_cmd	*cmds;
 	int		index;
 	char	*limit;
-	int		heredoc;
 	int		append;
 	int		err;
 	int		exit_code;

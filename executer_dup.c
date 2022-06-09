@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:50:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 19:34:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 11:43:42 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@ static void	handle_input(int i)
 {
 	int	fd;
 
-	if (g_data.heredoc)
-	{
-		fd = open("/tmp/.temp", O_RDONLY, 0644);
-		dup2(fd, STDIN);
-	}
+	if (g_data.cmds[i].heredoc)
+		dup2(g_data.cmds[i].doc[0], STDIN);
 	else if (g_data.cmds[i].input)
 	{
 		fd = open(g_data.cmds[i].input, O_RDONLY, 0644);
