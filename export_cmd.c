@@ -6,33 +6,11 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/08 18:54:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 19:35:38 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**strdup_table(char **env)
-{
-	int		i;
-	char	**table;
-
-	if (env == NULL)
-		return (NULL);
-	i = table_len(env);
-	table = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!table)
-		return (NULL);
-	i = -1;
-	while (env[++i])
-	{
-		table[i] = ft_strdup(env[i]);
-		if (!table[i])
-			return (NULL);
-	}
-	table[i] = NULL;
-	return (table);
-}
 
 void	help_export(char **args, int i, int j, int x)
 {
@@ -72,6 +50,30 @@ void	help_export1(char **args, int i, int j)
 	unset_cmd(t, 1);
 }
 
+int	export2(int x, int j, char **args, char **new_env)
+{
+	int	i;
+	int	z;
+
+	i = 1;
+	z = 0;
+	while (i < j + 1)
+	{
+		if (!ft_isalpha(args[i][0]) || !ft_check_alnum2(args[i] + 1))
+		{
+			printf("minishell: export: `%s':not a valid identifier\n",
+				args[i++]);
+			z++;
+		}
+		else
+			new_env[x++] = ft_strdup(args[i++]);
+	}
+	new_env[x] = NULL;
+	free(g_data.env);
+	g_data.env = new_env;
+	return (z);
+}
+
 int	help_export2(char **args, int i, int j, int x)
 {
 	char	**new_env;
@@ -85,21 +87,7 @@ int	help_export2(char **args, int i, int j, int x)
 		new_env[x] = ft_strdup(g_data.env[x]);
 		x++;
 	}
-	i = 1;
-	while (i < j + 1)
-	{
-		if (!ft_isalpha(args[i][0]) || !ft_check_alnum2(args[i] + 1))
-		{
-			printf("minishell: export: `%s':not a valid identifier\n",
-					args[i++]);
-		}
-		else
-			new_env[x++] = ft_strdup(args[i++]);
-	}
-	new_env[x] = NULL;
-	free(g_data.env);
-	g_data.env = new_env;
-	return (0);
+	return (export2(x, j, args, new_env));
 }
 
 void	export_cmd(char **args)
@@ -110,13 +98,14 @@ void	export_cmd(char **args)
 
 	i = 0;
 	if (!args[1])
-	{
 		help_export(args, i, j, x);
-		g_data.exit_code = 0;
-	}
 	else
 	{
 		help_export1(args, i, j);
-		(help_export2(args, i, j, x));
+		x = help_export2(args, i, j, x);
+		if (x == 0)
+			g_data.exit_code = 0;
+		else
+			g_data.exit_code = 1;
 	}
 }

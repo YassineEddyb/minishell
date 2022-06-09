@@ -6,11 +6,45 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 09:23:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 12:10:17 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 19:48:25 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**strdup_table(char **env)
+{
+	int		i;
+	char	**table;
+
+	if (env == NULL)
+		return (NULL);
+	i = table_len(env);
+	table = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!table)
+		return (NULL);
+	i = -1;
+	while (env[++i])
+	{
+		table[i] = ft_strdup(env[i]);
+		if (!table[i])
+			return (NULL);
+	}
+	table[i] = NULL;
+	return (table);
+}
+
+int	ft_strlen_till_c(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] && s[i] != c)
+		i++;
+	return (i);
+}
 
 int	look_for_env_index(char **env, char *start)
 {
@@ -35,14 +69,15 @@ void	cd_cmd(char **args)
 
 	pwd = args[1];
 	if (!pwd)
-		pwd = ft_strdup(g_data.env[look_for_env_index(g_data.env, "HOME=")] + 5);
+		pwd = ft_strdup(g_data.env[look_for_env_index
+				(g_data.env, "HOME=")] + 5);
 	old_pwd_index = look_for_env_index(g_data.env, "OLDPWD=");
 	g_data.env[old_pwd_index] = \
 	ft_str_join(ft_strdup("OLDPWD="), getcwd(buff, 1000));
 	if (chdir(pwd) == -1)
 	{
-		g_data.exit_code = 1;
 		perror("minishell");
+		g_data.exit_code = 1;
 		return ;
 	}
 	pwd_index = look_for_env_index(g_data.env, "PWD=");

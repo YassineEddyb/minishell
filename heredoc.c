@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:26:02 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 12:49:36 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 20:05:10 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ static void	read_form_stdout(char *limit, int fd)
 	while (line && ft_strncmp(limit, line, ft_strlen(limit)))
 	{
 		write(1, "heredoc> ", 9);
-		if (g_data.heredoc == 1)
-		{
-			str = ft_substr(line, 0, ft_strlen(line) - 1);
-			free(line);
-			line = join_and_free(parser_handle_dollar_sign(str),
-					ft_strdup("\n"));
-			free(str);
-		}
 		write(fd, line, ft_strlen(line));
 		free(line);
 		line = get_next_line(STDIN);

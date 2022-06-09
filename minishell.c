@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 13:07:05 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 20:01:00 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,26 @@ void	minishell(char *str)
 			free_if_exists(str);
 			execute();
 			clean_data();
-			system("leaks minishell");
+			// system("leaks minishell");
 		}
 	}
 }
 
-int main (int ac , char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
+	char				*str;
 	struct sigaction	sa;
 
 	sa.sa_handler = &handle_signal;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-
-    char *str = NULL;
+	str = NULL;
 	g_data.env = strdup_table(env);
 	if (ac == 1)
 	{
 		minishell(str);
-	} else if (ac == 2)
+	}
+	else if (ac == 2)
 	{
 		parser(av[1]);
 		execute();

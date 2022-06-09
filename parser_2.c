@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 12:56:45 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 19:34:49 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	parser_redirect(t_token *token, t_lexer *lexer)
 		g_data.cmds[g_data.index].output = parser_handle_dollar_sign(
 				parser_expect(lexer, TOKEN_WORD).value);
 		g_data.append = 0;
-		if (!g_data.err)
-			open(g_data.cmds[g_data.index].output, O_RDWR | O_CREAT, 0644);
+		open_file(g_data.cmds[g_data.index].output);
 	}
 	else if (token->e_type == TOKEN_GREAT_GREAT)
 	{
@@ -29,8 +28,7 @@ void	parser_redirect(t_token *token, t_lexer *lexer)
 		free_if_exists(g_data.cmds[g_data.index].output);
 		g_data.cmds[g_data.index].output = parser_handle_dollar_sign(
 				parser_expect(lexer, TOKEN_WORD).value);
-		if (!g_data.err)
-			open(g_data.cmds[g_data.index].output, O_RDWR | O_CREAT, 0644);
+		open_file(g_data.cmds[g_data.index].output);
 	}
 	else if (token->e_type == TOKEN_PIPE_PIPE)
 		g_data.cmds[g_data.index].or = 1;

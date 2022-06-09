@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:17:19 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 12:19:15 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 20:03:52 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,10 @@ char	*join_and_free(char *s1, char *s2)
 	free_if_exists(s1);
 	free_if_exists(s2);
 	return (str);
+}
+
+void	open_file(char *path)
+{
+	if (!g_data.err)
+		open(path, O_RDWR | O_CREAT, 0644);
 }

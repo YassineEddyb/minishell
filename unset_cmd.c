@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:24 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/08 12:10:17 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/08 19:35:38 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ int	ft_strlen2(char *s)
 		return (0);
 	i = 0;
 	while (s[i])
-		i++;
-	return (i);
-}
-
-int	ft_strlen_till_c(char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] && s[i] != c)
 		i++;
 	return (i);
 }
@@ -78,23 +66,39 @@ void	help_unset1(char **args, int i, int j)
 	}
 }
 
-void	unset_cmd(char **args, int q)
+int	check_unset(int i, int q, char **args)
 {
-	int		i;
-	int		j;
-	char	*s;
+	int	z;
 
+	z = 0;
 	if (q == 0)
 	{
 		i = 0;
 		while (args[i])
 		{
 			if (!ft_isalpha(args[i][0]) || !ft_check_alnum(args[i] + 1))
-				printf("minishell: unset: `%s': not a valid identifier\n"
-					, args[i]);
+			{
+				printf("minishell: unset: `%s':not a valid identifier\n",
+					args[i]);
+				z++;
+			}
 			i++;
 		}
 	}
+	return (z);
+}
+
+void	unset_cmd(char **args, int q)
+{
+	int		i;
+	int		j;
+	char	*s;
+
+	j = check_unset(i, q, args);
+	if (j == 0)
+		g_data.exit_code = 0;
+	else
+		g_data.exit_code = 1;
 	if (args[1])
 	{
 		i = 1;

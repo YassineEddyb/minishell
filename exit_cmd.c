@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:45:02 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/07 02:17:08 by aaizza           ###   ########.fr       */
+/*   Updated: 2022/06/08 19:46:11 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	exit_cmd(char **args)
 		exit(255);
 	}
 	else if (args[2])
+	{
 		printf("minishell: exit: too many arguments\n");
+		g_data.exit_code = 1;
+	}
 	else if (ft_digit_check(args[1]) && !args[2])
 	{
 		printf("exit\n");
