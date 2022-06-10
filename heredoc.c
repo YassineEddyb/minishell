@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:26:02 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/09 10:27:15 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 15:13:26 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	read_form_stdout(char *limit, int fd)
 void	here_doc(void)
 {
 	pipe(g_data.cmds[g_data.index].doc);
-
 	g_data.limit = join_and_free(g_data.limit, ft_strdup("\n"));
 	read_form_stdout(g_data.limit, g_data.cmds[g_data.index].doc[1]);
 	close(g_data.cmds[g_data.index].doc[1]);

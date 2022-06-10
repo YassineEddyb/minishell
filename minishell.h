@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 12:55:07 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 15:16:11 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int		is_surrounded_with_qoutes(t_lexer *lexer);
 int		is_stop_charaters(char c);
 int		parser_count_word(t_lexer *lexer);
 char	*get_env_variable(char *var);
+void	parse_outfile(t_lexer *lexer, int append);
 
 // minishell lib
 void	free_arr(char **arr);
@@ -139,7 +140,7 @@ void	unset_cmd(char **args, int q);
 int		get_arr_size(char **arr);
 char	*join_and_free(char *s1, char *s2);
 void	free_if_exists(char *str);
-void		open_file(char *path, int append);
+void	open_file(char *path);
 
 // executer
 void	execute(void);
@@ -157,6 +158,7 @@ void	dup_output_file(int i);
 int		is_builtin_cmd(char *cmd);
 int		ft_check_alnum(char *str);
 int		ft_check_alnum2(char *str);
+void	exec_cmd(int i);
 
 // build in commands
 void	echo_cmd(char **args);

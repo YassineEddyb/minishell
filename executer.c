@@ -34,8 +34,6 @@ int	is_builtin_cmd(char *cmd)
 
 int	is_builtin(int i)
 {
-	if (g_data.num_of_cmds > 1)
-		return (0);
 	dup_output_file(i);
 	if (!ft_strncmp(g_data.cmds[i].args[0], "echo", 5))
 		echo_cmd(g_data.cmds[i].args);
@@ -63,7 +61,7 @@ void	execute_commands(void)
 	i = -1;
 	while (++i < g_data.num_of_cmds)
 	{
-		if (g_data.cmds[i].args && !is_builtin(i))
+		if (g_data.cmds[i].args && (g_data.num_of_cmds > 1 || !is_builtin(i)))
 		{
 			g_data.cmds[i].pid = fork();
 			if (i < g_data.num_of_cmds && g_data.cmds[i].pid == 0)
@@ -73,10 +71,7 @@ void	execute_commands(void)
 				if (!is_builtin(i))
 				{
 					check_is_path(i);
-					if (execve(g_data.cmds[i].path,
-							g_data.cmds[i].args, g_data.env))
-						perror("minishell");
-					exit(ERROR);
+					exec_cmd(i);
 				}
 				exit(g_data.exit_code);
 			}

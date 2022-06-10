@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:32:22 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/08 19:34:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 17:05:11 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	env_cmd(char **args)
 	int	i;
 
 	i = 0;
+	if (args[1])
+	{
+		ft_putstr_fd("No arguments\n", 2);
+		g_data.exit_code = 1;
+		return;
+	}
 	while (g_data.env[i])
 	{
 		if (ft_strchr(g_data.env[i], '='))

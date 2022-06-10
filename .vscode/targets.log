@@ -6,8 +6,9 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
+ 
 
-# Make data base, printed on Fri Jun 10 12:39:40 2022
+# Make data base, printed on Fri Jun 10 13:03:47 2022
 
 # Variables
 
@@ -48,7 +49,7 @@ VSCODE_CWD = /
 # environment
 Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.9RIHIyMafK/Render
 # environment
-PATH = /usr/bin:/bin:/usr/sbin:/sbin
+PATH = /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
@@ -154,7 +155,7 @@ LANG = C
 # environment
 VSCODE_PID = 45888
 # variable set hash-table stats:
-# Load=71/1024=7%, Rehash=0, Collisions=5/108=5%
+# Load=71/1024=7%, Rehash=0, Collisions=3/99=3%
 
 # Pattern-specific Variable Values
 
@@ -187,9 +188,9 @@ all: minishell
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs to be updated (-q is set).
+#  Successfully updated.
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/9=0%
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # Not a target:
 heredoc.c:
@@ -250,7 +251,7 @@ lexer_inits.c:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-10 12:33:05
+#  Last modified 2022-06-10 13:01:28
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -290,38 +291,21 @@ parser_dollar_sign.c:
 
 minishell: minishell.c minishell_lib.c minishell_lib_2.c lexer.c lexer_helpers.c lexer_inits.c parser.c parser_utils.c parse_path_and_args.c parser_2.c parser_helpers.c parser_dollar_sign.c parser_bonus.c executer.c executer_dup.c executer_utils.c heredoc.c executer_bnous.c echo_cmd.c cd_cmd.c pwd_cmd.c export_cmd.c unset_cmd.c exit_cmd.c env_cmd.c
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: `'
-#  Last modified 2022-06-10 12:35:26
+#  Last modified 2022-06-10 13:01:43
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
- 
-# @ := minishell
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := minishell.c minishell_lib.c minishell_lib_2.c lexer.c lexer_helpers.c lexer_inits.c parser.c parser_utils.c parse_path_and_args.c parser_2.c parser_helpers.c parser_dollar_sign.c parser_bonus.c executer.c executer_dup.c executer_utils.c heredoc.c executer_bnous.c echo_cmd.c cd_cmd.c pwd_cmd.c export_cmd.c unset_cmd.c exit_cmd.c env_cmd.c
-# automatic
-# | := 
-# automatic
-# < := minishell.c
-# automatic
-# ^ := minishell.c minishell_lib.c minishell_lib_2.c lexer.c lexer_helpers.c lexer_inits.c parser.c parser_utils.c parse_path_and_args.c parser_2.c parser_helpers.c parser_dollar_sign.c parser_bonus.c executer.c executer_dup.c executer_utils.c heredoc.c executer_bnous.c echo_cmd.c cd_cmd.c pwd_cmd.c export_cmd.c unset_cmd.c exit_cmd.c env_cmd.c
-# automatic
-# ? := minishell_lib_2.c
+#  Successfully updated.
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=4/17=24%
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 #  commands to execute (from `Makefile', line 18):
 	@printf "${GREEN}compiling...\n"
 	@cd libft && make && cd ..
-	@$(CC) -g $(SRC) $(CMDS) $(GNL) $(LIBFT) -lreadline -o $(NAME) -fsanitize=address
+	@$(CC) -g $(SRC) $(CMDS) $(GNL) $(LIBFT) -lreadline -o $(NAME)
 	
 
 # Not a target:
 echo_cmd.c:
 #  Implicit rule search has been done.
+ 
 #  Last modified 2022-06-08 19:34:49
 #  File has been updated.
 #  Successfully updated.
@@ -360,7 +344,7 @@ export_cmd.c:
 # Not a target:
 minishell_lib_2.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-10 12:37:25
+#  Last modified 2022-06-10 12:58:02
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -384,6 +368,7 @@ parser_utils.c:
 # Not a target:
 parser_bonus.c:
 #  Implicit rule search has been done.
+ 
 #  Last modified 2022-06-08 19:34:49
 #  File has been updated.
 #  Successfully updated.
@@ -463,7 +448,7 @@ parse_path_and_args.c:
 # Not a target:
 executer_dup.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-09 20:05:12
+#  Last modified 2022-06-10 12:53:37
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -497,7 +482,7 @@ env_cmd.c:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 # files hash-table stats:
-# Load=35/1024=3%, Rehash=0, Collisions=7/82=9%
+# Load=35/1024=3%, Rehash=0, Collisions=7/81=9%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -509,6 +494,6 @@ env_cmd.c:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Fri Jun 10 12:39:40 2022
+# Finished Make data base on Fri Jun 10 13:03:47 2022
 
  

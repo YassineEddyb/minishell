@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 12:35:22 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 14:54:48 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ int	main(int ac, char **av, char **env)
 	str = NULL;
 	g_data.env = strdup_table(env);
 	if (ac == 1)
-	{
 		minishell(str);
-	}
 	else if (ac == 2)
 	{
 		parser(av[1]);

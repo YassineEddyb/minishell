@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:25:37 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/09 13:57:16 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 15:16:37 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	wait_all_child_processors(void)
 	i = 0;
 	while (i < g_data.num_of_cmds)
 	{
-		if (g_data.cmds[i].args && (!is_builtin_cmd(g_data.cmds[i].args[0]) || g_data.num_of_cmds > 1))
+		if (g_data.cmds[i].args && (!is_builtin_cmd(
+					g_data.cmds[i].args[0]) || g_data.num_of_cmds > 1))
 		{
 			waitpid(g_data.cmds[i].pid, &status, 0);
 			if (WIFEXITED(status))
@@ -75,4 +76,12 @@ void	check_is_path(int i)
 			exit(127);
 		}
 	}
+}
+
+void	exec_cmd(int i)
+{
+	if (execve(g_data.cmds[i].path,
+			g_data.cmds[i].args, g_data.env))
+		perror("minishell");
+	exit(ERROR);
 }

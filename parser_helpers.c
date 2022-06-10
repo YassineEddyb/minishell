@@ -6,18 +6,11 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 19:45:32 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 19:34:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 15:11:49 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_stop_charaters(char c)
-{
-	if (!ft_isalnum(c))
-		return (1);
-	return (0);
-}
 
 int	parser_count_word(t_lexer *lexer)
 {
@@ -26,7 +19,7 @@ int	parser_count_word(t_lexer *lexer)
 
 	i = lexer->index;
 	len = 0;
-	while (!is_stop_charaters(lexer->content[i])
+	while (ft_isalnum(lexer->content[i])
 		&& lexer->content[i] != '\0')
 	{
 		i++;
@@ -74,4 +67,17 @@ int	is_empty_string(char *str)
 		|| !ft_strncmp(str, "\'\'", ft_strlen(str)))
 		return (1);
 	return (0);
+}
+
+void	parse_outfile(t_lexer *lexer, int append)
+{
+	char	*tmp;
+
+	free_if_exists(g_data.cmds[g_data.index].output);
+	tmp = parser_expect(lexer, TOKEN_WORD).value;
+	g_data.cmds[g_data.index].output
+		= parser_handle_dollar_sign(tmp);
+	g_data.append = append;
+	free(tmp);
+	open_file(g_data.cmds[g_data.index].output);
 }
