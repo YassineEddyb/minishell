@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:17:19 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 20:03:52 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 12:58:02 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,18 @@ char	*join_and_free(char *s1, char *s2)
 	return (str);
 }
 
-void	open_file(char *path)
+void	open_file(char *path, int append)
 {
+	if (!path || path[0] == '\0')
+	{
+		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+		g_data.err = 1;
+	}
 	if (!g_data.err)
-		open(path, O_RDWR | O_CREAT, 0644);
+	{
+		if (append)
+			open(path, O_RDWR | O_CREAT | O_APPEND, 0644);
+		else
+			open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	}
 }

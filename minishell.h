@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/09 10:16:40 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 12:55:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	unset_cmd(char **args, int q);
 int		get_arr_size(char **arr);
 char	*join_and_free(char *s1, char *s2);
 void	free_if_exists(char *str);
-void	open_file(char *path);
+void		open_file(char *path, int append);
 
 // executer
 void	execute(void);

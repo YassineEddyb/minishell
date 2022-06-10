@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 09:23:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/08 19:48:25 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 19:37:34 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	cd_cmd(char **args)
 		pwd = ft_strdup(g_data.env[look_for_env_index
 				(g_data.env, "HOME=")] + 5);
 	old_pwd_index = look_for_env_index(g_data.env, "OLDPWD=");
+	free_if_exists(g_data.env[old_pwd_index]);
 	g_data.env[old_pwd_index] = \
 	ft_str_join(ft_strdup("OLDPWD="), getcwd(buff, 1000));
 	if (chdir(pwd) == -1)
@@ -81,6 +82,7 @@ void	cd_cmd(char **args)
 		return ;
 	}
 	pwd_index = look_for_env_index(g_data.env, "PWD=");
+	free_if_exists(g_data.env[pwd_index]);
 	g_data.env[pwd_index] = \
 	ft_str_join(ft_strdup("PWD="), getcwd(buff, 1000));
 	g_data.exit_code = 0;

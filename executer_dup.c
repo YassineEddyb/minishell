@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:50:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/09 11:43:42 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 12:53:37 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	dup_all(int i)
 	int	fd;
 
 	handle_input(i);
-	if (g_data.cmds[i].output)
+	if (g_data.cmds[i].output &&  g_data.cmds[i].output[0] != '\0')
 	{
 		if (g_data.append)
-			fd = open(g_data.cmds[i].output, O_CREAT | O_RDWR | O_APPEND, 0644);
+			fd =  open(g_data.cmds[i].output, O_CREAT | O_RDWR | O_APPEND, 0644);
 		else
 			fd = open(g_data.cmds[i].output, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd == -1)

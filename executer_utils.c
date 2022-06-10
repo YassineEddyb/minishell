@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:25:37 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/09 11:28:56 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 13:57:16 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,17 @@ void	wait_all_child_processors(void)
 	int	i;
 	int	status;
 
-	if (!g_data.cmds->args)
-		return ;
 	i = 0;
-	while (i < g_data.num_of_cmds && (g_data.num_of_cmds > 1
-			|| !is_builtin_cmd(g_data.cmds[i].args[0])))
+	while (i < g_data.num_of_cmds)
 	{
-		waitpid(g_data.cmds[i].pid, &status, 0);
-		if (WIFEXITED(status))
-			g_data.exit_code = WEXITSTATUS(status);
-		else
-			g_data.exit_code = 130;
+		if (g_data.cmds[i].args && (!is_builtin_cmd(g_data.cmds[i].args[0]) || g_data.num_of_cmds > 1))
+		{
+			waitpid(g_data.cmds[i].pid, &status, 0);
+			if (WIFEXITED(status))
+				g_data.exit_code = WEXITSTATUS(status);
+			else
+				g_data.exit_code = 130;
+		}
 		i++;
 	}
 }

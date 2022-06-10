@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/09 10:09:00 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/09 20:01:02 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parser_redirect(t_token *token, t_lexer *lexer)
 		g_data.cmds[g_data.index].output = parser_handle_dollar_sign(
 				parser_expect(lexer, TOKEN_WORD).value);
 		g_data.append = 0;
-		open_file(g_data.cmds[g_data.index].output);
+		open_file(g_data.cmds[g_data.index].output, 0);
 	}
 	else if (token->e_type == TOKEN_GREAT_GREAT)
 	{
@@ -28,7 +28,7 @@ void	parser_redirect(t_token *token, t_lexer *lexer)
 		free_if_exists(g_data.cmds[g_data.index].output);
 		g_data.cmds[g_data.index].output = parser_handle_dollar_sign(
 				parser_expect(lexer, TOKEN_WORD).value);
-		open_file(g_data.cmds[g_data.index].output);
+		open_file(g_data.cmds[g_data.index].output, 1);
 	}
 	else if (token->e_type == TOKEN_PIPE_PIPE)
 		g_data.cmds[g_data.index].or = 1;
@@ -90,6 +90,7 @@ char	*remove_quotes(char *str)
 void	parser_handle_heredoc(t_lexer *lexer)
 {
 	char	*tmp;
+
 	g_data.cmds[g_data.index].heredoc = 1;
 	tmp = parser_expect(lexer, TOKEN_WORD).value;
 	g_data.limit = remove_quotes(tmp);
