@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 14:52:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 21:52:14 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void	parser_redirect(t_token *token, t_lexer *lexer)
 		parse_outfile(lexer, 0);
 	else if (token->e_type == TOKEN_GREAT_GREAT)
 		parse_outfile(lexer, 1);
+	else if (token->e_type == TOKEN_PARENTHESES)
+	{
+		if (!g_data.err)
+			g_data.cmds[g_data.index].str
+				= join_with_sep(ft_strdup("./minishell"), token->value, -1);
+	}
 	else if (token->e_type == TOKEN_PIPE_PIPE)
 		g_data.cmds[g_data.index].or = 1;
 	else if (token->e_type == TOKEN_AND_AND)
@@ -84,7 +90,6 @@ void	parser_handle_heredoc(t_lexer *lexer)
 	g_data.limit = remove_quotes(tmp);
 	free(tmp);
 	here_doc();
-	free_if_exists(g_data.cmds[g_data.index].input);
 }
 
 int	is_commands_breaker(int n)

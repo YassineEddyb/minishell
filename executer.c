@@ -35,6 +35,8 @@ int	is_builtin_cmd(char *cmd)
 int	is_builtin(int i)
 {
 	dup_output_file(i);
+	if (g_data.cmds[i].err)
+		return (1);
 	if (!ft_strncmp(g_data.cmds[i].args[0], "echo", 5))
 		echo_cmd(g_data.cmds[i].args);
 	else if (!ft_strncmp(g_data.cmds[i].args[0], "pwd", 4))
@@ -64,7 +66,7 @@ void	execute_commands(void)
 		if (g_data.cmds[i].args && (g_data.num_of_cmds > 1 || !is_builtin(i)))
 		{
 			g_data.cmds[i].pid = fork();
-			if (i < g_data.num_of_cmds && g_data.cmds[i].pid == 0)
+			if (g_data.cmds[i].pid == 0)
 			{
 				close_unused_pipes(i);
 				dup_all(i);

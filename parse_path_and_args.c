@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 12:32:47 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/09 11:49:30 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 21:05:48 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ static void	get_path(void)
 	int		i;
 	char	*command;
 	char	**arr;
+	char	*tmp;
 
-	arr = ft_split(getenv("PATH"), ':');
+	tmp = get_env_variable("PATH");
+	arr = ft_split(tmp, ':');
 	i = 0;
 	while (i < g_data.num_of_cmds)
 	{
@@ -54,6 +56,7 @@ static void	get_path(void)
 		}
 		i++;
 	}
+	free_if_exists(tmp);
 	free_arr(arr);
 }
 

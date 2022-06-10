@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/08 19:35:38 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 23:13:38 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	help_export1(char **args, int i, int j)
 		t[j] = ft_substr(args[j], 0, ft_strlen_till_c(args[j], '='));
 	t[j] = NULL;
 	unset_cmd(t, 1);
+	ft_free_2d_table(t);
 }
 
 int	export2(int x, int j, char **args, char **new_env)
@@ -69,7 +70,7 @@ int	export2(int x, int j, char **args, char **new_env)
 			new_env[x++] = ft_strdup(args[i++]);
 	}
 	new_env[x] = NULL;
-	free(g_data.env);
+	ft_free_2d_table(g_data.env);
 	g_data.env = new_env;
 	return (z);
 }
@@ -92,17 +93,20 @@ int	help_export2(char **args, int i, int j, int x)
 
 void	export_cmd(char **args)
 {
-	int	i;
-	int	j;
-	int	x;
+	int		i;
+	int		j;
+	int		x;
+	int		y;
+	char	**str;
 
 	i = 0;
 	if (!args[1])
 		help_export(args, i, j, x);
 	else
 	{
-		help_export1(args, i, j);
-		x = help_export2(args, i, j, x);
+		str = norm2(args, norm1(args));
+		help_export1(str, i, j);
+		x = help_export2(str, i, j, x);
 		if (x == 0)
 			g_data.exit_code = 0;
 		else

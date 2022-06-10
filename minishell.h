@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 15:16:11 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/10 22:23:57 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_cmd {
 	int		or;
 	int		p[2];
 	int		pid;
+	int		err;
 }	t_cmd;
 
 typedef struct s_data {
@@ -136,7 +137,6 @@ void	parse_outfile(t_lexer *lexer, int append);
 void	free_arr(char **arr);
 int		get_index(char *s, char c);
 int		starts_with(char *str, char c);
-void	unset_cmd(char **args, int q);
 int		get_arr_size(char **arr);
 char	*join_and_free(char *s1, char *s2);
 void	free_if_exists(char *str);
@@ -159,6 +159,8 @@ int		is_builtin_cmd(char *cmd);
 int		ft_check_alnum(char *str);
 int		ft_check_alnum2(char *str);
 void	exec_cmd(int i);
+char	**norm1(char **args);
+char	**norm2(char **args, char **tmp);
 
 // build in commands
 void	echo_cmd(char **args);
@@ -167,6 +169,7 @@ void	pwd_cmd(void);
 void	export_cmd(char **args);
 void	env_cmd(char **args);
 void	exit_cmd(char **args);
+void	unset_cmd(char **args, int q);
 
 // bonus functions
 int		handle_and_and_or(int process_index);
