@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 11:34:07 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 17:57:20 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,9 @@ void	parser_parse(t_token *token, t_lexer *lexer)
 		parser_handle_word(token);
 	else if (token->e_type == TOKEN_LESS_THAN)
 	{
-		free_if_exists(g_data.cmds[g_data.index].input);
-		g_data.cmds[g_data.index].input
-			= parser_expect(lexer, TOKEN_WORD).value;
-		if (access(g_data.cmds[g_data.index].input, F_OK | R_OK) == -1)
-		{
-			perror("minshell");
-			g_data.cmds[g_data.index].err = 1;
-			g_data.exit_code = 1;
-		}
+		g_data.cmds[g_data.index].inputs_str = join_with_sep(
+				g_data.cmds[g_data.index].inputs_str,
+				parser_expect(lexer, TOKEN_WORD).value, -1);
 		g_data.cmds[g_data.index].heredoc = 0;
 	}
 	else if (token->e_type == TOKEN_LESS_LESS)
@@ -72,6 +66,7 @@ void	init_data(char *str)
 		g_data.cmds[i].path = NULL;
 		g_data.cmds[i].output = NULL;
 		g_data.cmds[i].input = NULL;
+		g_data.cmds[i].inputs_str = NULL;
 		g_data.cmds[i].heredoc = 0;
 		g_data.cmds[i].err = 0;
 		i++;

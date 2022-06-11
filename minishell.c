@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 11:29:33 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 17:56:05 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@ void	handle_signal(int sig)
 	if (sig == SIGINT)
 	{
 		g_data.exit_code = 1;
-		// printf("\n");
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
-		// rl_redisplay();
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
-		return ;
+	{
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 void	minishell(char *str)

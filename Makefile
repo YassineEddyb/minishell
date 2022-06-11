@@ -7,7 +7,7 @@ CMDS = echo_cmd.c cd_cmd.c pwd_cmd.c export_cmd.c unset_cmd.c exit_cmd.c env_cmd
 
 GNL = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 LIBFT = libft/libft.a
-READLINE = -L readline/lib -I readline/include 
+READLINE = -L /Users/yed-dyb/Desktop/cursus/brew/opt/readline/lib -I /Users/yed-dyb/Desktop/cursus/brew/opt/readline/include 
 CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
 GREEN=\033[0;32m
@@ -17,7 +17,7 @@ all: $(NAME)
 $(NAME): $(SRC) $(CMDS)
 	@printf "${GREEN}compiling...\n"
 	@cd libft && make && cd ..
-	@$(CC) -g $(SRC) $(CMDS) $(GNL) $(LIBFT) -lreadline -o $(NAME)
+	@$(CC) -g $(SRC) $(CMDS) $(GNL) $(LIBFT) ${READLINE} -lreadline -o $(NAME) -fsanitize=address
 clean :
 	@printf "${GREEN}cleaning...\n"
 	@cd libft && make clean && cd ..

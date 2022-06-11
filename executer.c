@@ -32,6 +32,32 @@ int	is_builtin_cmd(char *cmd)
 	return (0);
 }
 
+void open_files()
+{
+	int i = 0;
+	int j = 0;
+	while(i < g_data.num_of_cmds)
+	{
+		g_data.cmds[i].inputs = ft_split(g_data.cmds[i].inputs_str, -1);
+		j = 0;
+		while(g_data.cmds[i].inputs && g_data.cmds[i].inputs[j])
+		{
+			if (access(g_data.cmds[i].inputs[j], F_OK | R_OK) == -1)
+			{
+				perror("minshell");
+				g_data.cmds[i].err = 1;
+				break ;
+				g_data.exit_code = 1;
+			}
+			j++;
+		}
+		if (g_data.cmds[i].inputs && !g_data.cmds[i].heredoc)
+			g_data.cmds[i].input = g_data.cmds[i].inputs[j - 1];
+		i++;
+	}
+}
+
+
 int	is_builtin(int i)
 {
 	dup_output_file(i);
@@ -87,6 +113,7 @@ void	execute(void)
 {
 	if (!g_data.err)
 	{
+		open_files();
 		execute_commands();
 		close_all_pipes();
 		wait_all_child_processors();

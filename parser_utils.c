@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 23:13:13 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 17:57:49 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void	clean_data(void)
 	int	i;
 
 	i = 0;
-	g_data.append = 0;
-	g_data.err = 0;
 	while (i < g_data.num_of_cmds)
 	{
 		free(g_data.cmds[i].str);
@@ -78,10 +76,8 @@ void	clean_data(void)
 		free_arr(g_data.cmds[i].args);
 		free_if_exists(g_data.cmds[i].output);
 		free_if_exists(g_data.cmds[i].input);
-		g_data.cmds[i].and = 0;
-		g_data.cmds[i].or = 0;
-		g_data.cmds[i].pipe = 0;
-		g_data.cmds[i].heredoc = 0;
+		free_if_exists(g_data.cmds[i].inputs_str);
+		free_arr(g_data.cmds[i].inputs);
 		i++;
 	}
 	free(g_data.cmds);
