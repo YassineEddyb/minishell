@@ -63,7 +63,7 @@ void	execute_commands(void)
 	i = -1;
 	while (++i < g_data.num_of_cmds)
 	{
-		if (g_data.cmds[i].args && (g_data.num_of_cmds > 1 || !is_builtin(i)))
+		if (g_data.cmds[i].args && ((g_data.num_of_cmds > 1 || !is_builtin(i))))
 		{
 			g_data.cmds[i].pid = fork();
 			if (g_data.cmds[i].pid == 0)

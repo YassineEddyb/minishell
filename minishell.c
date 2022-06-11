@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 23:15:54 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 11:29:33 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	handle_signal(int sig)
 		// rl_replace_line("", 0);
 		// rl_redisplay();
 	}
+	else if (sig == SIGQUIT)
+		return ;
 }
 
 void	minishell(char *str)
@@ -38,7 +40,7 @@ void	minishell(char *str)
 			free_if_exists(str);
 			execute();
 			clean_data();
-			system("leaks minishell");
+			// system("leaks minishell");
 		}
 	}
 }

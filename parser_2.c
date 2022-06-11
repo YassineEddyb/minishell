@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 21:52:14 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 10:50:12 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	parser_handle_word(t_token *token)
 	else
 	{
 		str = parser_handle_dollar_sign(token->value);
-		if (is_empty_string(str))
+		if (!*str)
 		{
 			free(str);
 			str = lexer_get_char_as_string(-2);
