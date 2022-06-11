@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/10 23:13:38 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 19:11:21 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ void	export_cmd(char **args)
 			g_data.exit_code = 0;
 		else
 			g_data.exit_code = 1;
+		free(str);
 	}
 }

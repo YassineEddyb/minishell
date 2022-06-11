@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 17:57:20 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 18:01:44 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	init_data(char *str)
 		g_data.cmds[i].path = NULL;
 		g_data.cmds[i].output = NULL;
 		g_data.cmds[i].input = NULL;
+		g_data.cmds[i].inputs = NULL;
 		g_data.cmds[i].inputs_str = NULL;
 		g_data.cmds[i].heredoc = 0;
 		g_data.cmds[i].err = 0;

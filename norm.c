@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:14:11 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/10 23:21:33 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 19:13:55 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ char	**norm2(char **args, char **tmp)
 			new[y++] = args[i];
 	}
 	new[y] = NULL;
+	free(tmp);
 	return (new);
 }
