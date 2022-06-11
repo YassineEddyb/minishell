@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 21:53:22 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 21:21:41 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static char	*parser_collect_string(t_lexer *lexer, char c)
 	{
 		if (lexer->c == DOLLAR_SIGN
 			&& (is_surrounded_with_qoutes(lexer)
-				|| !ft_isalnum(lexer->content[lexer->index + 1])))
+				|| !ft_isalnum(lexer->content[lexer->index + 1]))
+				&& lexer->content[lexer->index + 1] != QUESTION_MARK)
 		{
 			val = join_and_free(val, ft_strdup("$"));
 			lexer_next_char(lexer);

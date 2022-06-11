@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 17:58:33 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 21:16:39 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,23 @@ void	handle_signal(int sig)
 	if (sig == SIGINT)
 	{
 		g_data.exit_code = 1;
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (g_data.heredoc_signal)
+		{
+			printf("\n");
+			close(0);
+		}
+		else if (g_data.child_signal)
+		{
+			printf("\n");
+			g_data.exit_code = 130;
+		}
+		else
+		{
+			printf("\n");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
 	}
 	else if (sig == SIGQUIT)
 	{
@@ -43,7 +56,7 @@ void	minishell(char *str)
 			free_if_exists(str);
 			execute();
 			clean_data();
-			system("leaks minishell");
+			// system("leaks minishell");
 		}
 	}
 }
@@ -58,6 +71,7 @@ int	main(int ac, char **av, char **env)
 	sigaction(SIGQUIT, &sa, NULL);
 	str = NULL;
 	g_data.env = strdup_table(env);
+	g_data.fd = dup(0);
 	if (ac == 1)
 		minishell(str);
 	else if (ac == 2)

@@ -113,9 +113,11 @@ void	execute(void)
 {
 	if (!g_data.err)
 	{
+		g_data.child_signal = 1;
 		open_files();
 		execute_commands();
 		close_all_pipes();
 		wait_all_child_processors();
+		g_data.child_signal = 0;
 	}
 }

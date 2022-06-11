@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 17:56:51 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 21:00:23 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ typedef struct s_data {
 	int		append;
 	int		err;
 	int		exit_code;
+	int  	heredoc_signal;
+	int		child_signal;
+	int		fd;
 }	t_data;
 
 t_data	g_data;

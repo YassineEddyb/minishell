@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 12:34:13 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 19:26:54 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void	parser_handle_heredoc(t_lexer *lexer)
 	tmp = parser_expect(lexer, TOKEN_WORD).value;
 	g_data.limit = remove_quotes(tmp);
 	free(tmp);
-	here_doc();
+	if (!g_data.err)
+		here_doc();
 }
 
 int	is_commands_breaker(int n)
