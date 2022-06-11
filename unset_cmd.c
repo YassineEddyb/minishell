@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:24 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/10 23:18:58 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 21:25:58 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	help_unset1(char **args, int i, int j)
 		j++;
 		free(s1);
 	}
-
 }
 
 int	check_unset(int i, int q, char **args)

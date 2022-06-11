@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 21:00:47 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 21:59:26 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	init_data(char *str)
 	g_data.err = 0;
 	g_data.heredoc_signal = 0;
 	g_data.child_signal = 0;
+	g_data.cntr_c = 0;
 	g_data.cmds = malloc(g_data.num_of_cmds * sizeof(t_cmd));
 	i = 0;
 	while (i < g_data.num_of_cmds)

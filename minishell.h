@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 21:00:23 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 21:59:03 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_cmd {
 	char	*str;
 	char	*path;
 	char	*output;
-	char 	*input;
+	char	*input;
 	char	*inputs_str;
 	char	**inputs;
 	char	**args;
@@ -97,9 +97,10 @@ typedef struct s_data {
 	int		append;
 	int		err;
 	int		exit_code;
-	int  	heredoc_signal;
+	int		heredoc_signal;
 	int		child_signal;
 	int		fd;
+	int		cntr_c;
 }	t_data;
 
 t_data	g_data;

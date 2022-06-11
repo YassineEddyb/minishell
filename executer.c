@@ -32,15 +32,18 @@ int	is_builtin_cmd(char *cmd)
 	return (0);
 }
 
-void open_files()
+void	open_files(void)
 {
-	int i = 0;
-	int j = 0;
-	while(i < g_data.num_of_cmds)
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < g_data.num_of_cmds)
 	{
 		g_data.cmds[i].inputs = ft_split(g_data.cmds[i].inputs_str, -1);
 		j = 0;
-		while(g_data.cmds[i].inputs && g_data.cmds[i].inputs[j])
+		while (g_data.cmds[i].inputs && g_data.cmds[i].inputs[j])
 		{
 			if (access(g_data.cmds[i].inputs[j], F_OK | R_OK) == -1)
 			{
@@ -56,7 +59,6 @@ void open_files()
 		i++;
 	}
 }
-
 
 int	is_builtin(int i)
 {

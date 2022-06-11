@@ -6,35 +6,38 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 21:16:39 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 21:59:43 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	handle_cntr_c(void)
+{
+	g_data.exit_code = 1;
+	if (g_data.heredoc_signal)
+	{
+		printf("\n");
+		close(0);
+	}
+	else if (g_data.child_signal)
+	{
+		printf("\n");
+		g_data.cntr_c = 1;
+	}
+	else
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
 void	handle_signal(int sig)
 {
 	if (sig == SIGINT)
-	{
-		g_data.exit_code = 1;
-		if (g_data.heredoc_signal)
-		{
-			printf("\n");
-			close(0);
-		}
-		else if (g_data.child_signal)
-		{
-			printf("\n");
-			g_data.exit_code = 130;
-		}
-		else
-		{
-			printf("\n");
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-		}
-	}
+		handle_cntr_c();
 	else if (sig == SIGQUIT)
 	{
 		rl_on_new_line();
