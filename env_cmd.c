@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:32:22 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/11 17:54:21 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 22:45:36 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	env_cmd(char **args)
 	i = 0;
 	if (args[1])
 	{
-		ft_putstr_fd("env : : No rguments\n", 2);
+		// ft_putstr_fd("env : : No rguments\n", 2);
+		printf("env: %s: No such file or directory\n", args[1]);
 		g_data.exit_code = 1;
 		return ;
 	}

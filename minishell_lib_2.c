@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:17:19 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 15:09:06 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 22:48:09 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,11 @@ void	open_file(char *path)
 	}
 	if (!g_data.err)
 		open(path, O_CREAT, 0644);
+}
+
+void	ft_print_error(char *s1, char *s2, char *s3)
+{
+	ft_putstr_fd(s1, 2);
+	ft_putstr_fd(s2, 2);
+	ft_putstr_fd(s3, 2);
 }

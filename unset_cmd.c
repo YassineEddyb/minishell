@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:24 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/11 21:25:58 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 22:50:39 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ int	check_unset(int i, int q, char **args)
 		{
 			if (!ft_isalpha(args[i][0]) || !ft_check_alnum(args[i] + 1))
 			{
-				printf("minishell: unset: `%s':not a valid identifier\n",
-					args[i]);
+				ft_print_error("minishell: unset: `", args[i],"':not a valid identifier\n");
 				z++;
 			}
 			i++;

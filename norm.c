@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:14:11 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/11 21:41:37 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/11 22:25:37 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,12 @@ char	**norm2(char **args, char **tmp)
 	new[0] = args[0];
 	while (args[++i])
 	{
-		j = 0;
+		j = -1;
 		x = 0;
-		while (tmp[j])
+		while (tmp[++j])
 		{
 			if (ft_strncmp(args[i], tmp[j], ft_strlen(args[i])) == 0)
 				x++;
-			j++;
 		}
 		if (x == 0)
 			new[y++] = args[i];
