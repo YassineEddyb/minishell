@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 10:26:21 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 11:03:23 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 11:09:49 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ int	print_dollar_sign(t_lexer *lexer)
 	return (0);
 }
 
-void	parse_string(char c, char *val, t_lexer *lexer)
+char	*parse_string(char c, t_lexer *lexer)
 {
+	char	*val;
+
+	val = NULL;
 	if (print_dollar_sign(lexer))
 	{
 		val = join_and_free(val, ft_strdup("$"));
@@ -53,4 +56,5 @@ void	parse_string(char c, char *val, t_lexer *lexer)
 		val = join_and_free(val, lexer_get_char_as_string(lexer->c));
 		lexer_next_char(lexer);
 	}
+	return (val);
 }

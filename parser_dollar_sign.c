@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 11:04:58 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 11:07:57 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static char	*parser_collect_string(t_lexer *lexer, char c)
 			g_data.err = 1;
 			break ;
 		}
-		parse_string(c, val, lexer);
+		val = join_and_free(val, parse_string(c, lexer));
 	}
 	if (lexer->c == SINGLE_QUOTES || lexer->c == DOUBLE_QUOTES)
 		lexer_next_char(lexer);

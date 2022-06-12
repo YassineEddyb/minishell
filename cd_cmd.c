@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 09:23:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 22:46:53 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 11:59:25 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,13 @@ int	look_for_env_index(char **env, char *start)
 	return (-1);
 }
 
+void	cd_error(void)
+{
+	perror("minishell");
+	g_data.exit_code = 1;
+	return ;
+}
+
 void	cd_cmd(char **args)
 {
 	char	buff[1000];
@@ -76,14 +83,12 @@ void	cd_cmd(char **args)
 	g_data.env[old_pwd_index] = \
 	ft_str_join(ft_strdup("OLDPWD="), getcwd(buff, 1000));
 	if (chdir(pwd) == -1)
-	{
-		perror("minishell");
-		g_data.exit_code = 1;
-		return ;
-	}
+		return (cd_error());
 	pwd_index = look_for_env_index(g_data.env, "PWD=");
 	free_if_exists(g_data.env[pwd_index]);
 	g_data.env[pwd_index] = \
 	ft_str_join(ft_strdup("PWD="), getcwd(buff, 1000));
+	if (!args[1])
+		free(pwd);
 	g_data.exit_code = 0;
 }
