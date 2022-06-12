@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 21:21:41 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 11:04:58 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,15 @@ static char	*parser_collect_string(t_lexer *lexer, char c)
 
 	val = NULL;
 	lexer_next_char(lexer);
-	while (lexer->c != c && lexer->c != '\0')
+	while (lexer->c != c)
 	{
-		if (lexer->c == DOLLAR_SIGN
-			&& (is_surrounded_with_qoutes(lexer)
-				|| !ft_isalnum(lexer->content[lexer->index + 1]))
-				&& lexer->content[lexer->index + 1] != QUESTION_MARK)
+		if (lexer->c == '\0')
 		{
-			val = join_and_free(val, ft_strdup("$"));
-			lexer_next_char(lexer);
+			ft_putstr_fd("minishell: unclosed quotes\n", 2);
+			g_data.err = 1;
+			break ;
 		}
-		else if (c == DOUBLE_QUOTES && lexer->c == DOLLAR_SIGN)
-			val = join_and_free(val, get_env_value(lexer));
-		else
-		{
-			val = join_and_free(val, lexer_get_char_as_string(lexer->c));
-			lexer_next_char(lexer);
-		}
+		parse_string(c, val, lexer);
 	}
 	if (lexer->c == SINGLE_QUOTES || lexer->c == DOUBLE_QUOTES)
 		lexer_next_char(lexer);

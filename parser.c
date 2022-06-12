@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 21:59:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 10:25:17 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,10 @@ void	init_data(char *str)
 	g_data.child_signal = 0;
 	g_data.cntr_c = 0;
 	g_data.cmds = malloc(g_data.num_of_cmds * sizeof(t_cmd));
-	i = 0;
-	while (i < g_data.num_of_cmds)
+	i = -1;
+	while (++i < g_data.num_of_cmds)
 	{
-		g_data.cmds[i].pipe = 0;
-		g_data.cmds[i].and = 0;
-		g_data.cmds[i].or = 0;
-		g_data.cmds[i].args = NULL;
-		g_data.cmds[i].str = NULL;
-		g_data.cmds[i].path = NULL;
-		g_data.cmds[i].output = NULL;
-		g_data.cmds[i].input = NULL;
-		g_data.cmds[i].inputs = NULL;
-		g_data.cmds[i].inputs_str = NULL;
-		g_data.cmds[i].heredoc = 0;
-		g_data.cmds[i].err = 0;
-		i++;
+		init_cmd_properties(i);
 	}
 }
 

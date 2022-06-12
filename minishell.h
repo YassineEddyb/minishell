@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 22:49:13 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 11:04:21 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,10 @@ int		is_stop_charaters(char c);
 int		parser_count_word(t_lexer *lexer);
 char	*get_env_variable(char *var);
 void	parse_outfile(t_lexer *lexer, int append);
+void	init_cmd_properties(int i);
+int		print_dollar_sign(t_lexer *lexer);
+char	*get_env_value(t_lexer *lexer);
+void	parse_string(char c, char *val, t_lexer *lexer);
 
 // minishell lib
 void	free_arr(char **arr);
