@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 18:53:38 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 17:48:26 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	skip_strings(char *str, int *i)
 
 	if (str[*i] == LEFT_PARENTHESES)
 	{
-		if (str[*i + 1] == RIGHT_PARENTHESES)
+		if (str[*i + 1] == RIGHT_PARENTHESES || str[*i + 1] == '\0')
 			parser_error(")", TOKEN_PARENTHESES);
 		while (str[*i] != RIGHT_PARENTHESES && str[*i] != '\0')
 			(*i)++;

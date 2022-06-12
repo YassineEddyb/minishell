@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 16:39:24 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 17:38:42 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_data {
 	int		child_signal;
 	int		fd;
 	int		cntr_c;
+	char	*pwd;
 }	t_data;
 
 t_data	g_data;

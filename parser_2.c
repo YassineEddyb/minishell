@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 19:26:54 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 17:53:52 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	parser_redirect(t_token *token, t_lexer *lexer)
 	{
 		if (!g_data.err)
 			g_data.cmds[g_data.index].str
-				= join_with_sep(ft_strdup("./minishell"), token->value, -1);
+				= join_with_sep(ft_strjoin(g_data.pwd,
+						"/minishell"), token->value, -1);
 	}
 	else if (token->e_type == TOKEN_PIPE_PIPE)
 		g_data.cmds[g_data.index].or = 1;

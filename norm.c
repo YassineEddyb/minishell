@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:14:11 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/11 22:25:37 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 18:35:06 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**norm1(char **args)
 	char	*str;
 	char	**tmp;
 
-	tmp = malloc(sizeof(char *) * (table_len(args) + 1));
+	tmp = malloc(sizeof(char *) * (table_len(args) + 100));
 	i = 1;
 	x = 0;
 	while (args[i])

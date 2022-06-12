@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 16:44:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 17:52:58 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	main(int ac, char **av, char **env)
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	str = NULL;
+	g_data.pwd = getenv("PWD");
 	g_data.env = strdup_table(env);
 	g_data.fd = dup(0);
 	if (ac == 1)
