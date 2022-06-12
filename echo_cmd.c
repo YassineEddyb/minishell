@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:57:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 22:18:59 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 13:44:56 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	echo_cmd(char **args)
 		ft_putstr_fd(args[i], 1);
 		i++;
 		if (args[i])
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 	}
 	if (new_line)
 		printf("\n");

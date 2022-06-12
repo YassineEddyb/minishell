@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/12 10:21:23 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 16:40:49 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	export2(int x, int j, char **args, char **new_env)
 	z = 0;
 	while (i < j + 1)
 	{
-		if (!ft_isalpha(args[i][0]) || !ft_check_alnum2(args[i] + 1))
+		if (!ft_isalpha2(args[i][0]) || !ft_check_alnum2(args[i] + 1))
 		{
 			ft_print_error("minishell: unset: `",
 				args[i++], "':not a valid identifier\n");

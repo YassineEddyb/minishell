@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 11:07:57 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 14:19:14 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*parser_collect_dollar_sign_string(t_lexer *lexer)
 
 	i = 0;
 	val = malloc((parser_count_word(lexer) + 1) * sizeof(char));
-	while (ft_isalnum(lexer->c) && lexer->c != '\0')
+	while ((ft_isalnum(lexer->c) || lexer->c == '_') && lexer->c != '\0')
 	{
 		val[i] = lexer->c;
 		lexer_next_char(lexer);
@@ -58,9 +58,10 @@ char	*get_env_value(t_lexer *lexer)
 		str = ft_itoa(g_data.exit_code);
 		lexer_next_char(lexer);
 	}
-	else if (lexer->c == '\0' || (lexer->c != SINGLE_QUOTES
-			&& lexer->c != DOUBLE_QUOTES
-			&& !ft_isalnum(lexer->content[lexer->index])))
+	else if (lexer->c != SINGLE_QUOTES
+		&& lexer->c != DOUBLE_QUOTES
+		&& !ft_isalnum(lexer->c)
+		&& lexer->c != '_')
 		str = ft_strdup("$");
 	else
 	{

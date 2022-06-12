@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 01:18:49 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 22:31:43 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 16:40:09 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_check_alnum(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isalnum(str[i]))
+		if (!ft_isalnum2(str[i]))
 			return (0);
 		i++;
 	}
@@ -33,7 +33,7 @@ int	ft_check_alnum2(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isalnum(str[i]))
+		if (!ft_isalnum2(str[i]))
 		{
 			if (str[i] == '=')
 				i++;
