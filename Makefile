@@ -17,7 +17,7 @@ all: $(NAME)
 $(NAME): $(SRC) $(CMDS)
 	@printf "${GREEN}compiling...\n"
 	@cd libft && make && cd ..
-	@$(CC) $(CFLAGS) $(SRC) $(CMDS) $(GNL) $(LIBFT) $(READLINE) -lreadline -o $(NAME)
+	@$(CC) $(SRC) $(CMDS) $(GNL) $(LIBFT) $(READLINE) -lreadline -o $(NAME)
 clean :
 	@printf "${GREEN}cleaning...\n"
 	@cd libft && make clean && cd ..

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:13:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 14:19:14 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/13 11:49:24 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char	*get_env_value(t_lexer *lexer)
 
 static char	*parser_collect_string(t_lexer *lexer, char c)
 {
-	int		i;
 	char	*val;
 
 	val = NULL;

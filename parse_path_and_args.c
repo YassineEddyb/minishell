@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 12:32:47 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/10 21:05:48 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/13 11:54:47 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,6 @@ static void	get_args(void)
 			}
 			j++;
 		}
-		i++;
-	}
-}
-
-static void	replace_args(void)
-{
-	int	i;
-	int	j;
-
-	while (i < g_data.num_of_cmds)
-	{
-		if (!g_data.cmds[i].path)
-			g_data.cmds[i].args = ft_split(g_data.cmds[i].str, -1);
 		i++;
 	}
 }
