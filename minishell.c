@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/14 16:56:12 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/14 18:24:54 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,16 @@ void	handle_signal(int sig)
 		handle_cntr_c();
 	else if (sig == SIGQUIT)
 	{
-		rl_on_new_line();
-		rl_redisplay();
+		if (g_data.child_signal)
+		{
+			printf("\n");
+			rl_redisplay();
+		}
+		else
+		{
+			rl_on_new_line();
+			rl_redisplay();
+		}
 	}
 }
 
@@ -52,7 +60,10 @@ void	minishell(char *str)
 	{
 		str = readline("\033[0;32mminishell:$ \x1B[0m");
 		if (!str)
+		{
+			printf("exit\n");
 			exit(0);
+		}
 		if (str[0])
 		{
 			add_history(str);
@@ -60,7 +71,6 @@ void	minishell(char *str)
 			free_if_exists(str);
 			execute();
 			clean_data();
-			// system("leaks minishell");
 		}
 	}
 }
