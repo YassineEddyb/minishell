@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:24 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/12 16:40:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 19:44:02 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,8 @@ void	unset_cmd(char **args, int q)
 {
 	int		i;
 	int		j;
-	char	*s;
 
-	j = check_unset(i, q, args);
+	j = check_unset(0, q, args);
 	if (j == 0)
 		g_data.exit_code = 0;
 	else

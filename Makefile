@@ -3,7 +3,7 @@ SRC = minishell.c minishell_lib.c minishell_lib_2.c\
 	parser.c parser_utils.c parse_path_and_args.c parser_2.c parser_helpers.c parser_helpers_2.c parser_dollar_sign.c parser_bonus.c\
 	executer.c executer_dup.c executer_utils.c heredoc.c executer_bnous.c
 
-CMDS = echo_cmd.c cd_cmd.c pwd_cmd.c export_cmd.c unset_cmd.c exit_cmd.c env_cmd.c norm.c
+CMDS = echo_cmd.c cd_cmd.c pwd_cmd.c export_cmd.c unset_cmd.c exit_cmd.c env_cmd.c norm.c help_cmds.c
 
 GNL = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 LIBFT = libft/libft.a
@@ -17,7 +17,7 @@ all: $(NAME)
 $(NAME): $(SRC) $(CMDS)
 	@printf "${GREEN}compiling...\n"
 	@cd libft && make && cd ..
-	@$(CC) $(SRC) $(CMDS) $(GNL) $(LIBFT) $(READLINE) -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(SRC) $(CMDS) $(GNL) $(LIBFT) $(READLINE) -lreadline -o $(NAME)
 clean :
 	@printf "${GREEN}cleaning...\n"
 	@cd libft && make clean && cd ..

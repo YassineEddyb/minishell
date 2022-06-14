@@ -113,7 +113,7 @@ void	execute_commands(void)
 
 void	execute(void)
 {
-	if (!g_data.err)
+	if (!g_data.err && g_data.close_heredoc != 1)
 	{
 		g_data.child_signal = 1;
 		open_files();

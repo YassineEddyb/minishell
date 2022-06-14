@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/12 18:39:29 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 19:46:01 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	help_export(char **args, int i, int j, int x)
+void	help_export(int i, int j, int x)
 {
 	while (g_data.env[i])
 	{
@@ -94,19 +94,17 @@ int	help_export2(char **args, int i, int j, int x)
 void	export_cmd(char **args)
 {
 	int		i;
-	int		j;
 	int		x;
-	int		y;
 	char	**str;
 
 	i = 0;
 	if (!args[1])
-		help_export(args, i, j, x);
+		help_export(i, 0, 0);
 	else
 	{
 		str = norm2(args, norm1(args));
-		help_export1(str, i, j);
-		x = help_export2(str, i, j, x);
+		help_export1(str, i, 0);
+		x = help_export2(str, i, 0, 0);
 		if (x == 0)
 			g_data.exit_code = 0;
 		else

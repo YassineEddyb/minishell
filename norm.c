@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   norm.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:14:11 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/13 12:03:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/12 21:36:02 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**norm1(char **args)
 	char	*str;
 	char	**tmp;
 
-	tmp = malloc(sizeof(char *) * (table_len(args) + 100));
+	tmp = malloc(sizeof(char *) * (table_len(g_data.env) + 1));
 	i = 1;
 	x = 0;
 	while (args[i])
@@ -68,4 +68,16 @@ char	**norm2(char **args, char **tmp)
 	new[y] = NULL;
 	free(tmp);
 	return (new);
+}
+
+int	table_len(char **tab)
+{
+	int	i;
+
+	if (!tab)
+		return (0);
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
 }

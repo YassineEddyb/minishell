@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 17:38:42 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/14 16:23:53 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
+# include <limits.h>
 
 # define OLD_THAN '>'
 # define LESS_THAN '<'
@@ -99,6 +100,7 @@ typedef struct s_data {
 	int		exit_code;
 	int		heredoc_signal;
 	int		child_signal;
+	int		close_heredoc;
 	int		fd;
 	int		cntr_c;
 	char	*pwd;
@@ -182,6 +184,7 @@ void	export_cmd(char **args);
 void	env_cmd(char **args);
 void	exit_cmd(char **args);
 void	unset_cmd(char **args, int q);
+int		look_for_env_index(char **env, char *start);
 
 // bonus functions
 int		handle_and_and_or(int process_index);

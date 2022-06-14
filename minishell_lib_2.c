@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:17:19 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 10:21:46 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/14 16:11:26 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	open_file(char *path)
 {
 	if (!path || path[0] == '\0')
 	{
-		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+		if (!g_data.err)
+			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
 		g_data.err = 1;
 	}
 	if (!g_data.err)
@@ -55,4 +56,18 @@ void	ft_print_error(char *s1, char *s2, char *s3)
 	ft_putstr_fd(s1, 2);
 	ft_putstr_fd(s2, 2);
 	ft_putstr_fd(s3, 2);
+}
+
+int	look_for_env_index(char **env, char *start)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(start, env[i], ft_strlen(start)) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 21:09:23 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 17:53:52 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/14 14:37:20 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	parser_handle_heredoc(t_lexer *lexer)
 	tmp = parser_expect(lexer, TOKEN_WORD).value;
 	g_data.limit = remove_quotes(tmp);
 	free(tmp);
-	if (!g_data.err)
+	if (!g_data.err && !g_data.close_heredoc)
 		here_doc();
 }
 
