@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 17:48:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/14 21:09:25 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ void	clean_data(void)
 		free(g_data.cmds[i].path);
 		free_arr(g_data.cmds[i].args);
 		free_if_exists(g_data.cmds[i].output);
-		free_if_exists(g_data.cmds[i].inputs_str);
-		free_arr(g_data.cmds[i].inputs);
 		i++;
 	}
 	free(g_data.cmds);

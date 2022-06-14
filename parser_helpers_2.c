@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 10:26:21 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 11:09:49 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/14 21:40:13 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ void	init_cmd_properties(int i)
 	g_data.cmds[i].path = NULL;
 	g_data.cmds[i].output = NULL;
 	g_data.cmds[i].input = NULL;
-	g_data.cmds[i].inputs = NULL;
-	g_data.cmds[i].inputs_str = NULL;
 	g_data.cmds[i].heredoc = 0;
+	g_data.cmds[i].append = 0;
 	g_data.cmds[i].err = 0;
 }
 

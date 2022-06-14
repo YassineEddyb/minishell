@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/14 15:53:18 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/14 21:40:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	parser_parse(t_token *token, t_lexer *lexer)
 		parser_handle_word(token);
 	else if (token->e_type == TOKEN_LESS_THAN)
 	{
-		g_data.cmds[g_data.index].inputs_str = join_with_sep(
-				g_data.cmds[g_data.index].inputs_str,
+		g_data.cmds[g_data.index].input = join_with_sep(
+				g_data.cmds[g_data.index].input,
 				parser_expect(lexer, TOKEN_WORD).value, -1);
 		g_data.cmds[g_data.index].heredoc = 0;
 	}
@@ -52,7 +52,6 @@ void	init_data(char *str)
 
 	g_data.num_of_cmds = get_num_of_cmds(str);
 	g_data.index = 0;
-	g_data.append = 0;
 	g_data.err = 0;
 	g_data.heredoc_signal = 0;
 	g_data.child_signal = 0;
