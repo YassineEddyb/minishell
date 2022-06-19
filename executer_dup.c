@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:50:08 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/19 14:28:07 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 21:34:22 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ void	check_input_files(int cmd_idx)
 		i++;
 	}
 	free_if_exists(g_data.cmds[cmd_idx].input);
-	if (inputs)
+	if (inputs && inputs[0])
 		g_data.cmds[cmd_idx].input = ft_strdup(inputs[i - 1]);
+	else if (inputs)
+		g_data.cmds[cmd_idx].input = ft_strdup("");
 	free_arr(inputs);
 }
 
@@ -72,6 +74,11 @@ static void	handle_input(int i)
 		dup2(g_data.cmds[i].doc[0], STDIN);
 	else if (g_data.cmds[i].input)
 	{
+		if (g_data.cmds[i].input[0] == '\0')
+		{
+			ft_putstr_fd("minishell: No such file or directory\n", 2);
+			exit(ERROR);
+		}
 		fd = open(g_data.cmds[i].input, O_RDONLY, 0644);
 		if (fd == -1)
 			exit(ERROR);

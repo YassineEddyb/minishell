@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/27 17:57:40 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/12 18:11:38 by yed-dyb          ###   ########.fr       */
+/*   Created: 2022/06/18 22:27:49 by aaizza            #+#    #+#             */
+/*   Updated: 2022/06/19 21:13:49 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	simlify_newline(char **args)
 	int	j;
 	int	x;
 
-	i = -1;
+	i = 0;
 	x = 1;
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '-')
 		return (x);
@@ -35,6 +35,8 @@ int	simlify_newline(char **args)
 			if (j > 1)
 				x++;
 		}
+		else
+			return (x);
 	}
 	return (x);
 }
@@ -44,7 +46,9 @@ void	echo_cmd(char **args)
 	int	i;
 	int	new_line;
 
-	i = simlify_newline(args);
+	i = 1;
+	if (args[1][0] == '-')
+		i = simlify_newline(args);
 	new_line = 1;
 	if (i > 1)
 		new_line = 0;

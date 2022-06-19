@@ -6,7 +6,7 @@
 /*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:14:11 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/12 21:36:02 by aaizza           ###   ########.fr       */
+/*   Updated: 2022/06/18 23:44:35 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,29 @@ int	table_len(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
+}
+
+void	help_export(int i, int j, int x)
+{
+	while (g_data.env[i])
+	{
+		printf("declare -x ");
+		j = 0;
+		x = 0;
+		while (g_data.env[i][j])
+		{
+			if (g_data.env[i][j] == '=')
+			{
+				printf("=\"");
+				x++;
+				j++;
+			}
+			printf("%c", g_data.env[i][j]);
+			j++;
+		}
+		if (x != 0)
+			printf("\"");
+		printf("\n");
+		i++;
+	}
 }

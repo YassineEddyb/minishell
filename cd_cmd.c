@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 19:24:18 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/18 19:19:12 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 21:07:10 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,15 @@ void	set_pwd(char *str)
 {
 	char	pwd[PATH_MAX];
 	char	*join;
+	int		index;
 
 	getcwd(pwd, PATH_MAX);
+	index = look_for_env_index(g_data.env, str);
 	join = ft_strjoin(str, "=");
-	if (look_for_env_index(g_data.env, str) != -1)
+	if (index != -1)
 	{
-		free(g_data.env[look_for_env_index(g_data.env, str)]);
-		g_data.env[look_for_env_index(g_data.env, str)]
+		free(g_data.env[index]);
+		g_data.env[index]
 			= ft_strjoin(join, pwd);
 	}
 	free(join);

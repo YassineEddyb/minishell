@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/19 11:30:16 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 21:19:19 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ typedef struct s_data {
 	int		child_signal;
 	int		close_heredoc;
 	int		fd;
-	int		cntr_c;
 	char	*pwd;
 }	t_data;
 
@@ -185,6 +184,7 @@ void	env_cmd(char **args);
 void	exit_cmd(char **args);
 void	unset_cmd(char **args, int q);
 int		look_for_env_index(char **env, char *start);
+void	help_export(int i, int j, int x);
 
 // bonus functions
 int		handle_and_and_or(int process_index);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:45:02 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/14 19:59:24 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/18 22:29:30 by aaizza           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_digit_check(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')

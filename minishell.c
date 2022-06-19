@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/19 11:44:28 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 21:46:28 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	handle_cntr_c(void)
 		close(0);
 	}
 	else if (g_data.child_signal)
-	{
 		printf("\n");
-		g_data.cntr_c = 1;
-	}
 	else
 	{
 		printf("\n");
@@ -43,7 +40,6 @@ void	handle_signal(int sig)
 	{
 		if (g_data.child_signal)
 		{
-			//g_data.exit_code = 131;
 			printf("\n");
 			rl_redisplay();
 		}

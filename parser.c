@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/15 11:33:16 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 21:35:15 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,19 @@ t_token	parser_expect(t_lexer *lexer, int t_tokenype)
 void	parser_parse(t_token *token, t_lexer *lexer)
 {
 	char	*str;
+	char	*tmp;
 
 	str = g_data.cmds[g_data.index].str;
 	if (token->e_type == TOKEN_WORD)
 		parser_handle_word(token);
 	else if (token->e_type == TOKEN_LESS_THAN)
 	{
+		tmp = parser_expect(lexer, TOKEN_WORD).value;
 		g_data.cmds[g_data.index].input = join_with_sep(
 				g_data.cmds[g_data.index].input,
-				parser_expect(lexer, TOKEN_WORD).value, -1);
+				parser_handle_dollar_sign(tmp), -1);
 		g_data.cmds[g_data.index].heredoc = 0;
+		free(tmp);
 	}
 	else if (token->e_type == TOKEN_LESS_LESS)
 		parser_handle_heredoc(lexer);
@@ -56,7 +59,6 @@ void	init_data(char *str)
 	g_data.heredoc_signal = 0;
 	g_data.child_signal = 0;
 	g_data.close_heredoc = 0;
-	g_data.cntr_c = 0;
 	g_data.cmds = malloc(g_data.num_of_cmds * sizeof(t_cmd));
 	i = -1;
 	while (++i < g_data.num_of_cmds)

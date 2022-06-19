@@ -3,43 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   export_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaizza <aaizza@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 15:40:07 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/12 19:46:01 by aaizza           ###   ########.fr       */
+/*   Updated: 2022/06/19 21:44:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	help_export(int i, int j, int x)
-{
-	while (g_data.env[i])
-	{
-		printf("declare -x ");
-		j = 0;
-		x = 0;
-		while (g_data.env[i][j])
-		{
-			if (g_data.env[i][j] == '=')
-			{
-				printf("=\"");
-				x++;
-				j++;
-			}
-			printf("%c", g_data.env[i][j]);
-			j++;
-		}
-		if (x != 0)
-			printf("\"");
-		printf("\n");
-		i++;
-	}
-}
-
-void	help_export1(char **args, int i, int j)
+void	help_export1(char **args)
 {
 	char	**t;
+	int		i;
+	int		j;
 
 	i = table_len(args);
 	t = malloc(sizeof(char *) * (i + 1));
@@ -91,24 +68,41 @@ int	help_export2(char **args, int i, int j, int x)
 	return (export2(x, j, args, new_env));
 }
 
-void	export_cmd(char **args)
+void	export_cmd1(char **args)
 {
 	int		i;
 	int		x;
 	char	**str;
 
 	i = 0;
+	str = norm2(args, norm1(args));
+	help_export1(str);
+	x = help_export2(str, i, 0, 0);
+	if (x == 0)
+		g_data.exit_code = 0;
+	else
+		g_data.exit_code = 1;
+	free(str);
+}
+
+void	export_cmd(char **args)
+{
+	int		i;
+	char	**tmp;
+
+	i = 1;
 	if (!args[1])
-		help_export(i, 0, 0);
+		help_export(0, 0, 0);
 	else
 	{
-		str = norm2(args, norm1(args));
-		help_export1(str, i, 0);
-		x = help_export2(str, i, 0, 0);
-		if (x == 0)
-			g_data.exit_code = 0;
-		else
-			g_data.exit_code = 1;
-		free(str);
+		while (args[i])
+		{
+			tmp = malloc(sizeof(char *) * 3);
+			tmp[0] = args[0];
+			tmp[1] = args[i++];
+			tmp[2] = NULL;
+			export_cmd1(tmp);
+			free(tmp);
+		}
 	}
 }
