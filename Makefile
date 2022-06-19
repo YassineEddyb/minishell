@@ -15,10 +15,10 @@ GREEN=\033[0;32m
 all: $(NAME)
 
 $(NAME): $(SRC) $(CMDS)
-	@printf "${GREEN}compiling...\n"
 	@cd libft && make && cd ..
-	@$(CC) $(CFLAGS) $(SRC) $(CMDS) $(GNL) $(LIBFT) $(READLINE) -lreadline -o $(NAME) -fsanitize=address
-	stty -echoctl
+	@printf "${GREEN}compiling...\n"
+	@$(CC) -g $(CFLAGS) $(SRC) $(CMDS) $(GNL) $(LIBFT) $(READLINE) -lreadline -o $(NAME) -fsanitize=address
+	@stty -echoctl
 clean :
 	@printf "${GREEN}cleaning...\n"
 	@cd libft && make clean && cd ..

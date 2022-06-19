@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:58 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/14 18:24:54 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 11:32:29 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	handle_signal(int sig)
 	{
 		if (g_data.child_signal)
 		{
+			g_data.cntr_c = 131;
 			printf("\n");
 			rl_redisplay();
 		}
@@ -54,7 +55,7 @@ void	handle_signal(int sig)
 	}
 }
 
-void	minishell(char *str)
+void	minishell(char *str, struct sigaction *sa)
 {
 	while (1)
 	{
@@ -71,6 +72,7 @@ void	minishell(char *str)
 			free_if_exists(str);
 			execute();
 			clean_data();
+			sigaction(SIGINT, sa, NULL);
 		}
 	}
 }
@@ -88,7 +90,7 @@ int	main(int ac, char **av, char **env)
 	g_data.env = strdup_table(env);
 	g_data.fd = dup(0);
 	if (ac == 1)
-		minishell(str);
+		minishell(str, &sa);
 	else if (ac == 2)
 	{
 		parser(av[1]);

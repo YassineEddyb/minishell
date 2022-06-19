@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 19:25:22 by aaizza            #+#    #+#             */
-/*   Updated: 2022/06/14 16:23:45 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:12:18 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	pwd_cmd(void)
 	}
 	else
 	{
-		perror("getcwd() error");
+		perror("minishell");
 		g_data.exit_code = 1;
 	}
 }

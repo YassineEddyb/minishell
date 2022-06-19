@@ -32,13 +32,12 @@ int	is_builtin_cmd(char *cmd)
 	return (0);
 }
 
-
 int	is_builtin(int i)
 {
 	dup_output_file(i);
 	if (g_data.cmds[i].err)
-		return (1);
-	if (!ft_strncmp(g_data.cmds[i].args[0], "echo", 5))
+		return (is_builtin_cmd(g_data.cmds[i].args[0]));
+	else if (!ft_strncmp(g_data.cmds[i].args[0], "echo", 5))
 		echo_cmd(g_data.cmds[i].args);
 	else if (!ft_strncmp(g_data.cmds[i].args[0], "pwd", 4))
 		pwd_cmd();
@@ -64,18 +63,19 @@ void	execute_commands(void)
 	i = -1;
 	while (++i < g_data.num_of_cmds)
 	{
+		check_input_files(i);
+		check_output_files(i);
 		if (g_data.cmds[i].args && ((g_data.num_of_cmds > 1 || !is_builtin(i))))
 		{
+			signal(SIGINT, SIG_IGN);
 			g_data.cmds[i].pid = fork();
 			if (g_data.cmds[i].pid == 0)
 			{
+				signal(SIGINT, SIG_DFL);
 				close_unused_pipes(i);
 				dup_all(i);
 				if (!is_builtin(i))
-				{
-					check_is_path(i);
 					exec_cmd(i);
-				}
 				exit(g_data.exit_code);
 			}
 		}
@@ -89,7 +89,6 @@ void	execute(void)
 	if (!g_data.err && g_data.close_heredoc != 1)
 	{
 		g_data.child_signal = 1;
-		check_input_files();
 		execute_commands();
 		close_all_pipes();
 		wait_all_child_processors();

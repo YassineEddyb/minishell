@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:09:20 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/14 21:40:18 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:33:16 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ void	init_data(char *str)
 	g_data.cmds = malloc(g_data.num_of_cmds * sizeof(t_cmd));
 	i = -1;
 	while (++i < g_data.num_of_cmds)
-	{
 		init_cmd_properties(i);
-	}
 }
 
 int	check_parse_error(t_token token, t_token temp_token)

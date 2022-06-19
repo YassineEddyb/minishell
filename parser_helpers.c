@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 19:45:32 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/14 21:41:26 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 11:28:09 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ void	parse_outfile(t_lexer *lexer, int append)
 {
 	char	*tmp;
 
-	tmp = parser_handle_dollar_sign(parser_expect(lexer, TOKEN_WORD).value);
+	tmp = parser_expect(lexer, TOKEN_WORD).value;
 	g_data.cmds[g_data.index].output = join_with_sep(
-		g_data.cmds[g_data.index].output, tmp, -1);
+			g_data.cmds[g_data.index].output,
+			parser_handle_dollar_sign(tmp), -1);
 	g_data.cmds[g_data.index].append = append;
+	free(tmp);
 }

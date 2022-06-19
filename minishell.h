@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 10:15:43 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/14 21:39:35 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 11:30:16 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ int		ft_check_alnum2(char *str);
 void	exec_cmd(int i);
 char	**norm1(char **args);
 char	**norm2(char **args, char **tmp);
-void	check_input_files(void);
+void	check_input_files(int cmd_idx);
+void	check_output_files(int cmd_idx);
 
 // build in commands
 void	echo_cmd(char **args);

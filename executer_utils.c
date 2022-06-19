@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 10:25:37 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/11 22:00:41 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/19 11:33:40 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	wait_all_child_processors(void)
 					g_data.cmds[i].args[0]) || g_data.num_of_cmds > 1))
 		{
 			waitpid(g_data.cmds[i].pid, &status, 0);
-			if (!g_data.cntr_c)
+			if (WIFEXITED(status))
 				g_data.exit_code = WEXITSTATUS(status);
 			else
 				g_data.exit_code = 130;
@@ -80,6 +80,7 @@ void	check_is_path(int i)
 
 void	exec_cmd(int i)
 {
+	check_is_path(i);
 	if (execve(g_data.cmds[i].path,
 			g_data.cmds[i].args, g_data.env))
 		perror("minishell");
