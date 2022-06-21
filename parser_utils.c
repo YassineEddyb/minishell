@@ -6,7 +6,7 @@
 /*   By: yed-dyb <yed-dyb@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 16:28:34 by yed-dyb           #+#    #+#             */
-/*   Updated: 2022/06/15 12:40:55 by yed-dyb          ###   ########.fr       */
+/*   Updated: 2022/06/21 19:34:07 by yed-dyb          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	skip_strings(char *str, int *i)
 		while (str[*i] != RIGHT_PARENTHESES && str[*i] != '\0')
 			(*i)++;
 	}
-	if (str[*i] == SINGLE_QUOTES || str[*i] == DOUBLE_QUOTES)
+	if (str[*i] && (str[*i] == SINGLE_QUOTES || str[*i] == DOUBLE_QUOTES))
 	{
 		quote = str[(*i)++];
 		while (str[*i] != quote && str[*i] != '\0')
