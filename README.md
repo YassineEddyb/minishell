@@ -9,6 +9,8 @@ the subject is simply to create a minishell with some builtin commands
 to impleminte a minishell first i need to <b>parse</b> the command and put it in a struct so that in the <b>executing</b> 
 part i can just take the commands and execute them
 
+<img src"./minishell_map.png" alt="minishell map"></img>
+
 in the order to do this i separated the project to two parts 
 
 ### parsing
