@@ -78,3 +78,33 @@ typedef struct s_cmd {
 <b>pipe, and, or</b>: set 1 for the variable that seprates this command and the next command and 0 in the remained tow </br>
 <b>p</b>: for the pipe redirection </br>
 <b>err</b>: 1 if an error happen during exection part </br>
+
+since i have the right in only one variable i create a golbal struct where all the data is living
+
+```
+typedef struct s_data {
+	char	**env;
+	int		num_of_cmds;
+	t_cmd	*cmds;
+	int		index;
+	char	*limit;
+	int		err;
+	int		exit_code;
+	int		heredoc_signal;
+	int		child_signal;
+	int		close_heredoc;
+	int		fd;
+	char	*pwd;
+}	t_data;
+```
+
+<b>env</b>: envaroment variables </br>
+<b>num_of_cmds</b>: the number of commands </br>
+<b>cmds</b>: the struct that holds all the commands  </br>
+<b>index</b>: the index of the current command this is used where filling the cmds struct</br>
+<b>err</b>: 1 if an error happen in parsing part and 0 if not</br>
+<b>exit_code</b>: the exit code of this command </br>
+
+
+
+
