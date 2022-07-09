@@ -150,6 +150,6 @@ But first i checked if this command is in not builtin command cause if it's a si
 run this command
 
 ```
-git clone git@github.com:YassineEddyb/minishell.git && cd minishell && make && ./minishell
+git clone https://github.com/YassineEddyb/minishell && cd minishell && make && ./minishell
 ```
 
