@@ -143,5 +143,13 @@ And finaly i waited all the childs to exit
 pid_t waitpid(pid_t pid, int *stat_loc, int options);
 ```
 
+But first i checked if this command is in not builtin command cause if it's a single command and builtin command i just run it in the main porcess
 
+### Install
+
+run this command
+
+```
+git clone git@github.com:YassineEddyb/minishell.git && cd minishell && make && ./minishell
+```
 
