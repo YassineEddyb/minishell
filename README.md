@@ -109,13 +109,39 @@ typedef struct s_data {
 
 <a href="https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf" target="_blank">
 	https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
-</a>
+</a></br>
 
 <a href="https://youtu.be/WABO4o_y8qc" target="_blank">
 	https://youtu.be/WABO4o_y8qc
 </a>
 
+### Executing
 
+The executing part is quite simple since all the hard work has been done in the parsing part
+
+I simply iterated over all command then i created a new child for each command with fork function
+
+```
+pid_t fork(void);
+```
+
+Then i changed the default <b>Standartd output</b> and <b>Standard input</b> with dup function
+
+```
+int dup2(int oldfd, int newfd);
+```
+
+After that i executed those commands with execve function
+
+```
+int execve(const char *pathname, char *const argv[], char *const envp[]);
+```
+
+And finaly i waited all the childs to exit
+
+```
+pid_t waitpid(pid_t pid, int *stat_loc, int options);
+```
 
 
 
