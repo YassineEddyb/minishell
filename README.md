@@ -6,22 +6,22 @@
 ██║░╚═╝░██║██║██║░╚███║██║██████╔╝██║░░██║███████╗███████╗███████╗
 ╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚══════╝
 
-## subject
+## Subject
 
-the subject is simply to create a minishell with some builtin commands
+The subject is simply to create a minishell with some builtin commands
 
-## implemintation
+## Implemintation
 
-to impleminte a minishell first i need to <b>parse</b> the command and put it in a struct so that in the <b>executing</b> 
+To impleminte a minishell first i need to <b>parse</b> the command and put it in a struct so that in the <b>executing</b> 
 part i can just take the commands and execute them
 
 <img src="./minishell_map.png" alt="minishell map" />
 
-in the order to do this i separated the project to two parts 
+In the order to do this i separated the project to two parts 
 
-### parsing
+### Parsing
 
-in the parsing part i took the input and splited it into tokens 
+In the parsing part i took the input and splited it into tokens 
 
 ```
 typedef struct s_token
@@ -42,12 +42,12 @@ typedef struct s_token
 }	t_token;
 ```
 
-the <b>e_type</b> is an enum that return the index of the token assigned to it </br>
-the <b>value</b> is the pyload of this token 
+<b>e_type</b>: is an enum that return the index of the token assigned to it </br>
+<b>value</b>: is the pyload of this token 
 
-this porcess is called the <b>lexer</b>
+This porcess is called the <b>lexer</b>
 
-the iterate over the token and put every token in the cmd struct which hold all the necessary info to execute this command
+The iterate over the token and put every token in the cmd struct which hold all the necessary info to execute this command
 
 ```
 typedef struct s_cmd {
@@ -79,7 +79,7 @@ typedef struct s_cmd {
 <b>p</b>: for the pipe redirection </br>
 <b>err</b>: 1 if an error happen during exection part </br>
 
-since i have the right in only one variable i create a golbal struct where all the data is living
+Since i have the right in only one variable i create a golbal struct where all the data is living
 
 ```
 typedef struct s_data {
@@ -104,6 +104,17 @@ typedef struct s_data {
 <b>index</b>: the index of the current command this is used where filling the cmds struct</br>
 <b>err</b>: 1 if an error happen in parsing part and 0 if not</br>
 <b>exit_code</b>: the exit code of this command </br>
+
+#### Resourses
+
+<a href="https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf" target="_blank">
+	https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+</a>
+
+<a href="https://youtu.be/WABO4o_y8qc" target="_blank">
+	https://youtu.be/WABO4o_y8qc
+</a>
+
 
 
 
