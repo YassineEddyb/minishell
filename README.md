@@ -12,8 +12,8 @@ The subject is simply to create a minishell with some builtin commands
 
 ## Implemintation
 
-To impleminte a minishell first i need to <b>parse</b> the command and put it in a struct so that in the <b>executing</b> 
-part i can just take the commands and execute them
+In order To implement a minishell first We need to <b>parse</b> the command and put it in a Struct so that in the <b>executing</b> 
+part we can just take the commands and execute them
 
 <img src="./minishell_map.png" alt="minishell map" />
 
