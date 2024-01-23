@@ -1,10 +1,4 @@
-# 
-███╗░░░███╗██╗███╗░░██╗██╗░██████╗██╗░░██╗███████╗██╗░░░░░██╗░░░░░
-████╗░████║██║████╗░██║██║██╔════╝██║░░██║██╔════╝██║░░░░░██║░░░░░
-██╔████╔██║██║██╔██╗██║██║╚█████╗░███████║█████╗░░██║░░░░░██║░░░░░
-██║╚██╔╝██║██║██║╚████║██║░╚═══██╗██╔══██║██╔══╝░░██║░░░░░██║░░░░░
-██║░╚═╝░██║██║██║░╚███║██║██████╔╝██║░░██║███████╗███████╗███████╗
-╚═╝░░░░░╚═╝╚═╝╚═╝░░╚══╝╚═╝╚═════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚══════╝
+# minishell
 
 ## Subject
 
@@ -17,11 +11,11 @@ part we can just take the commands and execute them
 
 <img src="./minishell_map.png" alt="minishell map" />
 
-In the order to do this i separated the project to two parts 
+In the order to do this I separated the project to two parts 
 
 ### Parsing
 
-In the parsing part i took the input and splited it into tokens 
+In the parsing part I took the input and splited it into tokens 
 
 ```
 typedef struct s_token
@@ -72,14 +66,14 @@ typedef struct s_cmd {
 <b>output</b>: hold the output file name </br>
 <b>input</b>: holds the input file name </br>
 <b>args</b>: is an two dimentional arr that holds all the arguments of this commnad including the command itslef </br>
-<b>heredoc</b>: 1 if i should read from the standard input and 0 if not</br>
-<b>append</b>: 1 if i souuld add the result of this command to the output file and 0 if not </br>
+<b>heredoc</b>: 1 if I should read from the standard input and 0 if not</br>
+<b>append</b>: 1 if I souuld add the result of this command to the output file and 0 if not </br>
 <b>doc</b>: the pipe where the heredoc stores what his reading </br>
 <b>pipe, and, or</b>: set 1 for the variable that seprates this command and the next command and 0 in the remained tow </br>
 <b>p</b>: for the pipe redirection </br>
 <b>err</b>: 1 if an error happen during exection part </br>
 
-Since i have the right in only one variable i create a golbal struct where all the data is living
+Since I have the right in only one variable I create a golbal struct where all the data is living
 
 ```
 typedef struct s_data {
@@ -109,7 +103,8 @@ typedef struct s_data {
 
 <a href="https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf" target="_blank">
 	https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
-</a></br>
+</a>
+</br>
 
 <a href="https://youtu.be/WABO4o_y8qc" target="_blank">
 	https://youtu.be/WABO4o_y8qc
@@ -119,35 +114,35 @@ typedef struct s_data {
 
 The executing part is quite simple since all the hard work has been done in the parsing part
 
-I simply iterated over all command then i created a new child for each command with fork function
+I simply iterated over all command then I created a new child for each command with fork function
 
 ```
 pid_t fork(void);
 ```
 
-Then i changed the default <b>Standartd output</b> and <b>Standard input</b> with dup function
+Then I changed the default <b>Standartd output</b> and <b>Standard input</b> with dup function
 
 ```
 int dup2(int oldfd, int newfd);
 ```
 
-After that i executed those commands with execve function
+After that I executed those commands with execve function
 
 ```
 int execve(const char *pathname, char *const argv[], char *const envp[]);
 ```
 
-And finaly i waited all the childs to exit
+And finaly I waited all the childs to exit
 
 ```
 pid_t waitpid(pid_t pid, int *stat_loc, int options);
 ```
 
-But first i checked if this command is in not builtin command cause if it's a single command and builtin command i just run it in the main porcess
+But first I checked if this command is in not builtin command cause if it's a single command and builtin command I just run it in the main porcess
 
 ### Install
 
-run this command
+Run this command in your terminal :
 
 ```
 git clone https://github.com/YassineEddyb/minishell && cd minishell && make && ./minishell
